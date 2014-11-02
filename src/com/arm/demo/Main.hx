@@ -20,6 +20,8 @@ class Main extends Fluid {
 	var _count:Int = 0;
 	var _countText:FluidText;
 
+	var _addBunnies:Bool = false;
+
 	public function new() {
 		super();
 		skipFrame = true;
@@ -41,18 +43,15 @@ class Main extends Fluid {
 		_bunnyTexture = FluidAssets.getImage("assets/bunny.png");
 		_showStats();
 
-		//stage.addEventListener("touchstart", _onTouchStart, true);
-		//stage.addEventListener("touchend", _onTouchEnd, true);
-		mouseDown = _onMouseDown;
-	}
-
-	function _onMouseDown(evt) {
-		_count += 100;
-		_countText.setText("BUNNIES: " + _count);
-		_addBunnys(100);
+		touchBegin = function(evt) {_addBunnies = true; };
+		mouseDown = function(evt) {_addBunnies = true; };
+		mouseUp = function(evt) {_addBunnies = false; };
+		touchEnd = touchOut = function(evt) {_addBunnies = false; };
 	}
 
 	function _addBunnys(count:Int) {
+		_count += count;
+		_countText.setText("BUNNIES: " + _count);
 		for (i in 0...count) {
 			var bunny:Bunny = new Bunny(_bunnyTexture);
 			container.addChild(bunny);
@@ -69,6 +68,7 @@ class Main extends Fluid {
 	}
 
 	override public function _update(elapsedTime) {
+		if (_addBunnies) _addBunnys(10);
 		if(_sprites.length > 0) {
 			for (i in 0..._sprites.length) {
 				var bunny:Bunny = _sprites[i];

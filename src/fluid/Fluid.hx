@@ -7,7 +7,18 @@ class Fluid #if !js extends openfl.display.Sprite #end {
 	var _lastTime:Date;
 	var _currentTime:Date;
 
-	public var mouseDown:Dynamic -> Void;
+	public var mouseDown:#if js pixi.InteractionData #else openfl.events.MouseEvent #end -> Void;
+	public var mouseOut:#if js pixi.InteractionData #else openfl.events.MouseEvent #end -> Void;
+	public var mouseOver:#if js pixi.InteractionData #else openfl.events.MouseEvent #end -> Void;
+	public var mouseUp:#if js pixi.InteractionData #else openfl.events.MouseEvent #end -> Void;
+	public var click:#if js pixi.InteractionData #else openfl.events.MouseEvent #end -> Void;
+	public var rightClick:#if js pixi.InteractionData #else openfl.events.MouseEvent #end -> Void;
+	public var rightMouseDown:#if js pixi.InteractionData #else openfl.events.MouseEvent #end -> Void;
+	public var rightMouseUp:#if js pixi.InteractionData #else openfl.events.MouseEvent #end -> Void;
+
+	public var touchBegin:#if js pixi.InteractionData #else openfl.events.TouchEvent #end -> Void;
+	public var touchEnd:#if js pixi.InteractionData #else openfl.events.TouchEvent #end -> Void;
+	public var touchOut:#if js pixi.InteractionData #else openfl.events.TouchEvent #end -> Void;
 
 	public var elapsedTime(default, null):Float = 0;
 	public var skipFrame(default, null):Bool = false;
@@ -36,6 +47,18 @@ class Fluid #if !js extends openfl.display.Sprite #end {
 	        container = new pixi.display.DisplayObjectContainer();
 	        stage.addChild(container);
 	        stage.mousedown = _fluidOnMouseDown;
+	        stage.mouseout = _fluidOnMouseOut;
+	        stage.mouseover = _fluidOnMouseOver;
+	        stage.mouseup = _fluidOnMouseUp;
+	        stage.click = _fluidOnMouseClick;
+	        stage.rightclick = _fluidOnRightClick;
+	        stage.rightdown = _fluidOnRightMouseDown;
+	        stage.rightup = _fluidOnRightMouseUp;
+	        stage.touchstart = _fluidOnTouchBegin;
+	        stage.touchend = _fluidOnTouchEnd;
+	        stage.touchendoutside = _fluidOnTouchOut;
+	        //stage.mouseupoutside = _fluidOnMouseDown;
+	        //stage.rightupoutside = _fluidOnMouseDown;
 
 	        var renderingOptions = new pixi.utils.Detector.RenderingOptions();
 		    renderingOptions.view = _canvas;
@@ -52,6 +75,16 @@ class Fluid #if !js extends openfl.display.Sprite #end {
 			stage.addEventListener(openfl.events.Event.ENTER_FRAME, _fluidOnEnterFrame);
 			stage.addEventListener(openfl.events.Event.RESIZE, _fluidOnResize);
 			stage.addEventListener(openfl.events.MouseEvent.MOUSE_DOWN, _fluidOnMouseDown);
+			stage.addEventListener(openfl.events.MouseEvent.MOUSE_OVER, _fluidOnMouseOver);
+			stage.addEventListener(openfl.events.MouseEvent.MOUSE_OUT, _fluidOnMouseOut);
+			stage.addEventListener(openfl.events.MouseEvent.MOUSE_UP, _fluidOnMouseUp);
+			stage.addEventListener(openfl.events.MouseEvent.CLICK, _fluidOnMouseClick);
+			stage.addEventListener(openfl.events.MouseEvent.RIGHT_CLICK, _fluidOnRightClick);
+			stage.addEventListener(openfl.events.MouseEvent.RIGHT_MOUSE_DOWN, _fluidOnRightMouseDown);
+			stage.addEventListener(openfl.events.MouseEvent.RIGHT_MOUSE_UP, _fluidOnRightMouseUp);
+			stage.addEventListener(openfl.events.TouchEvent.TOUCH_BEGIN, _fluidOnTouchBegin);
+			stage.addEventListener(openfl.events.TouchEvent.TOUCH_END, _fluidOnTouchEnd);
+			stage.addEventListener(openfl.events.TouchEvent.TOUCH_OUT, _fluidOnTouchOut);
 			addChild(container);
 		#end
 	}
@@ -64,9 +97,17 @@ class Fluid #if !js extends openfl.display.Sprite #end {
 		//trace(StageProperties.pixelRatio, StageProperties.screenWidth, StageProperties.screenHeight);
 	}
 
-	@:noCompletion function _fluidOnMouseDown(evt) {
-		if (mouseDown != null) mouseDown(evt);
-	}
+	@:noCompletion function _fluidOnMouseDown(evt) { if (mouseDown != null) mouseDown(evt); }
+	@:noCompletion function _fluidOnMouseOver(evt) { if (mouseOver != null) mouseOver(evt); }
+	@:noCompletion function _fluidOnMouseOut(evt) { if (mouseOut != null) mouseOut(evt); }
+	@:noCompletion function _fluidOnMouseUp(evt) { if (mouseUp != null) mouseUp(evt); }
+	@:noCompletion function _fluidOnMouseClick(evt) { if (click != null) click(evt); }
+	@:noCompletion function _fluidOnRightClick(evt) { if (rightClick != null) rightClick(evt); }
+	@:noCompletion function _fluidOnRightMouseDown(evt) { if (rightMouseDown != null) rightMouseDown(evt); }
+	@:noCompletion function _fluidOnRightMouseUp(evt) { if (rightMouseUp != null) rightMouseUp(evt); }
+	@:noCompletion function _fluidOnTouchBegin(evt) { if (touchBegin != null) touchBegin(evt); }
+	@:noCompletion function _fluidOnTouchEnd(evt) { if (touchEnd != null) touchEnd(evt); }
+	@:noCompletion function _fluidOnTouchOut(evt) { if (touchOut != null) touchOut(evt); }
 
 	@:noCompletion function _fluidOnEnterFrame(evt) {
 		if (skipFrame && _fluidFrameSkip) _fluidFrameSkip = false;
