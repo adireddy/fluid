@@ -1,0 +1,36 @@
+{
+  "name": "fluid",
+  "version": "0.0.1",
+  "description": "fluid",
+  "main": "src/Main.hx",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "keywords": [
+    "haxe",
+    "fluid"
+  ],
+  "author": {
+    "name": "Adi ReddyMora",
+    "email": "adiinteractive@gmail.com"
+  },
+  "dependencies": {
+    "grunt": "latest",
+    "grunt-cli": "latest",
+    "grunt-haxe": "latest",
+    "browserify": "latest",
+    "grunt-contrib-uglify": "latest",
+    "grunt-browserify": "latest"
+  },
+  "license": "ISC",
+  "devDependencies": {
+    "grunt-contrib-copy": "^0.6.0",
+    "grunt-exec": "^0.4.6",
+    "grunt-haxe": "^0.1.12",
+    "grunt-shell": "^1.1.1"
+  }
+}

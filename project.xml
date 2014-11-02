@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project>
+	
+	<meta title="demo" package="" version="1.0.0" company="Company Name" />
+	<app main="Main" path="export" file="main" />
+
+	<window fullscreen="true" width="1024" height="768" resizable="false" background="#FFFFFF" fps="60" />
+	
+	<source path="src" />
+
+	<haxelib name="openfl" />
+	<haxelib name="actuate" />
+
+    <assets path="assets" />
+	
+</project>
