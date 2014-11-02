@@ -43,24 +43,25 @@ class Fluid #if !js extends openfl.display.Sprite #end {
 
 	        _renderer = pixi.utils.Detector.autoDetectRenderer(StageProperties.screenWidth, StageProperties.screenHeight, renderingOptions);
 	        js.Browser.document.body.appendChild(_renderer.view);
-	        js.Browser.window.onresize = _onResize;
+	        js.Browser.window.onresize = _fluidOnResize;
 	        js.Browser.window.requestAnimationFrame(cast _fluidOnUpdate);
 	        _lastTime = Date.now();
 		#else
 			super();
 			container = new openfl.display.Sprite();
 			stage.addEventListener(openfl.events.Event.ENTER_FRAME, _fluidOnEnterFrame);
-			stage.addEventListener(openfl.events.Event.RESIZE, _onResize);
+			stage.addEventListener(openfl.events.Event.RESIZE, _fluidOnResize);
 			stage.addEventListener(openfl.events.MouseEvent.MOUSE_DOWN, _fluidOnMouseDown);
 			addChild(container);
 		#end
 	}
 
 	function _setStageProperties() {
-		StageProperties.pixelRatio = #if js js.Browser.window.devicePixelRatio; #else 1; #end
+		StageProperties.pixelRatio = #if js js.Browser.window.devicePixelRatio; #else (openfl.system.Capabilities.screenDPI < 300) ? 1 : 2; #end
 		StageProperties.screenWidth = #if js js.Browser.window.innerWidth; #else stage.stageWidth; #end
 		StageProperties.screenHeight = #if js js.Browser.window.innerHeight; #else stage.stageHeight; #end
 		StageProperties.orientation = (StageProperties.screenWidth > StageProperties.screenHeight) ? StageProperties.LANDSCAPE : StageProperties.PORTRAIT;
+		//trace(StageProperties.pixelRatio, StageProperties.screenWidth, StageProperties.screenHeight);
 	}
 
 	@:noCompletion function _fluidOnMouseDown(evt) {
@@ -96,11 +97,16 @@ class Fluid #if !js extends openfl.display.Sprite #end {
 		_lastTime = _currentTime;
 	}
 
+	@:noCompletion function _fluidOnResize(event) {
+		_setStageProperties();
+		_resize();
+	}
+
 	function _update(elapsed:Float) {
 
 	}
 
-	function _onResize(event) {
+	function _resize() {
 
 	}
 

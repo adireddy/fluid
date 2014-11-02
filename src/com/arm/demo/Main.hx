@@ -1,4 +1,4 @@
-package ;
+package com.arm.demo;
 
 import fluid.text.FluidText;
 import fluid.StageProperties;
@@ -47,9 +47,9 @@ class Main extends Fluid {
 	}
 
 	function _onMouseDown(evt) {
-		_count += 1000;
+		_count += 100;
 		_countText.setText("BUNNIES: " + _count);
-		_addBunnys(1000);
+		_addBunnys(100);
 	}
 
 	function _addBunnys(count:Int) {
@@ -105,6 +105,11 @@ class Main extends Fluid {
 				if (_isRotation) bunny.rotation += bunny.rotationSpeed;*/
 			}
 		}
+	}
+
+	override function _resize() {
+		_maxX = StageProperties.screenWidth;
+		_maxY = StageProperties.screenHeight;
 	}
 
 	#if js

@@ -1,4 +1,4 @@
-package ;
+package com.arm.demo;
 
 import fluid.display.FluidSprite;
 

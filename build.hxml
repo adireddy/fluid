@@ -1,5 +1,5 @@
 #this class wil be used as entry point for your app.
--main Main
+-main com.arm.demo.Main
 
 #JavaScript target
 -js export/js/fluid.dev.js

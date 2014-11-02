@@ -14,7 +14,12 @@ module.exports = function (grunt) {
         },
 
         exec: {
-            command: "lime build flash"
+            flash: {
+                command: "lime build flash"
+            },
+            android: {
+                command: "lime build android"
+            }
         },
 
         uglify: {
