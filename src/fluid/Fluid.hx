@@ -140,6 +140,7 @@ class Fluid #if !js extends openfl.display.Sprite #end {
 
 	@:noCompletion function _fluidOnResize(event) {
 		_setStageProperties();
+		#if !js _stats.x = StageProperties.screenWidth - 50; #end
 		_resize();
 	}
 
@@ -163,6 +164,7 @@ class Fluid #if !js extends openfl.display.Sprite #end {
 			_stats.begin();
 		#else
 			_stats = new openfl.display.FPS();
+			_stats.x = StageProperties.screenWidth - 50;
 			addChild(_stats);
 		#end
 	}
