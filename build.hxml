@@ -3,6 +3,7 @@
 -js export/js/fluid.dev.js
 
 -cp src
+#-cp ../haxe-pixi/src
 
 -lib pixijs
 
