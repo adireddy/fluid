@@ -94,7 +94,6 @@ class Fluid #if !js extends openfl.display.Sprite #end {
 		StageProperties.screenWidth = #if js js.Browser.window.innerWidth; #else stage.stageWidth; #end
 		StageProperties.screenHeight = #if js js.Browser.window.innerHeight; #else stage.stageHeight; #end
 		StageProperties.orientation = (StageProperties.screenWidth > StageProperties.screenHeight) ? StageProperties.LANDSCAPE : StageProperties.PORTRAIT;
-		//trace(StageProperties.pixelRatio, StageProperties.screenWidth, StageProperties.screenHeight);
 	}
 
 	@:noCompletion function _fluidOnMouseDown(evt) { if (mouseDown != null) mouseDown(evt); }
