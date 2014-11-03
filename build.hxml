@@ -1,6 +1,6 @@
 -main com.arm.demo.Main
 
--js export/js/fluid.dev.js
+-js output/js/fluid.dev.js
 
 -cp src
 #-cp ../haxe-pixi/src

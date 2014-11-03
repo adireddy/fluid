@@ -38,14 +38,14 @@ module.exports = function (grunt) {
             },
             target: {
                 files: {
-                    "export/js/fluid.min.js": ["export/js/fluid.dev.js"]
+                    "export/js/fluid.min.js": ["output/js/fluid.dev.js"]
                 }
             }
         },
         browserify: {
             dist: {
                 files: {
-                    "export/js/fluid.js": ["export/js/fluid.dev.js"]
+                    "export/js/fluid.js": ["output/js/fluid.dev.js"]
                 }
             }
         }
