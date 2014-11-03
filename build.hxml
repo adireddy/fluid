@@ -1,12 +1,9 @@
-#this class wil be used as entry point for your app.
 -main com.arm.demo.Main
 
-#JavaScript target
 -js export/js/fluid.dev.js
 
 -cp src
 
--lib actuate
 -lib pixijs
 
 -D source-map-content
