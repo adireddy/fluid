@@ -5,7 +5,7 @@ import fluid.display.FluidSprite;
 import fluid.text.FluidText;
 import fluid.display.FluidGraphics;
 import fluid.geom.FluidRectangle;
-import msignal.Signal.Signal1;
+import msignal.Signal;
 
 class Button extends FluidSprite {
 

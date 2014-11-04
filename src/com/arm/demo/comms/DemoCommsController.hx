@@ -1,10 +1,20 @@
 package com.arm.demo.comms;
 
-import arm.mvc.comms.CommsController;
+import msignal.Signal;
 
-class DemoCommsController extends CommsController {
+class DemoCommsController {
+
+	public var success:Signal2<String, String> = new Signal2(String, String);
+	public var error:Signal1<String> = new Signal1(String);
 
 	public function new() {
-		super();
+
+	}
+
+	public function reset():Void {
+		success.removeAll();
+		error.removeAll();
+		success = null;
+		error = null;
 	}
 }

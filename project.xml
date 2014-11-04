@@ -11,8 +11,8 @@
 	<source path="src" />
 
 	<haxelib name="openfl" />
+    <haxelib name="msignal" />
 	<haxelib name="actuate" />
-    <haxelib name="arm" />
 
     <assets path="assets" />
 	

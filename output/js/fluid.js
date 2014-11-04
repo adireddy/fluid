@@ -100,190 +100,6 @@ Type.createInstance = function(cl,args) {
 	}
 	return null;
 };
-var arm = {};
-arm.mvc = {};
-arm.mvc.comms = {};
-arm.mvc.comms.CommsController = function() {
-};
-arm.mvc.comms.CommsController.__name__ = true;
-arm.mvc.comms.CommsController.prototype = {
-	__class__: arm.mvc.comms.CommsController
-};
-arm.mvc.model = {};
-arm.mvc.model.IModel = function() { };
-arm.mvc.model.IModel.__name__ = true;
-arm.mvc.model.Model = function() {
-	this.reset();
-};
-arm.mvc.model.Model.__name__ = true;
-arm.mvc.model.Model.__interfaces__ = [arm.mvc.model.IModel];
-arm.mvc.model.Model.prototype = {
-	reset: function() {
-	}
-	,__class__: arm.mvc.model.Model
-};
-var msignal = {};
-msignal.Signal = function(valueClasses) {
-	if(valueClasses == null) valueClasses = [];
-	this.valueClasses = valueClasses;
-	this.slots = msignal.SlotList.NIL;
-	this.priorityBased = false;
-};
-msignal.Signal.__name__ = true;
-msignal.Signal.prototype = {
-	add: function(listener) {
-		return this.registerListener(listener);
-	}
-	,addOnce: function(listener) {
-		return this.registerListener(listener,true);
-	}
-	,remove: function(listener) {
-		var slot = this.slots.find(listener);
-		if(slot == null) return null;
-		this.slots = this.slots.filterNot(listener);
-		return slot;
-	}
-	,removeAll: function() {
-		this.slots = msignal.SlotList.NIL;
-	}
-	,registerListener: function(listener,once,priority) {
-		if(priority == null) priority = 0;
-		if(once == null) once = false;
-		if(this.registrationPossible(listener,once)) {
-			var newSlot = this.createSlot(listener,once,priority);
-			if(!this.priorityBased && priority != 0) this.priorityBased = true;
-			if(!this.priorityBased && priority == 0) this.slots = this.slots.prepend(newSlot); else this.slots = this.slots.insertWithPriority(newSlot);
-			return newSlot;
-		}
-		return this.slots.find(listener);
-	}
-	,registrationPossible: function(listener,once) {
-		if(!this.slots.nonEmpty) return true;
-		var existingSlot = this.slots.find(listener);
-		if(existingSlot == null) return true;
-		if(existingSlot.once != once) throw "You cannot addOnce() then add() the same listener without removing the relationship first.";
-		return false;
-	}
-	,createSlot: function(listener,once,priority) {
-		if(priority == null) priority = 0;
-		if(once == null) once = false;
-		return null;
-	}
-	,__class__: msignal.Signal
-};
-msignal.Signal0 = function() {
-	msignal.Signal.call(this);
-};
-msignal.Signal0.__name__ = true;
-msignal.Signal0.__super__ = msignal.Signal;
-msignal.Signal0.prototype = $extend(msignal.Signal.prototype,{
-	dispatch: function() {
-		var slotsToProcess = this.slots;
-		while(slotsToProcess.nonEmpty) {
-			slotsToProcess.head.execute();
-			slotsToProcess = slotsToProcess.tail;
-		}
-	}
-	,createSlot: function(listener,once,priority) {
-		if(priority == null) priority = 0;
-		if(once == null) once = false;
-		return new msignal.Slot0(this,listener,once,priority);
-	}
-	,__class__: msignal.Signal0
-});
-msignal.SlotList = function(head,tail) {
-	this.nonEmpty = false;
-	if(head == null && tail == null) {
-		if(msignal.SlotList.NIL != null) throw "Parameters head and tail are null. Use the NIL element instead.";
-		this.nonEmpty = false;
-	} else if(head == null) throw "Parameter head cannot be null."; else {
-		this.head = head;
-		if(tail == null) this.tail = msignal.SlotList.NIL; else this.tail = tail;
-		this.nonEmpty = true;
-	}
-};
-msignal.SlotList.__name__ = true;
-msignal.SlotList.prototype = {
-	prepend: function(slot) {
-		return new msignal.SlotList(slot,this);
-	}
-	,insertWithPriority: function(slot) {
-		if(!this.nonEmpty) return new msignal.SlotList(slot);
-		var priority = slot.priority;
-		if(priority >= this.head.priority) return this.prepend(slot);
-		var wholeClone = new msignal.SlotList(this.head);
-		var subClone = wholeClone;
-		var current = this.tail;
-		while(current.nonEmpty) {
-			if(priority > current.head.priority) {
-				subClone.tail = current.prepend(slot);
-				return wholeClone;
-			}
-			subClone = subClone.tail = new msignal.SlotList(current.head);
-			current = current.tail;
-		}
-		subClone.tail = new msignal.SlotList(slot);
-		return wholeClone;
-	}
-	,filterNot: function(listener) {
-		if(!this.nonEmpty || listener == null) return this;
-		if(Reflect.compareMethods(this.head.listener,listener)) return this.tail;
-		var wholeClone = new msignal.SlotList(this.head);
-		var subClone = wholeClone;
-		var current = this.tail;
-		while(current.nonEmpty) {
-			if(Reflect.compareMethods(current.head.listener,listener)) {
-				subClone.tail = current.tail;
-				return wholeClone;
-			}
-			subClone = subClone.tail = new msignal.SlotList(current.head);
-			current = current.tail;
-		}
-		return this;
-	}
-	,find: function(listener) {
-		if(!this.nonEmpty) return null;
-		var p = this;
-		while(p.nonEmpty) {
-			if(Reflect.compareMethods(p.head.listener,listener)) return p.head;
-			p = p.tail;
-		}
-		return null;
-	}
-	,__class__: msignal.SlotList
-};
-msignal.Signal1 = function(type) {
-	msignal.Signal.call(this,[type]);
-};
-msignal.Signal1.__name__ = true;
-msignal.Signal1.__super__ = msignal.Signal;
-msignal.Signal1.prototype = $extend(msignal.Signal.prototype,{
-	dispatch: function(value) {
-		var slotsToProcess = this.slots;
-		while(slotsToProcess.nonEmpty) {
-			slotsToProcess.head.execute(value);
-			slotsToProcess = slotsToProcess.tail;
-		}
-	}
-	,createSlot: function(listener,once,priority) {
-		if(priority == null) priority = 0;
-		if(once == null) once = false;
-		return new msignal.Slot1(this,listener,once,priority);
-	}
-	,__class__: msignal.Signal1
-});
-arm.mvc.notifications = {};
-arm.mvc.notifications.ViewStateNotification = function() { };
-arm.mvc.notifications.ViewStateNotification.__name__ = true;
-arm.mvc.notifications.ViewStateNotification.reset = function() {
-	arm.mvc.notifications.ViewStateNotification.preloader.removeAll();
-	arm.mvc.notifications.ViewStateNotification.preloaderProgress.removeAll();
-	arm.mvc.notifications.ViewStateNotification.preload.removeAll();
-	arm.mvc.notifications.ViewStateNotification.create.removeAll();
-	arm.mvc.notifications.ViewStateNotification.update.removeAll();
-	arm.mvc.notifications.ViewStateNotification.destroy.removeAll();
-	arm.mvc.notifications.ViewStateNotification.resize.removeAll();
-};
 var fluid = {};
 fluid.Fluid = function() {
 	this.backgroundColor = 16777215;
@@ -524,13 +340,11 @@ com.arm.demo.Main.prototype = $extend(com.arm.demo.Application.prototype,{
 });
 com.arm.demo.comms = {};
 com.arm.demo.comms.DemoCommsController = function() {
-	arm.mvc.comms.CommsController.call(this);
 };
 com.arm.demo.comms.DemoCommsController.__name__ = true;
-com.arm.demo.comms.DemoCommsController.__super__ = arm.mvc.comms.CommsController;
-com.arm.demo.comms.DemoCommsController.prototype = $extend(arm.mvc.comms.CommsController.prototype,{
+com.arm.demo.comms.DemoCommsController.prototype = {
 	__class__: com.arm.demo.comms.DemoCommsController
-});
+};
 com.arm.demo.controller = {};
 com.arm.demo.controller.DemoController = function(m,v,c) {
 	this.model = m;
@@ -563,10 +377,10 @@ com.arm.demo.components.GameComponentController.__name__ = true;
 com.arm.demo.components.GameComponentController.__super__ = com.arm.demo.controller.DemoController;
 com.arm.demo.components.GameComponentController.prototype = $extend(com.arm.demo.controller.DemoController.prototype,{
 	_addNotificationListeners: function() {
-		arm.mvc.notifications.ViewStateNotification.preload.addOnce($bind(this,this._preload));
-		arm.mvc.notifications.ViewStateNotification.create.addOnce($bind(this,this._create));
-		arm.mvc.notifications.ViewStateNotification.update.add($bind(this,this._update));
-		arm.mvc.notifications.ViewStateNotification.resize.add($bind(this,this._resize));
+		com.arm.demo.notifications.internal.ViewStateNotification.preload.addOnce($bind(this,this._preload));
+		com.arm.demo.notifications.internal.ViewStateNotification.create.addOnce($bind(this,this._create));
+		com.arm.demo.notifications.internal.ViewStateNotification.update.add($bind(this,this._update));
+		com.arm.demo.notifications.internal.ViewStateNotification.resize.add($bind(this,this._resize));
 	}
 	,_preload: function() {
 	}
@@ -576,7 +390,7 @@ com.arm.demo.components.GameComponentController.prototype = $extend(com.arm.demo
 	}
 	,_resize: function() {
 		this.mainModel = null;
-		arm.mvc.notifications.ViewStateNotification.reset();
+		com.arm.demo.notifications.internal.ViewStateNotification.reset();
 	}
 	,__class__: com.arm.demo.components.GameComponentController
 });
@@ -648,17 +462,176 @@ com.arm.demo.components.menu.MenuView.prototype = $extend(com.arm.demo.component
 });
 com.arm.demo.model = {};
 com.arm.demo.model.DemoModel = function() {
-	arm.mvc.model.Model.call(this);
 };
 com.arm.demo.model.DemoModel.__name__ = true;
-com.arm.demo.model.DemoModel.__super__ = arm.mvc.model.Model;
-com.arm.demo.model.DemoModel.prototype = $extend(arm.mvc.model.Model.prototype,{
+com.arm.demo.model.DemoModel.prototype = {
 	__class__: com.arm.demo.model.DemoModel
+};
+var msignal = {};
+msignal.Signal = function(valueClasses) {
+	if(valueClasses == null) valueClasses = [];
+	this.valueClasses = valueClasses;
+	this.slots = msignal.SlotList.NIL;
+	this.priorityBased = false;
+};
+msignal.Signal.__name__ = true;
+msignal.Signal.prototype = {
+	add: function(listener) {
+		return this.registerListener(listener);
+	}
+	,addOnce: function(listener) {
+		return this.registerListener(listener,true);
+	}
+	,remove: function(listener) {
+		var slot = this.slots.find(listener);
+		if(slot == null) return null;
+		this.slots = this.slots.filterNot(listener);
+		return slot;
+	}
+	,removeAll: function() {
+		this.slots = msignal.SlotList.NIL;
+	}
+	,registerListener: function(listener,once,priority) {
+		if(priority == null) priority = 0;
+		if(once == null) once = false;
+		if(this.registrationPossible(listener,once)) {
+			var newSlot = this.createSlot(listener,once,priority);
+			if(!this.priorityBased && priority != 0) this.priorityBased = true;
+			if(!this.priorityBased && priority == 0) this.slots = this.slots.prepend(newSlot); else this.slots = this.slots.insertWithPriority(newSlot);
+			return newSlot;
+		}
+		return this.slots.find(listener);
+	}
+	,registrationPossible: function(listener,once) {
+		if(!this.slots.nonEmpty) return true;
+		var existingSlot = this.slots.find(listener);
+		if(existingSlot == null) return true;
+		if(existingSlot.once != once) throw "You cannot addOnce() then add() the same listener without removing the relationship first.";
+		return false;
+	}
+	,createSlot: function(listener,once,priority) {
+		if(priority == null) priority = 0;
+		if(once == null) once = false;
+		return null;
+	}
+	,__class__: msignal.Signal
+};
+msignal.Signal1 = function(type) {
+	msignal.Signal.call(this,[type]);
+};
+msignal.Signal1.__name__ = true;
+msignal.Signal1.__super__ = msignal.Signal;
+msignal.Signal1.prototype = $extend(msignal.Signal.prototype,{
+	dispatch: function(value) {
+		var slotsToProcess = this.slots;
+		while(slotsToProcess.nonEmpty) {
+			slotsToProcess.head.execute(value);
+			slotsToProcess = slotsToProcess.tail;
+		}
+	}
+	,createSlot: function(listener,once,priority) {
+		if(priority == null) priority = 0;
+		if(once == null) once = false;
+		return new msignal.Slot1(this,listener,once,priority);
+	}
+	,__class__: msignal.Signal1
+});
+msignal.SlotList = function(head,tail) {
+	this.nonEmpty = false;
+	if(head == null && tail == null) {
+		if(msignal.SlotList.NIL != null) throw "Parameters head and tail are null. Use the NIL element instead.";
+		this.nonEmpty = false;
+	} else if(head == null) throw "Parameter head cannot be null."; else {
+		this.head = head;
+		if(tail == null) this.tail = msignal.SlotList.NIL; else this.tail = tail;
+		this.nonEmpty = true;
+	}
+};
+msignal.SlotList.__name__ = true;
+msignal.SlotList.prototype = {
+	prepend: function(slot) {
+		return new msignal.SlotList(slot,this);
+	}
+	,insertWithPriority: function(slot) {
+		if(!this.nonEmpty) return new msignal.SlotList(slot);
+		var priority = slot.priority;
+		if(priority >= this.head.priority) return this.prepend(slot);
+		var wholeClone = new msignal.SlotList(this.head);
+		var subClone = wholeClone;
+		var current = this.tail;
+		while(current.nonEmpty) {
+			if(priority > current.head.priority) {
+				subClone.tail = current.prepend(slot);
+				return wholeClone;
+			}
+			subClone = subClone.tail = new msignal.SlotList(current.head);
+			current = current.tail;
+		}
+		subClone.tail = new msignal.SlotList(slot);
+		return wholeClone;
+	}
+	,filterNot: function(listener) {
+		if(!this.nonEmpty || listener == null) return this;
+		if(Reflect.compareMethods(this.head.listener,listener)) return this.tail;
+		var wholeClone = new msignal.SlotList(this.head);
+		var subClone = wholeClone;
+		var current = this.tail;
+		while(current.nonEmpty) {
+			if(Reflect.compareMethods(current.head.listener,listener)) {
+				subClone.tail = current.tail;
+				return wholeClone;
+			}
+			subClone = subClone.tail = new msignal.SlotList(current.head);
+			current = current.tail;
+		}
+		return this;
+	}
+	,find: function(listener) {
+		if(!this.nonEmpty) return null;
+		var p = this;
+		while(p.nonEmpty) {
+			if(Reflect.compareMethods(p.head.listener,listener)) return p.head;
+			p = p.tail;
+		}
+		return null;
+	}
+	,__class__: msignal.SlotList
+};
+msignal.Signal0 = function() {
+	msignal.Signal.call(this);
+};
+msignal.Signal0.__name__ = true;
+msignal.Signal0.__super__ = msignal.Signal;
+msignal.Signal0.prototype = $extend(msignal.Signal.prototype,{
+	dispatch: function() {
+		var slotsToProcess = this.slots;
+		while(slotsToProcess.nonEmpty) {
+			slotsToProcess.head.execute();
+			slotsToProcess = slotsToProcess.tail;
+		}
+	}
+	,createSlot: function(listener,once,priority) {
+		if(priority == null) priority = 0;
+		if(once == null) once = false;
+		return new msignal.Slot0(this,listener,once,priority);
+	}
+	,__class__: msignal.Signal0
 });
 com.arm.demo.notifications = {};
 com.arm.demo.notifications.internal = {};
 com.arm.demo.notifications.internal.MenuNotification = function() { };
 com.arm.demo.notifications.internal.MenuNotification.__name__ = true;
+com.arm.demo.notifications.internal.ViewStateNotification = function() { };
+com.arm.demo.notifications.internal.ViewStateNotification.__name__ = true;
+com.arm.demo.notifications.internal.ViewStateNotification.reset = function() {
+	com.arm.demo.notifications.internal.ViewStateNotification.preloader.removeAll();
+	com.arm.demo.notifications.internal.ViewStateNotification.preloaderProgress.removeAll();
+	com.arm.demo.notifications.internal.ViewStateNotification.preload.removeAll();
+	com.arm.demo.notifications.internal.ViewStateNotification.create.removeAll();
+	com.arm.demo.notifications.internal.ViewStateNotification.update.removeAll();
+	com.arm.demo.notifications.internal.ViewStateNotification.destroy.removeAll();
+	com.arm.demo.notifications.internal.ViewStateNotification.resize.removeAll();
+};
 com.arm.demo.widgets = {};
 com.arm.demo.widgets.Button = function(label,width,height,data,fontSize) {
 	fluid.display.FluidSprite.call(this);
@@ -927,7 +900,7 @@ fluid.display.FluidGraphics = function() {
 	this.touchstart = $bind(this,this._fluidOnTouchBegin);
 	this.touchend = $bind(this,this._fluidOnTouchEnd);
 	this.touchendoutside = $bind(this,this._fluidOnTouchOut);
-	this.touchMove = $bind(this,this._fluidOnTouchMove);
+	this.touchmove = $bind(this,this._fluidOnTouchMove);
 };
 fluid.display.FluidGraphics.__name__ = true;
 fluid.display.FluidGraphics.__super__ = PIXI.Graphics;
@@ -1955,15 +1928,15 @@ Bool.__ename__ = ["Bool"];
 var Class = { __name__ : ["Class"]};
 var Enum = { };
 msignal.SlotList.NIL = new msignal.SlotList(null,null);
-arm.mvc.notifications.ViewStateNotification.preloader = new msignal.Signal0();
-arm.mvc.notifications.ViewStateNotification.preloaderProgress = new msignal.Signal0();
-arm.mvc.notifications.ViewStateNotification.preload = new msignal.Signal0();
-arm.mvc.notifications.ViewStateNotification.create = new msignal.Signal0();
-arm.mvc.notifications.ViewStateNotification.update = new msignal.Signal1(Float);
-arm.mvc.notifications.ViewStateNotification.destroy = new msignal.Signal0();
-arm.mvc.notifications.ViewStateNotification.resize = new msignal.Signal0();
 com.arm.demo.notifications.internal.MenuNotification.click = new msignal.Signal1(Int);
 com.arm.demo.notifications.internal.MenuNotification.reset = new msignal.Signal0();
+com.arm.demo.notifications.internal.ViewStateNotification.preloader = new msignal.Signal0();
+com.arm.demo.notifications.internal.ViewStateNotification.preloaderProgress = new msignal.Signal0();
+com.arm.demo.notifications.internal.ViewStateNotification.preload = new msignal.Signal0();
+com.arm.demo.notifications.internal.ViewStateNotification.create = new msignal.Signal0();
+com.arm.demo.notifications.internal.ViewStateNotification.update = new msignal.Signal1(Float);
+com.arm.demo.notifications.internal.ViewStateNotification.destroy = new msignal.Signal0();
+com.arm.demo.notifications.internal.ViewStateNotification.resize = new msignal.Signal0();
 fluid.display.FluidStage.pixelRatio = 1;
 fluid.display.FluidStage.screenWidth = 800;
 fluid.display.FluidStage.screenHeight = 600;

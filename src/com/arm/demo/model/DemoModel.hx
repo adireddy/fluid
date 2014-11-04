@@ -1,10 +1,10 @@
 package com.arm.demo.model;
 
-import arm.mvc.model.Model;
-
-class DemoModel extends Model {
+class DemoModel {
 
 	public function new() {
-		super();
+
 	}
+
+	public function reset() {}
 }

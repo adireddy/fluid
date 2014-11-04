@@ -42,7 +42,7 @@ class FluidGraphics extends #if !js openfl.display.Sprite #else pixi.primitives.
 			touchstart = _fluidOnTouchBegin;
 			touchend = _fluidOnTouchEnd;
 			touchendoutside = _fluidOnTouchOut;
-			touchMove = _fluidOnTouchMove;
+			touchmove = _fluidOnTouchMove;
 		#else
 			addEventListener(openfl.events.MouseEvent.MOUSE_DOWN, _fluidOnMouseDown);
 			addEventListener(openfl.events.MouseEvent.MOUSE_OVER, _fluidOnMouseOver);

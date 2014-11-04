@@ -3,8 +3,6 @@ package com.arm.demo.components;
 import com.arm.demo.view.DemoView;
 import fluid.display.FluidStage;
 
-import arm.mvc.components.ComponentView;
-
 //import gamesys.pixidemo.resources.Settings;
 //import gamesys.pixidemo.resources.Layout;
 //import gamesys.pixidemo.resources.Messages;

@@ -1,14 +1,12 @@
 package com.arm.demo.components;
 
 import com.arm.demo.model.DemoModel;
-import arm.mvc.components.ComponentModel;
 
-class GameComponentModel extends ComponentModel {
+class GameComponentModel {
 
-	public var gameMainModel(default, default):DemoModel;
+	public var mainModel(default, default):DemoModel;
 
-	public function new(mm) {
-		super(mm);
-		gameMainModel = cast(mainModel, DemoModel);
+	public function new(mm:DemoModel) {
+		mainModel = mm;
 	}
 }
