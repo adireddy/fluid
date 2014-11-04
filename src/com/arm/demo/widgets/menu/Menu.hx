@@ -1,5 +1,6 @@
 package com.arm.demo.widgets.menu;
 
+import fluid.events.EventData;
 import fluid.display.FluidSprite;
 import fluid.display.FluidStage;
 import haxe.Timer;
@@ -19,7 +20,7 @@ class Menu extends FluidSprite {
 		_itemWidth = itemWidth;
 		_itemHeight = itemHeight;
 		_menuItems = [];
-		//interactive = true;
+		interactive = true;
 	}
 
 	public function addItem(label:String, ?data:Dynamic):MenuItem {
@@ -32,56 +33,52 @@ class Menu extends FluidSprite {
 		if (_height > FluidStage.screenHeight) {
 			touchBegin = _onTouchStart;
 			touchEnd = _onTouchEnd;
-
 			mouseDown = _onMouseDown;
 			mouseUp = _onMouseUp;
 		}
 		return menuItem;
 	}
 
-	function _onTouchStart(data:Dynamic) {
-		_lastPosition = data.getLocalPosition(parent).y;
-		//touchmove = _onTouchMove;
+	function _onTouchStart(data:EventData) {
+		_lastPosition = data.stageY;
+		touchMove = _onTouchMove;
 	}
 
-	function _onTouchMove(data:Dynamic) {
-		var point = data.getLocalPosition(parent);
-		var distance = this._lastPosition - point.y;
-
+	function _onTouchMove(data:EventData) {
+		var distance = _lastPosition - data.stageY;
 		if (_dragging || (distance < -5 || distance > 5)) {
 			disableMenuItems();
-			_move(_lastPosition - point.y);
+			_move(_lastPosition - data.stageY);
 			_dragging = true;
-			_lastPosition = point.y;
+			_lastPosition = data.stageY;
 		}
 	}
 
-	function _onTouchEnd(data:Dynamic) {
-		//touchmove = null;
+	function _onTouchEnd(data:EventData) {
+		touchMove = null;
 		_dragging = false;
 		Timer.delay(enableMenuItems, 100);
 	}
 
-	function _onMouseDown(data:Dynamic) {
-		_lastPosition = data.getLocalPosition(parent).y;
-		//mousemove = _onMouseMove;
+	function _onMouseDown(data:EventData) {
+		_lastPosition = data.stageY;
+		mouseMove = _onMouseMove;
 	}
 
-	function _onMouseUp(data) {
-		//mousemove = null;
+	function _onMouseUp(data:EventData) {
+		mouseMove = null;
 		_dragging = false;
 		enableMenuItems();
 	}
 
-	function _onMouseMove(data:Dynamic) {
-		var point = data.getLocalPosition(parent);
-		var distance = _lastPosition - point.y;
+	function _onMouseMove(data:EventData) {
+		var distance = _lastPosition - data.stageY;
 
 		if (_dragging || (distance < -5 || distance > 5)) {
 			disableMenuItems();
-			_move(_lastPosition - point.y);
+			_move(_lastPosition - data.stageY);
 			_dragging = true;
-			_lastPosition = point.y;
+			_lastPosition = data.stageY;
 		}
 	}
 
@@ -99,7 +96,6 @@ class Menu extends FluidSprite {
 
 	function _move(distance:Float) {
 		y -= distance;
-
 		if (y > 0) y = 0;
 		else if (y < -(_height - FluidStage.screenHeight)) {
 			y = -(_height - FluidStage.screenHeight);

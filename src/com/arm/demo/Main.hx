@@ -32,7 +32,7 @@ class Main extends Application {
 		super();
 
 		stats = true;
-		backgroundColor = 0xFFFF00;
+		backgroundColor = 0xCCCCCC;
 		skipFrame = true;
 
 		resize = _onRresize;
@@ -45,18 +45,14 @@ class Main extends Application {
 		_maxY = FluidStage.screenHeight;
 		_sprites = [];
 
-		var _background = new FluidGraphics();
+		/*var _background = new FluidGraphics();
 		_background.clear();
 		_background.beginFill(0x003366);
 		_background.drawRoundedRect(100, 100, 200, 100, 10);
 		_background.endFill();
 		container.addChild(_background);
 
-		var btn:Button = new Button("BUTTON", 150, 30);
-		btn.enable();
-		container.addChild(btn);
-
-		/*_countText = new FluidText("BUNNIES: 0");
+		_countText = new FluidText("BUNNIES: 0");
 		container.addChild(_countText);
 
 		_bunnyTexture = FluidAssets.getImage("assets/bunny.png");

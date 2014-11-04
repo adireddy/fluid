@@ -61,8 +61,6 @@ class Fluid #if !js extends openfl.display.Sprite #end {
 	        _fluidStage.touchstart = _fluidOnTouchBegin;
 	        _fluidStage.touchend = _fluidOnTouchEnd;
 	        _fluidStage.touchendoutside = _fluidOnTouchOut;
-	        //_fluidStage.mouseupoutside = _fluidOnMouseDown;
-	        //_fluidStage.rightupoutside = _fluidOnMouseDown;
 
 	        var renderingOptions = new pixi.utils.Detector.RenderingOptions();
 		    renderingOptions.view = _canvas;

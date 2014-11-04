@@ -18,7 +18,6 @@ class MenuView extends GameComponentView {
 	}
 
 	public function create() {
-		trace("FFFF");
 		_menu = new PopoutMenu(180, 40);
 		var _menuItem:MenuItem;
 		for (i in 0 ... _menuItems.length) {

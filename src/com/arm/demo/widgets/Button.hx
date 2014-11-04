@@ -77,7 +77,7 @@ class Button extends FluidSprite {
 		_label.setText(label);
 	}
 
-	function _onMouseDown(data) {
+	function _onMouseDown(data:Dynamic) {
 		if (_enabled) _redraw(Button.OVER_COLOUR);
 	}
 

@@ -422,6 +422,7 @@ fluid.display.FluidSprite = function(texture) {
 	this.mouseout = $bind(this,this._fluidOnMouseOut);
 	this.mouseover = $bind(this,this._fluidOnMouseOver);
 	this.mouseup = $bind(this,this._fluidOnMouseUp);
+	this.mousemove = $bind(this,this._fluidOnMouseMove);
 	this.click = $bind(this,this._fluidOnMouseClick);
 	this.rightclick = $bind(this,this._fluidOnRightClick);
 	this.rightdown = $bind(this,this._fluidOnRightMouseDown);
@@ -429,42 +430,58 @@ fluid.display.FluidSprite = function(texture) {
 	this.touchstart = $bind(this,this._fluidOnTouchBegin);
 	this.touchend = $bind(this,this._fluidOnTouchEnd);
 	this.touchendoutside = $bind(this,this._fluidOnTouchOut);
+	this.touchmove = $bind(this,this._fluidOnTouchMove);
 };
 fluid.display.FluidSprite.__name__ = true;
 fluid.display.FluidSprite.__super__ = PIXI.DisplayObjectContainer;
 fluid.display.FluidSprite.prototype = $extend(PIXI.DisplayObjectContainer.prototype,{
 	_fluidOnMouseDown: function(evt) {
-		if(this.mouseDown != null) this.mouseDown(evt);
+		if(this.mouseDown != null) this.mouseDown(this._prepareEventData(evt));
 	}
 	,_fluidOnMouseOver: function(evt) {
-		if(this.mouseOver != null) this.mouseOver(evt);
+		if(this.mouseOver != null) this.mouseOver(this._prepareEventData(evt));
 	}
 	,_fluidOnMouseOut: function(evt) {
-		if(this.mouseOut != null) this.mouseOut(evt);
+		if(this.mouseOut != null) this.mouseOut(this._prepareEventData(evt));
 	}
 	,_fluidOnMouseUp: function(evt) {
-		if(this.mouseUp != null) this.mouseUp(evt);
+		if(this.mouseUp != null) this.mouseUp(this._prepareEventData(evt));
+	}
+	,_fluidOnMouseMove: function(evt) {
+		if(this.mouseMove != null) this.mouseMove(this._prepareEventData(evt));
 	}
 	,_fluidOnMouseClick: function(evt) {
-		if(this.mouseClick != null) this.mouseClick(evt);
+		if(this.mouseClick != null) this.mouseClick(this._prepareEventData(evt));
 	}
 	,_fluidOnRightClick: function(evt) {
-		if(this.rightClick != null) this.rightClick(evt);
+		if(this.rightClick != null) this.rightClick(this._prepareEventData(evt));
 	}
 	,_fluidOnRightMouseDown: function(evt) {
-		if(this.rightMouseDown != null) this.rightMouseDown(evt);
+		if(this.rightMouseDown != null) this.rightMouseDown(this._prepareEventData(evt));
 	}
 	,_fluidOnRightMouseUp: function(evt) {
-		if(this.rightMouseUp != null) this.rightMouseUp(evt);
+		if(this.rightMouseUp != null) this.rightMouseUp(this._prepareEventData(evt));
 	}
 	,_fluidOnTouchBegin: function(evt) {
-		if(this.touchBegin != null) this.touchBegin(evt);
+		if(this.touchBegin != null) this.touchBegin(this._prepareEventData(evt));
 	}
 	,_fluidOnTouchEnd: function(evt) {
-		if(this.touchEnd != null) this.touchEnd(evt);
+		if(this.touchEnd != null) this.touchEnd(this._prepareEventData(evt));
 	}
 	,_fluidOnTouchOut: function(evt) {
-		if(this.touchOut != null) this.touchOut(evt);
+		if(this.touchOut != null) this.touchOut(this._prepareEventData(evt));
+	}
+	,_fluidOnTouchMove: function(evt) {
+		if(this.touchMove != null) this.touchMove(this._prepareEventData(evt));
+	}
+	,_prepareEventData: function(data) {
+		var evtData = new fluid.events.EventData();
+		evtData.localX = data.getLocalPosition(this.parent).x;
+		evtData.localY = data.getLocalPosition(this.parent).y;
+		evtData.stageX = data.global.x;
+		evtData.stageY = data.global.y;
+		evtData.target = data.target;
+		return evtData;
 	}
 	,__class__: fluid.display.FluidSprite
 });
@@ -477,7 +494,7 @@ com.arm.demo.Bunny.prototype = $extend(fluid.display.FluidSprite.prototype,{
 com.arm.demo.Main = function() {
 	com.arm.demo.Application.call(this);
 	this.set_stats(true);
-	this.set_backgroundColor(16776960);
+	this.set_backgroundColor(13421772);
 	this.skipFrame = true;
 	this.resize = $bind(this,this._onRresize);
 	this._setupMVCS();
@@ -485,15 +502,6 @@ com.arm.demo.Main = function() {
 	this._maxX = fluid.display.FluidStage.screenWidth;
 	this._maxY = fluid.display.FluidStage.screenHeight;
 	this._sprites = [];
-	var _background = new fluid.display.FluidGraphics();
-	_background.clear();
-	_background.beginFill(13158);
-	_background.drawRoundedRect(100,100,200,100,10);
-	_background.endFill();
-	this.container.addChild(_background);
-	var btn = new com.arm.demo.widgets.Button("BUTTON",150,30);
-	btn.enable();
-	this.container.addChild(btn);
 };
 com.arm.demo.Main.__name__ = true;
 com.arm.demo.Main.main = function() {
@@ -617,7 +625,6 @@ com.arm.demo.components.menu.MenuView.__name__ = true;
 com.arm.demo.components.menu.MenuView.__super__ = com.arm.demo.components.GameComponentView;
 com.arm.demo.components.menu.MenuView.prototype = $extend(com.arm.demo.components.GameComponentView.prototype,{
 	create: function() {
-		console.log("FFFF");
 		this._menu = new com.arm.demo.widgets.menu.PopoutMenu(180,40);
 		var _menuItem;
 		var _g1 = 0;
@@ -746,6 +753,7 @@ com.arm.demo.widgets.menu.Menu = function(itemWidth,itemHeight) {
 	this._itemWidth = itemWidth;
 	this._itemHeight = itemHeight;
 	this._menuItems = [];
+	this.interactive = true;
 };
 com.arm.demo.widgets.menu.Menu.__name__ = true;
 com.arm.demo.widgets.menu.Menu.__super__ = fluid.display.FluidSprite;
@@ -765,18 +773,40 @@ com.arm.demo.widgets.menu.Menu.prototype = $extend(fluid.display.FluidSprite.pro
 		return menuItem;
 	}
 	,_onTouchStart: function(data) {
-		this._lastPosition = data.getLocalPosition(this.parent).y;
+		this._lastPosition = data.stageY;
+		this.touchMove = $bind(this,this._onTouchMove);
+	}
+	,_onTouchMove: function(data) {
+		var distance = this._lastPosition - data.stageY;
+		if(this._dragging || (distance < -5 || distance > 5)) {
+			this.disableMenuItems();
+			this._move(this._lastPosition - data.stageY);
+			this._dragging = true;
+			this._lastPosition = data.stageY;
+		}
 	}
 	,_onTouchEnd: function(data) {
+		this.touchMove = null;
 		this._dragging = false;
 		haxe.Timer.delay($bind(this,this.enableMenuItems),100);
 	}
 	,_onMouseDown: function(data) {
-		this._lastPosition = data.getLocalPosition(this.parent).y;
+		this._lastPosition = data.stageY;
+		this.mouseMove = $bind(this,this._onMouseMove);
 	}
 	,_onMouseUp: function(data) {
+		this.mouseMove = null;
 		this._dragging = false;
 		this.enableMenuItems();
+	}
+	,_onMouseMove: function(data) {
+		var distance = this._lastPosition - data.stageY;
+		if(this._dragging || (distance < -5 || distance > 5)) {
+			this.disableMenuItems();
+			this._move(this._lastPosition - data.stageY);
+			this._dragging = true;
+			this._lastPosition = data.stageY;
+		}
 	}
 	,disableMenuItems: function() {
 		var _g1 = 0;
@@ -793,6 +823,12 @@ com.arm.demo.widgets.menu.Menu.prototype = $extend(fluid.display.FluidSprite.pro
 			var i = _g1++;
 			this._menuItems[i].enable();
 		}
+	}
+	,_move: function(distance) {
+		this.y -= distance;
+		if(this.y > 0) this.y = 0; else if(this.y < -(this._height - fluid.display.FluidStage.screenHeight)) this.y = -(this._height - fluid.display.FluidStage.screenHeight);
+		this.x = Math.round(this.x);
+		this.y = Math.round(this.y);
 	}
 	,getItems: function() {
 		return this._menuItems;
@@ -883,6 +919,7 @@ fluid.display.FluidGraphics = function() {
 	this.mouseout = $bind(this,this._fluidOnMouseOut);
 	this.mouseover = $bind(this,this._fluidOnMouseOver);
 	this.mouseup = $bind(this,this._fluidOnMouseUp);
+	this.mousemove = $bind(this,this._fluidOnMouseMove);
 	this.click = $bind(this,this._fluidOnMouseClick);
 	this.rightclick = $bind(this,this._fluidOnRightClick);
 	this.rightdown = $bind(this,this._fluidOnRightMouseDown);
@@ -890,42 +927,58 @@ fluid.display.FluidGraphics = function() {
 	this.touchstart = $bind(this,this._fluidOnTouchBegin);
 	this.touchend = $bind(this,this._fluidOnTouchEnd);
 	this.touchendoutside = $bind(this,this._fluidOnTouchOut);
+	this.touchMove = $bind(this,this._fluidOnTouchMove);
 };
 fluid.display.FluidGraphics.__name__ = true;
 fluid.display.FluidGraphics.__super__ = PIXI.Graphics;
 fluid.display.FluidGraphics.prototype = $extend(PIXI.Graphics.prototype,{
 	_fluidOnMouseDown: function(evt) {
-		if(this.mouseDown != null) this.mouseDown(evt);
+		if(this.mouseDown != null) this.mouseDown(this._prepareEventData(evt));
 	}
 	,_fluidOnMouseOver: function(evt) {
-		if(this.mouseOver != null) this.mouseOver(evt);
+		if(this.mouseOver != null) this.mouseOver(this._prepareEventData(evt));
 	}
 	,_fluidOnMouseOut: function(evt) {
-		if(this.mouseOut != null) this.mouseOut(evt);
+		if(this.mouseOut != null) this.mouseOut(this._prepareEventData(evt));
 	}
 	,_fluidOnMouseUp: function(evt) {
-		if(this.mouseUp != null) this.mouseUp(evt);
+		if(this.mouseUp != null) this.mouseUp(this._prepareEventData(evt));
+	}
+	,_fluidOnMouseMove: function(evt) {
+		if(this.mouseMove != null) this.mouseMove(this._prepareEventData(evt));
 	}
 	,_fluidOnMouseClick: function(evt) {
-		if(this.mouseClick != null) this.mouseClick(evt);
+		if(this.mouseClick != null) this.mouseClick(this._prepareEventData(evt));
 	}
 	,_fluidOnRightClick: function(evt) {
-		if(this.rightClick != null) this.rightClick(evt);
+		if(this.rightClick != null) this.rightClick(this._prepareEventData(evt));
 	}
 	,_fluidOnRightMouseDown: function(evt) {
-		if(this.rightMouseDown != null) this.rightMouseDown(evt);
+		if(this.rightMouseDown != null) this.rightMouseDown(this._prepareEventData(evt));
 	}
 	,_fluidOnRightMouseUp: function(evt) {
-		if(this.rightMouseUp != null) this.rightMouseUp(evt);
+		if(this.rightMouseUp != null) this.rightMouseUp(this._prepareEventData(evt));
 	}
 	,_fluidOnTouchBegin: function(evt) {
-		if(this.touchBegin != null) this.touchBegin(evt);
+		if(this.touchBegin != null) this.touchBegin(this._prepareEventData(evt));
 	}
 	,_fluidOnTouchEnd: function(evt) {
-		if(this.touchEnd != null) this.touchEnd(evt);
+		if(this.touchEnd != null) this.touchEnd(this._prepareEventData(evt));
 	}
 	,_fluidOnTouchOut: function(evt) {
-		if(this.touchOut != null) this.touchOut(evt);
+		if(this.touchOut != null) this.touchOut(this._prepareEventData(evt));
+	}
+	,_fluidOnTouchMove: function(evt) {
+		if(this.touchMove != null) this.touchMove(this._prepareEventData(evt));
+	}
+	,_prepareEventData: function(data) {
+		var evtData = new fluid.events.EventData();
+		evtData.localX = data.getLocalPosition(this.parent).x;
+		evtData.localY = data.getLocalPosition(this.parent).y;
+		evtData.stageX = data.global.x;
+		evtData.stageY = data.global.y;
+		evtData.target = data.target;
+		return evtData;
 	}
 	,clear: function() {
 		return PIXI.Graphics.prototype.clear.call(this);
@@ -940,9 +993,6 @@ fluid.display.FluidGraphics.prototype = $extend(PIXI.Graphics.prototype,{
 	,drawRect: function(x,y,w,h) {
 		return PIXI.Graphics.prototype.drawRect.call(this,x,y,w,h);
 	}
-	,drawRoundedRect: function(x,y,w,h,r) {
-		return PIXI.Graphics.prototype.drawRoundedRect.call(this,x,y,w,h,r);
-	}
 	,__class__: fluid.display.FluidGraphics
 });
 fluid.display.FluidStage = function(bgColor) {
@@ -953,6 +1003,13 @@ fluid.display.FluidStage.__super__ = PIXI.Stage;
 fluid.display.FluidStage.prototype = $extend(PIXI.Stage.prototype,{
 	__class__: fluid.display.FluidStage
 });
+fluid.events = {};
+fluid.events.EventData = function() {
+};
+fluid.events.EventData.__name__ = true;
+fluid.events.EventData.prototype = {
+	__class__: fluid.events.EventData
+};
 fluid.geom = {};
 fluid.geom.FluidRectangle = function(x,y,width,height) {
 	PIXI.Rectangle.call(this,x,y,width,height);
