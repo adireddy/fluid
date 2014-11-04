@@ -10,6 +10,7 @@
 	
 	<source path="src" />
 
+    <haxelib name="pixijs" />
 	<haxelib name="openfl" />
     <haxelib name="msignal" />
 	<haxelib name="actuate" />

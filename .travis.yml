@@ -17,6 +17,7 @@ before_install:
     - haxelib install msignal || true
     - haxelib install actuate || true
     - haxelib install openfl || true
+    - haxelib update pixijs
 
 script:
     - haxe build.hxml
