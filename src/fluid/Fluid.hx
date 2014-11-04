@@ -2,16 +2,18 @@ package fluid;
 
 class Fluid #if !js extends openfl.display.Sprite #end {
 
-	var _canvas:Dynamic;
-	var _renderer:Dynamic;
-	var _lastTime:Date;
-	var _currentTime:Date;
+	@:noCompletion var _canvas:Dynamic;
+	@:noCompletion var _renderer:Dynamic;
+	@:noCompletion var _lastTime:Date;
+	@:noCompletion var _currentTime:Date;
+	@:noCompletion var _elapsedTime:Float;
+	@:noCompletion var _fluidFrameSkip:Bool = false;
 
 	public var mouseDown:#if js pixi.InteractionData #else openfl.events.MouseEvent #end -> Void;
 	public var mouseOut:#if js pixi.InteractionData #else openfl.events.MouseEvent #end -> Void;
 	public var mouseOver:#if js pixi.InteractionData #else openfl.events.MouseEvent #end -> Void;
 	public var mouseUp:#if js pixi.InteractionData #else openfl.events.MouseEvent #end -> Void;
-	public var click:#if js pixi.InteractionData #else openfl.events.MouseEvent #end -> Void;
+	public var mouseClick:#if js pixi.InteractionData #else openfl.events.MouseEvent #end -> Void;
 	public var rightClick:#if js pixi.InteractionData #else openfl.events.MouseEvent #end -> Void;
 	public var rightMouseDown:#if js pixi.InteractionData #else openfl.events.MouseEvent #end -> Void;
 	public var rightMouseUp:#if js pixi.InteractionData #else openfl.events.MouseEvent #end -> Void;
@@ -20,10 +22,12 @@ class Fluid #if !js extends openfl.display.Sprite #end {
 	public var touchEnd:#if js pixi.InteractionData #else openfl.events.TouchEvent #end -> Void;
 	public var touchOut:#if js pixi.InteractionData #else openfl.events.TouchEvent #end -> Void;
 
-	public var elapsedTime(default, null):Float = 0;
-	public var skipFrame(default, null):Bool = false;
+	public var skipFrame(null, default):Bool = false;
+	public var stats(null, set):Bool = false;
+	public var backgroundColor(null, set):UInt = 0xFFFFFF;
 
-	private var _fluidFrameSkip:Bool = false;
+	public var update:Float -> Void;
+	public var resize:Void -> Void;
 
 	#if js
 		public var stage(default, default):pixi.display.Stage;
@@ -31,7 +35,7 @@ class Fluid #if !js extends openfl.display.Sprite #end {
 		private var _stats:fluid.utils.StatsJS;
 	#else
 		public var container(default, default):openfl.display.Sprite;
-		private var _stats:openfl.display.FPS;
+		var _stats:openfl.display.FPS;
 	#end
 
 	public function new() {
@@ -43,7 +47,7 @@ class Fluid #if !js extends openfl.display.Sprite #end {
 	        _canvas.style.height = StageProperties.screenHeight + "px";
 	        js.Browser.document.body.appendChild(_canvas);
 
-	        stage = new pixi.display.Stage(0xFFFFFF);
+	        stage = new pixi.display.Stage(backgroundColor);
 	        container = new pixi.display.DisplayObjectContainer();
 	        stage.addChild(container);
 	        stage.mousedown = _fluidOnMouseDown;
@@ -96,11 +100,16 @@ class Fluid #if !js extends openfl.display.Sprite #end {
 		StageProperties.orientation = (StageProperties.screenWidth > StageProperties.screenHeight) ? StageProperties.LANDSCAPE : StageProperties.PORTRAIT;
 	}
 
+	@:noCompletion function set_backgroundColor(clr:UInt):UInt {
+		#if js stage.setBackgroundColor(clr); #else stage.color = clr; #end
+		return backgroundColor = clr;
+	}
+
 	@:noCompletion function _fluidOnMouseDown(evt) { if (mouseDown != null) mouseDown(evt); }
 	@:noCompletion function _fluidOnMouseOver(evt) { if (mouseOver != null) mouseOver(evt); }
 	@:noCompletion function _fluidOnMouseOut(evt) { if (mouseOut != null) mouseOut(evt); }
 	@:noCompletion function _fluidOnMouseUp(evt) { if (mouseUp != null) mouseUp(evt); }
-	@:noCompletion function _fluidOnMouseClick(evt) { if (click != null) click(evt); }
+	@:noCompletion function _fluidOnMouseClick(evt) { if (mouseClick != null) mouseClick(evt); }
 	@:noCompletion function _fluidOnRightClick(evt) { if (rightClick != null) rightClick(evt); }
 	@:noCompletion function _fluidOnRightMouseDown(evt) { if (rightMouseDown != null) rightMouseDown(evt); }
 	@:noCompletion function _fluidOnRightMouseUp(evt) { if (rightMouseUp != null) rightMouseUp(evt); }
@@ -113,7 +122,7 @@ class Fluid #if !js extends openfl.display.Sprite #end {
 		else {
 			_fluidFrameSkip = true;
 			_fluidCalculateElapsedTime();
-			_update(elapsedTime);
+			if (update != null) update(_elapsedTime);
 		}
 	}
 
@@ -122,7 +131,7 @@ class Fluid #if !js extends openfl.display.Sprite #end {
 		else {
 			_fluidFrameSkip = true;
 			_fluidCalculateElapsedTime();
-			_update(elapsedTime);
+			if (update != null) update(_elapsedTime);
 			#if js _renderer.render(stage); #end
 		}
 		#if js
@@ -133,38 +142,35 @@ class Fluid #if !js extends openfl.display.Sprite #end {
 
 	@:noCompletion function _fluidCalculateElapsedTime() {
 		_currentTime = Date.now();
-		elapsedTime = _currentTime.getTime() - _lastTime.getTime();
+		_elapsedTime = _currentTime.getTime() - _lastTime.getTime();
 		_lastTime = _currentTime;
 	}
 
 	@:noCompletion function _fluidOnResize(event) {
 		_setStageProperties();
-		#if !js _stats.x = StageProperties.screenWidth - 50; #end
-		_resize();
-	}
-
-	function _update(elapsed:Float) {
-
-	}
-
-	function _resize() {
-
-	}
-
-	function _showStats() {
-		#if js
-			var _container = js.Browser.document.createElement("div");
-			js.Browser.document.body.appendChild(_container);
-			_stats = new fluid.utils.StatsJS();
-			_stats.domElement.style.position = "absolute";
-			_stats.domElement.style.top = "6px";
-			_stats.domElement.style.right = "6px";
-			_container.appendChild(_stats.domElement);
-			_stats.begin();
-		#else
-			_stats = new openfl.display.FPS();
-			_stats.x = StageProperties.screenWidth - 50;
-			addChild(_stats);
+		#if !js
+			if (stats) _stats.x = StageProperties.screenWidth - 50;
 		#end
+		if (resize != null) resize();
+	}
+
+	function set_stats(val:Bool):Bool {
+		if (val) {
+			#if js
+				var _container = js.Browser.document.createElement("div");
+				js.Browser.document.body.appendChild(_container);
+				_stats = new fluid.utils.StatsJS();
+				_stats.domElement.style.position = "absolute";
+				_stats.domElement.style.top = "2px";
+				_stats.domElement.style.right = "2px";
+				_container.appendChild(_stats.domElement);
+				_stats.begin();
+			#else
+				_stats = new openfl.display.FPS();
+				_stats.x = StageProperties.screenWidth - 50;
+				addChild(_stats);
+			#end
+		}
+		return stats = val;
 	}
 }

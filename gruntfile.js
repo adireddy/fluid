@@ -17,9 +17,9 @@ module.exports = function (grunt) {
             flash: {
                 command: "lime build flash"
             },
-            android: {
-                command: "lime build android"
-            }
+            /*android: {
+               command: "lime build android"
+            }*/
         },
 
         uglify: {
@@ -38,14 +38,14 @@ module.exports = function (grunt) {
             },
             target: {
                 files: {
-                    "export/js/fluid.min.js": ["output/js/fluid.dev.js"]
+                    "output/js/fluid.min.js": ["output/js/fluid.dev.js"]
                 }
             }
         },
         browserify: {
             dist: {
                 files: {
-                    "export/js/fluid.js": ["output/js/fluid.dev.js"]
+                    "output/js/fluid.js": ["output/js/fluid.dev.js"]
                 }
             }
         }

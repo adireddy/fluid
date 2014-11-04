@@ -3,9 +3,12 @@
 -js output/js/fluid.dev.js
 
 -cp src
-#-cp ../haxe-pixi/src
+-cp ../haxe-pixi/src
 
--lib pixijs
+-lib arm
+-lib actuate
+-lib msignal
+#-lib pixijs
 
 -D source-map-content
 

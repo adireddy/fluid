@@ -2,7 +2,7 @@
 <project>
 	
 	<meta title="demo" package="com.arm.demo" version="1.0.0" company="adi" />
-	<app main="com.arm.demo.Main" path="export" file="main" />
+	<app main="com.arm.demo.Main" path="output" file="main" />
 
     <!--<certificate path="adi.keystore" alias="adi" password="adireddy" />-->
 
@@ -12,6 +12,7 @@
 
 	<haxelib name="openfl" />
 	<haxelib name="actuate" />
+    <haxelib name="arm" />
 
     <assets path="assets" />
 	
