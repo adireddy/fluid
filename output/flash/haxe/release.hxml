@@ -1,8 +1,8 @@
 -main ApplicationMain 
--cp /usr/lib/haxe/lib/pixijs/0,2,7
--D pixijs=0.2.7
--cp /usr/lib/haxe/lib/openfl/2,1,0
--D openfl=2.1.0
+-cp /usr/lib/haxe/lib/pixijs/0,2,9
+-D pixijs=0.2.9
+-cp /usr/lib/haxe/lib/openfl/2,1,5
+-D openfl=2.1.5
 -cp /usr/lib/haxe/lib/lime/2,0,0-alpha
 -D lime=2.0.0-alpha
 -cp /usr/lib/haxe/lib/msignal/1,2,2

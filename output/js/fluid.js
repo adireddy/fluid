@@ -839,15 +839,14 @@ com.arm.demo.widgets.menu.PopoutMenu.__name__ = true;
 com.arm.demo.widgets.menu.PopoutMenu.__super__ = fluid.display.FluidSprite;
 com.arm.demo.widgets.menu.PopoutMenu.prototype = $extend(fluid.display.FluidSprite.prototype,{
 	_setupOpenButton: function() {
-		var buttonRect = new fluid.geom.FluidRectangle(0,0,15,60);
+		var buttonRect = new fluid.geom.FluidRectangle(0,0,30,80);
 		var hitRect = new fluid.geom.FluidRectangle(0,0,15,60);
 		this._openButton = new fluid.display.FluidGraphics();
 		this._openButton.beginFill(2187531);
 		this._openButton.drawRect(buttonRect.x,buttonRect.y,buttonRect.width,buttonRect.height);
 		this._openButton.endFill();
 		this._openButton.interactive = true;
-		this._openButton.touchBegin = function(data) {
-		};
+		this._openButton.touchBegin = $bind(this,this._toggleShow);
 		this._openButton.touchEnd = $bind(this,this._toggleShow);
 		this._openButton.mouseUp = $bind(this,this._toggleShow);
 		this._container.addChild(this._openButton);

@@ -15,11 +15,17 @@
 #ifndef INCLUDED_Type
 #include <Type.h>
 #endif
+#ifndef INCLUDED_com_arm_demo_Application
+#include <com/arm/demo/Application.h>
+#endif
 #ifndef INCLUDED_com_arm_demo_Main
 #include <com/arm/demo/Main.h>
 #endif
 #ifndef INCLUDED_fluid_Fluid
 #include <fluid/Fluid.h>
+#endif
+#ifndef INCLUDED_openfl__v2_Assets
+#include <openfl/_v2/Assets.h>
 #endif
 #ifndef INCLUDED_openfl__v2_Lib
 #include <openfl/_v2/Lib.h>
@@ -100,54 +106,56 @@ int ApplicationMain_obj::forceWidth;
 
 Void ApplicationMain_obj::main( ){
 {
-		HX_STACK_FRAME("ApplicationMain","main",0x93d2f73e,"ApplicationMain.main","ApplicationMain.hx",17,0x0780ded5)
-		HX_STACK_LINE(19)
+		HX_STACK_FRAME("ApplicationMain","main",0x93d2f73e,"ApplicationMain.main","ApplicationMain.hx",20,0x0780ded5)
+		HX_STACK_LINE(22)
 		::openfl::_v2::Lib_obj::setPackage(HX_CSTRING("adi"),HX_CSTRING("main"),HX_CSTRING("com.arm.demo"),HX_CSTRING("1.0.0"));
 
 		HX_BEGIN_LOCAL_FUNC_S0(hx::LocalFunc,_Function_1_1)
 		Void run(){
-			HX_STACK_FRAME("*","_Function_1_1",0x5200ed37,"*._Function_1_1","ApplicationMain.hx",32,0x0780ded5)
+			HX_STACK_FRAME("*","_Function_1_1",0x5200ed37,"*._Function_1_1","ApplicationMain.hx",35,0x0780ded5)
 			{
-				HX_STACK_LINE(34)
+				HX_STACK_LINE(37)
 				::openfl::_v2::Lib_obj::get_current()->get_stage()->set_align(::openfl::display::StageAlign_obj::TOP_LEFT);
-				HX_STACK_LINE(35)
+				HX_STACK_LINE(38)
 				::openfl::_v2::Lib_obj::get_current()->get_stage()->set_scaleMode(::openfl::display::StageScaleMode_obj::NO_SCALE);
-				HX_STACK_LINE(36)
+				HX_STACK_LINE(39)
 				::openfl::_v2::Lib_obj::get_current()->loaderInfo = ::openfl::_v2::display::LoaderInfo_obj::create(null());
-				HX_STACK_LINE(59)
+				HX_STACK_LINE(64)
+				::openfl::_v2::Assets_obj::initialize();
+				HX_STACK_LINE(66)
 				bool hasMain = false;		HX_STACK_VAR(hasMain,"hasMain");
-				HX_STACK_LINE(61)
+				HX_STACK_LINE(68)
 				{
-					HX_STACK_LINE(61)
+					HX_STACK_LINE(68)
 					int _g = (int)0;		HX_STACK_VAR(_g,"_g");
-					HX_STACK_LINE(61)
+					HX_STACK_LINE(68)
 					Array< ::String > _g1 = ::Type_obj::getClassFields(hx::ClassOf< ::com::arm::demo::Main >());		HX_STACK_VAR(_g1,"_g1");
-					HX_STACK_LINE(61)
+					HX_STACK_LINE(68)
 					while(((_g < _g1->length))){
-						HX_STACK_LINE(61)
+						HX_STACK_LINE(68)
 						::String methodName = _g1->__get(_g);		HX_STACK_VAR(methodName,"methodName");
-						HX_STACK_LINE(61)
+						HX_STACK_LINE(68)
 						++(_g);
-						HX_STACK_LINE(63)
+						HX_STACK_LINE(70)
 						if (((methodName == HX_CSTRING("main")))){
-							HX_STACK_LINE(65)
+							HX_STACK_LINE(72)
 							hasMain = true;
-							HX_STACK_LINE(66)
+							HX_STACK_LINE(73)
 							break;
 						}
 					}
 				}
-				HX_STACK_LINE(72)
+				HX_STACK_LINE(79)
 				if ((hasMain)){
-					HX_STACK_LINE(74)
+					HX_STACK_LINE(81)
 					::Reflect_obj::callMethod(hx::ClassOf< ::com::arm::demo::Main >(),::Reflect_obj::field(hx::ClassOf< ::com::arm::demo::Main >(),HX_CSTRING("main")),Dynamic( Array_obj<Dynamic>::__new()));
 				}
 				else{
-					HX_STACK_LINE(78)
+					HX_STACK_LINE(85)
 					::DocumentClass instance = ::Type_obj::createInstance(hx::ClassOf< ::DocumentClass >(),Dynamic( Array_obj<Dynamic>::__new()));		HX_STACK_VAR(instance,"instance");
-					HX_STACK_LINE(80)
+					HX_STACK_LINE(87)
 					if ((::Std_obj::is(instance,hx::ClassOf< ::openfl::_v2::display::DisplayObject >()))){
-						HX_STACK_LINE(82)
+						HX_STACK_LINE(89)
 						::openfl::_v2::Lib_obj::get_current()->addChild(instance);
 					}
 				}
@@ -156,7 +164,7 @@ Void ApplicationMain_obj::main( ){
 		}
 		HX_END_LOCAL_FUNC0((void))
 
-		HX_STACK_LINE(32)
+		HX_STACK_LINE(35)
 		::openfl::_v2::Lib_obj::create( Dynamic(new _Function_1_1()),(int)0,(int)0,(int)60,(int)16777215,(int((int((int((int((int((int((int((int((int((int(::openfl::_v2::Lib_obj::HARDWARE) | int(::openfl::_v2::Lib_obj::ALLOW_SHADERS))) | int(::openfl::_v2::Lib_obj::REQUIRE_SHADERS))) | int((int)0))) | int((int)0))) | int((int)0))) | int((int)0))) | int((int)0))) | int(::openfl::_v2::Lib_obj::FULLSCREEN))) | int((int)0))) | int((int)0)),HX_CSTRING("demo"),null(),null());
 	}
 return null();

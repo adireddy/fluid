@@ -50,6 +50,9 @@ class HXCPP_CLASS_ATTRIBUTES  IntMap_obj : public hx::Object{
 		virtual bool remove( int key);
 		Dynamic remove_dyn();
 
+		virtual Dynamic iterator( );
+		Dynamic iterator_dyn();
+
 };
 
 } // end namespace haxe

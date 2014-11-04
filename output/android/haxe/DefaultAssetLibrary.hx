@@ -60,6 +60,10 @@ class DefaultAssetLibrary extends AssetLibrary {
 		
 		#else
 		
+		
+		
+		
+		
 		#if (windows || mac || linux)
 		
 		var useManifest = false;
@@ -149,7 +153,7 @@ class DefaultAssetLibrary extends AssetLibrary {
 			
 			#else
 			
-			if (type == BINARY || type == null) {
+			if (type == BINARY || type == null || (assetType == BINARY && type == TEXT)) {
 				
 				return true;
 				
@@ -689,9 +693,21 @@ class DefaultAssetLibrary extends AssetLibrary {
 
 
 
-#elseif (windows || mac || linux)
+#else
+
+#if (windows || mac || linux)
 
 
 
+
+
+
+
+#else
+
+
+
+
+#end
 
 #end

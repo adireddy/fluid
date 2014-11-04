@@ -5,7 +5,8 @@
 #include <hxcpp.h>
 #endif
 
-#include <fluid/Fluid.h>
+#include <com/arm/demo/Application.h>
+HX_DECLARE_CLASS3(com,arm,demo,Application)
 HX_DECLARE_CLASS3(com,arm,demo,Bunny)
 HX_DECLARE_CLASS3(com,arm,demo,Main)
 HX_DECLARE_CLASS1(fluid,Fluid)
@@ -24,9 +25,9 @@ namespace arm{
 namespace demo{
 
 
-class HXCPP_CLASS_ATTRIBUTES  Main_obj : public ::fluid::Fluid_obj{
+class HXCPP_CLASS_ATTRIBUTES  Main_obj : public ::com::arm::demo::Application_obj{
 	public:
-		typedef ::fluid::Fluid_obj super;
+		typedef ::com::arm::demo::Application_obj super;
 		typedef Main_obj OBJ_;
 		Main_obj();
 		Void __construct();
@@ -55,12 +56,11 @@ class HXCPP_CLASS_ATTRIBUTES  Main_obj : public ::fluid::Fluid_obj{
 		int _count;
 		::fluid::text::FluidText _countText;
 		bool _addBunnies;
-		virtual Void _addBunnys( int count);
-		Dynamic _addBunnys_dyn();
+		virtual Void _setupMVCS( );
+		Dynamic _setupMVCS_dyn();
 
-		virtual Void _update( Float elapsedTime);
-
-		virtual Void _resize( );
+		virtual Void _onRresize( );
+		Dynamic _onRresize_dyn();
 
 };
 

@@ -43,13 +43,26 @@ class HXCPP_CLASS_ATTRIBUTES  Font_obj : public hx::Object{
 		::String fontName;
 		::openfl::_v2::text::FontStyle fontStyle;
 		::openfl::_v2::text::FontType fontType;
+		::String __fontPath;
 		virtual ::String toString( );
 		Dynamic toString_dyn();
+
+		virtual Void __fromBytes( ::openfl::_v2::utils::ByteArray bytes);
+		Dynamic __fromBytes_dyn();
+
+		virtual Void __fromFile( ::String path);
+		Dynamic __fromFile_dyn();
 
 		static Array< ::Dynamic > __registeredFonts;
 		static Array< ::Dynamic > __deviceFonts;
 		static Array< ::Dynamic > enumerateFonts( hx::Null< bool >  enumerateDeviceFonts);
 		static Dynamic enumerateFonts_dyn();
+
+		static ::openfl::_v2::text::Font fromBytes( ::openfl::_v2::utils::ByteArray bytes);
+		static Dynamic fromBytes_dyn();
+
+		static ::openfl::_v2::text::Font fromFile( ::String path);
+		static Dynamic fromFile_dyn();
 
 		static Dynamic load( ::String filename);
 		static Dynamic load_dyn();

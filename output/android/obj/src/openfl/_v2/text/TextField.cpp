@@ -24,6 +24,9 @@
 #ifndef INCLUDED_openfl__v2_events_IEventDispatcher
 #include <openfl/_v2/events/IEventDispatcher.h>
 #endif
+#ifndef INCLUDED_openfl__v2_text_Font
+#include <openfl/_v2/text/Font.h>
+#endif
 #ifndef INCLUDED_openfl__v2_text_TextField
 #include <openfl/_v2/text/TextField.h>
 #endif
@@ -51,16 +54,16 @@ namespace text{
 
 Void TextField_obj::__construct()
 {
-HX_STACK_FRAME("openfl._v2.text.TextField","new",0xd2f1812f,"openfl._v2.text.TextField.new","openfl/_v2/text/TextField.hx",46,0xa8dfafe0)
+HX_STACK_FRAME("openfl._v2.text.TextField","new",0xd2f1812f,"openfl._v2.text.TextField.new","openfl/_v2/text/TextField.hx",48,0xa8dfafe0)
 HX_STACK_THIS(this)
 {
-	HX_STACK_LINE(48)
-	Dynamic _g = ::openfl::_v2::text::TextField_obj::lime_text_field_create();		HX_STACK_VAR(_g,"_g");
-	HX_STACK_LINE(48)
-	super::__construct(_g,HX_CSTRING("TextField"));
 	HX_STACK_LINE(50)
+	Dynamic _g = ::openfl::_v2::text::TextField_obj::lime_text_field_create();		HX_STACK_VAR(_g,"_g");
+	HX_STACK_LINE(50)
+	super::__construct(_g,HX_CSTRING("TextField"));
+	HX_STACK_LINE(52)
 	this->gridFitType = ::openfl::text::GridFitType_obj::PIXEL;
-	HX_STACK_LINE(51)
+	HX_STACK_LINE(53)
 	this->sharpness = (int)0;
 }
 ;
@@ -82,14 +85,14 @@ Dynamic TextField_obj::__Create(hx::DynamicArray inArgs)
 
 Void TextField_obj::appendText( ::String text){
 {
-		HX_STACK_FRAME("openfl._v2.text.TextField","appendText",0xb44866b8,"openfl._v2.text.TextField.appendText","openfl/_v2/text/TextField.hx",56,0xa8dfafe0)
+		HX_STACK_FRAME("openfl._v2.text.TextField","appendText",0xb44866b8,"openfl._v2.text.TextField.appendText","openfl/_v2/text/TextField.hx",58,0xa8dfafe0)
 		HX_STACK_THIS(this)
 		HX_STACK_ARG(text,"text")
-		HX_STACK_LINE(58)
+		HX_STACK_LINE(60)
 		::String _g = ::openfl::_v2::text::TextField_obj::lime_text_field_get_text(this->__handle);		HX_STACK_VAR(_g,"_g");
-		HX_STACK_LINE(58)
+		HX_STACK_LINE(60)
 		::String _g1 = (_g + text);		HX_STACK_VAR(_g1,"_g1");
-		HX_STACK_LINE(58)
+		HX_STACK_LINE(60)
 		::openfl::_v2::text::TextField_obj::lime_text_field_set_text(this->__handle,_g1);
 	}
 return null();
@@ -99,10 +102,10 @@ return null();
 HX_DEFINE_DYNAMIC_FUNC1(TextField_obj,appendText,(void))
 
 int TextField_obj::getLineOffset( int lineIndex){
-	HX_STACK_FRAME("openfl._v2.text.TextField","getLineOffset",0xc7cc586c,"openfl._v2.text.TextField.getLineOffset","openfl/_v2/text/TextField.hx",65,0xa8dfafe0)
+	HX_STACK_FRAME("openfl._v2.text.TextField","getLineOffset",0xc7cc586c,"openfl._v2.text.TextField.getLineOffset","openfl/_v2/text/TextField.hx",67,0xa8dfafe0)
 	HX_STACK_THIS(this)
 	HX_STACK_ARG(lineIndex,"lineIndex")
-	HX_STACK_LINE(65)
+	HX_STACK_LINE(67)
 	return ::openfl::_v2::text::TextField_obj::lime_text_field_get_line_offset(this->__handle,lineIndex);
 }
 
@@ -110,10 +113,10 @@ int TextField_obj::getLineOffset( int lineIndex){
 HX_DEFINE_DYNAMIC_FUNC1(TextField_obj,getLineOffset,return )
 
 ::String TextField_obj::getLineText( int lineIndex){
-	HX_STACK_FRAME("openfl._v2.text.TextField","getLineText",0x71187546,"openfl._v2.text.TextField.getLineText","openfl/_v2/text/TextField.hx",72,0xa8dfafe0)
+	HX_STACK_FRAME("openfl._v2.text.TextField","getLineText",0x71187546,"openfl._v2.text.TextField.getLineText","openfl/_v2/text/TextField.hx",74,0xa8dfafe0)
 	HX_STACK_THIS(this)
 	HX_STACK_ARG(lineIndex,"lineIndex")
-	HX_STACK_LINE(72)
+	HX_STACK_LINE(74)
 	return ::openfl::_v2::text::TextField_obj::lime_text_field_get_line_text(this->__handle,lineIndex);
 }
 
@@ -121,14 +124,14 @@ HX_DEFINE_DYNAMIC_FUNC1(TextField_obj,getLineOffset,return )
 HX_DEFINE_DYNAMIC_FUNC1(TextField_obj,getLineText,return )
 
 ::openfl::_v2::text::TextLineMetrics TextField_obj::getLineMetrics( int lineIndex){
-	HX_STACK_FRAME("openfl._v2.text.TextField","getLineMetrics",0x60709f4a,"openfl._v2.text.TextField.getLineMetrics","openfl/_v2/text/TextField.hx",77,0xa8dfafe0)
+	HX_STACK_FRAME("openfl._v2.text.TextField","getLineMetrics",0x60709f4a,"openfl._v2.text.TextField.getLineMetrics","openfl/_v2/text/TextField.hx",79,0xa8dfafe0)
 	HX_STACK_THIS(this)
 	HX_STACK_ARG(lineIndex,"lineIndex")
-	HX_STACK_LINE(79)
-	::openfl::_v2::text::TextLineMetrics result = ::openfl::_v2::text::TextLineMetrics_obj::__new(null(),null(),null(),null(),null(),null());		HX_STACK_VAR(result,"result");
-	HX_STACK_LINE(80)
-	::openfl::_v2::text::TextField_obj::lime_text_field_get_line_metrics(this->__handle,lineIndex,result);
 	HX_STACK_LINE(81)
+	::openfl::_v2::text::TextLineMetrics result = ::openfl::_v2::text::TextLineMetrics_obj::__new(null(),null(),null(),null(),null(),null());		HX_STACK_VAR(result,"result");
+	HX_STACK_LINE(82)
+	::openfl::_v2::text::TextField_obj::lime_text_field_get_line_metrics(this->__handle,lineIndex,result);
+	HX_STACK_LINE(83)
 	return result;
 }
 
@@ -138,16 +141,40 @@ HX_DEFINE_DYNAMIC_FUNC1(TextField_obj,getLineMetrics,return )
 ::openfl::_v2::text::TextFormat TextField_obj::getTextFormat( hx::Null< int >  __o_beginIndex,hx::Null< int >  __o_endIndex){
 int beginIndex = __o_beginIndex.Default(-1);
 int endIndex = __o_endIndex.Default(-1);
-	HX_STACK_FRAME("openfl._v2.text.TextField","getTextFormat",0xc763d589,"openfl._v2.text.TextField.getTextFormat","openfl/_v2/text/TextField.hx",86,0xa8dfafe0)
+	HX_STACK_FRAME("openfl._v2.text.TextField","getTextFormat",0xc763d589,"openfl._v2.text.TextField.getTextFormat","openfl/_v2/text/TextField.hx",88,0xa8dfafe0)
 	HX_STACK_THIS(this)
 	HX_STACK_ARG(beginIndex,"beginIndex")
 	HX_STACK_ARG(endIndex,"endIndex")
 {
-		HX_STACK_LINE(88)
-		::openfl::_v2::text::TextFormat result = ::openfl::_v2::text::TextFormat_obj::__new(null(),null(),null(),null(),null(),null(),null(),null(),null(),null(),null(),null(),null());		HX_STACK_VAR(result,"result");
-		HX_STACK_LINE(89)
-		::openfl::_v2::text::TextField_obj::lime_text_field_get_text_format(this->__handle,result,beginIndex,endIndex);
 		HX_STACK_LINE(90)
+		::openfl::_v2::text::TextFormat result = ::openfl::_v2::text::TextFormat_obj::__new(null(),null(),null(),null(),null(),null(),null(),null(),null(),null(),null(),null(),null());		HX_STACK_VAR(result,"result");
+		HX_STACK_LINE(91)
+		::openfl::_v2::text::TextField_obj::lime_text_field_get_text_format(this->__handle,result,beginIndex,endIndex);
+		HX_STACK_LINE(93)
+		{
+			HX_STACK_LINE(93)
+			int _g = (int)0;		HX_STACK_VAR(_g,"_g");
+			HX_STACK_LINE(93)
+			Array< ::Dynamic > _g1 = ::openfl::_v2::text::Font_obj::__registeredFonts;		HX_STACK_VAR(_g1,"_g1");
+			HX_STACK_LINE(93)
+			while((true)){
+				HX_STACK_LINE(93)
+				if ((!(((_g < _g1->length))))){
+					HX_STACK_LINE(93)
+					break;
+				}
+				HX_STACK_LINE(93)
+				::openfl::_v2::text::Font font = _g1->__get(_g).StaticCast< ::openfl::_v2::text::Font >();		HX_STACK_VAR(font,"font");
+				HX_STACK_LINE(93)
+				++(_g);
+				HX_STACK_LINE(95)
+				if (((result->font == font->__fontPath))){
+					HX_STACK_LINE(97)
+					result->font = font->fontName;
+				}
+			}
+		}
+		HX_STACK_LINE(103)
 		return result;
 	}
 }
@@ -157,12 +184,12 @@ HX_DEFINE_DYNAMIC_FUNC2(TextField_obj,getTextFormat,return )
 
 Void TextField_obj::replaceText( int beginIndex,int endIndex,::String newText){
 {
-		HX_STACK_FRAME("openfl._v2.text.TextField","replaceText",0x229702d0,"openfl._v2.text.TextField.replaceText","openfl/_v2/text/TextField.hx",97,0xa8dfafe0)
+		HX_STACK_FRAME("openfl._v2.text.TextField","replaceText",0x229702d0,"openfl._v2.text.TextField.replaceText","openfl/_v2/text/TextField.hx",110,0xa8dfafe0)
 		HX_STACK_THIS(this)
 		HX_STACK_ARG(beginIndex,"beginIndex")
 		HX_STACK_ARG(endIndex,"endIndex")
 		HX_STACK_ARG(newText,"newText")
-		HX_STACK_LINE(97)
+		HX_STACK_LINE(110)
 		::openfl::_v2::Lib_obj::notImplemented(HX_CSTRING("TextField.replaceText"));
 	}
 return null();
@@ -173,11 +200,11 @@ HX_DEFINE_DYNAMIC_FUNC3(TextField_obj,replaceText,(void))
 
 Void TextField_obj::setSelection( int beginIndex,int endIndex){
 {
-		HX_STACK_FRAME("openfl._v2.text.TextField","setSelection",0xd2cdf59b,"openfl._v2.text.TextField.setSelection","openfl/_v2/text/TextField.hx",104,0xa8dfafe0)
+		HX_STACK_FRAME("openfl._v2.text.TextField","setSelection",0xd2cdf59b,"openfl._v2.text.TextField.setSelection","openfl/_v2/text/TextField.hx",117,0xa8dfafe0)
 		HX_STACK_THIS(this)
 		HX_STACK_ARG(beginIndex,"beginIndex")
 		HX_STACK_ARG(endIndex,"endIndex")
-		HX_STACK_LINE(104)
+		HX_STACK_LINE(117)
 		::openfl::_v2::Lib_obj::notImplemented(HX_CSTRING("TextField.setSelection"));
 	}
 return null();
@@ -189,13 +216,37 @@ HX_DEFINE_DYNAMIC_FUNC2(TextField_obj,setSelection,(void))
 Void TextField_obj::setTextFormat( ::openfl::_v2::text::TextFormat format,hx::Null< int >  __o_beginIndex,hx::Null< int >  __o_endIndex){
 int beginIndex = __o_beginIndex.Default(-1);
 int endIndex = __o_endIndex.Default(-1);
-	HX_STACK_FRAME("openfl._v2.text.TextField","setTextFormat",0x0c69b795,"openfl._v2.text.TextField.setTextFormat","openfl/_v2/text/TextField.hx",111,0xa8dfafe0)
+	HX_STACK_FRAME("openfl._v2.text.TextField","setTextFormat",0x0c69b795,"openfl._v2.text.TextField.setTextFormat","openfl/_v2/text/TextField.hx",122,0xa8dfafe0)
 	HX_STACK_THIS(this)
 	HX_STACK_ARG(format,"format")
 	HX_STACK_ARG(beginIndex,"beginIndex")
 	HX_STACK_ARG(endIndex,"endIndex")
 {
-		HX_STACK_LINE(111)
+		HX_STACK_LINE(124)
+		if (((format != null()))){
+			HX_STACK_LINE(126)
+			int _g = (int)0;		HX_STACK_VAR(_g,"_g");
+			HX_STACK_LINE(126)
+			Array< ::Dynamic > _g1 = ::openfl::_v2::text::Font_obj::__registeredFonts;		HX_STACK_VAR(_g1,"_g1");
+			HX_STACK_LINE(126)
+			while((true)){
+				HX_STACK_LINE(126)
+				if ((!(((_g < _g1->length))))){
+					HX_STACK_LINE(126)
+					break;
+				}
+				HX_STACK_LINE(126)
+				::openfl::_v2::text::Font font = _g1->__get(_g).StaticCast< ::openfl::_v2::text::Font >();		HX_STACK_VAR(font,"font");
+				HX_STACK_LINE(126)
+				++(_g);
+				HX_STACK_LINE(128)
+				if (((bool((font->__fontPath != null())) && bool((format->font == font->fontName))))){
+					HX_STACK_LINE(130)
+					format->font = font->__fontPath;
+				}
+			}
+		}
+		HX_STACK_LINE(138)
 		::openfl::_v2::text::TextField_obj::lime_text_field_set_text_format(this->__handle,format,beginIndex,endIndex);
 	}
 return null();
@@ -205,11 +256,11 @@ return null();
 HX_DEFINE_DYNAMIC_FUNC3(TextField_obj,setTextFormat,(void))
 
 ::openfl::text::TextFieldAutoSize TextField_obj::get_autoSize( ){
-	HX_STACK_FRAME("openfl._v2.text.TextField","get_autoSize",0x04f6812a,"openfl._v2.text.TextField.get_autoSize","openfl/_v2/text/TextField.hx",123,0xa8dfafe0)
+	HX_STACK_FRAME("openfl._v2.text.TextField","get_autoSize",0x04f6812a,"openfl._v2.text.TextField.get_autoSize","openfl/_v2/text/TextField.hx",150,0xa8dfafe0)
 	HX_STACK_THIS(this)
-	HX_STACK_LINE(123)
+	HX_STACK_LINE(150)
 	int _g = ::openfl::_v2::text::TextField_obj::lime_text_field_get_auto_size(this->__handle);		HX_STACK_VAR(_g,"_g");
-	HX_STACK_LINE(123)
+	HX_STACK_LINE(150)
 	return ::Type_obj::createEnumIndex(hx::ClassOf< ::openfl::text::TextFieldAutoSize >(),_g,null());
 }
 
@@ -217,14 +268,14 @@ HX_DEFINE_DYNAMIC_FUNC3(TextField_obj,setTextFormat,(void))
 HX_DEFINE_DYNAMIC_FUNC0(TextField_obj,get_autoSize,return )
 
 ::openfl::text::TextFieldAutoSize TextField_obj::set_autoSize( ::openfl::text::TextFieldAutoSize value){
-	HX_STACK_FRAME("openfl._v2.text.TextField","set_autoSize",0x19efa49e,"openfl._v2.text.TextField.set_autoSize","openfl/_v2/text/TextField.hx",124,0xa8dfafe0)
+	HX_STACK_FRAME("openfl._v2.text.TextField","set_autoSize",0x19efa49e,"openfl._v2.text.TextField.set_autoSize","openfl/_v2/text/TextField.hx",151,0xa8dfafe0)
 	HX_STACK_THIS(this)
 	HX_STACK_ARG(value,"value")
-	HX_STACK_LINE(124)
+	HX_STACK_LINE(151)
 	int _g = value->__Index();		HX_STACK_VAR(_g,"_g");
-	HX_STACK_LINE(124)
+	HX_STACK_LINE(151)
 	::openfl::_v2::text::TextField_obj::lime_text_field_set_auto_size(this->__handle,_g);
-	HX_STACK_LINE(124)
+	HX_STACK_LINE(151)
 	return value;
 }
 
@@ -232,9 +283,9 @@ HX_DEFINE_DYNAMIC_FUNC0(TextField_obj,get_autoSize,return )
 HX_DEFINE_DYNAMIC_FUNC1(TextField_obj,set_autoSize,return )
 
 bool TextField_obj::get_background( ){
-	HX_STACK_FRAME("openfl._v2.text.TextField","get_background",0x09bd0fc8,"openfl._v2.text.TextField.get_background","openfl/_v2/text/TextField.hx",125,0xa8dfafe0)
+	HX_STACK_FRAME("openfl._v2.text.TextField","get_background",0x09bd0fc8,"openfl._v2.text.TextField.get_background","openfl/_v2/text/TextField.hx",152,0xa8dfafe0)
 	HX_STACK_THIS(this)
-	HX_STACK_LINE(125)
+	HX_STACK_LINE(152)
 	return ::openfl::_v2::text::TextField_obj::lime_text_field_get_background(this->__handle);
 }
 
@@ -242,12 +293,12 @@ bool TextField_obj::get_background( ){
 HX_DEFINE_DYNAMIC_FUNC0(TextField_obj,get_background,return )
 
 bool TextField_obj::set_background( bool value){
-	HX_STACK_FRAME("openfl._v2.text.TextField","set_background",0x29dcf83c,"openfl._v2.text.TextField.set_background","openfl/_v2/text/TextField.hx",126,0xa8dfafe0)
+	HX_STACK_FRAME("openfl._v2.text.TextField","set_background",0x29dcf83c,"openfl._v2.text.TextField.set_background","openfl/_v2/text/TextField.hx",153,0xa8dfafe0)
 	HX_STACK_THIS(this)
 	HX_STACK_ARG(value,"value")
-	HX_STACK_LINE(126)
+	HX_STACK_LINE(153)
 	::openfl::_v2::text::TextField_obj::lime_text_field_set_background(this->__handle,value);
-	HX_STACK_LINE(126)
+	HX_STACK_LINE(153)
 	return value;
 }
 
@@ -255,9 +306,9 @@ bool TextField_obj::set_background( bool value){
 HX_DEFINE_DYNAMIC_FUNC1(TextField_obj,set_background,return )
 
 int TextField_obj::get_backgroundColor( ){
-	HX_STACK_FRAME("openfl._v2.text.TextField","get_backgroundColor",0xb8769c7b,"openfl._v2.text.TextField.get_backgroundColor","openfl/_v2/text/TextField.hx",127,0xa8dfafe0)
+	HX_STACK_FRAME("openfl._v2.text.TextField","get_backgroundColor",0xb8769c7b,"openfl._v2.text.TextField.get_backgroundColor","openfl/_v2/text/TextField.hx",154,0xa8dfafe0)
 	HX_STACK_THIS(this)
-	HX_STACK_LINE(127)
+	HX_STACK_LINE(154)
 	return ::openfl::_v2::text::TextField_obj::lime_text_field_get_background_color(this->__handle);
 }
 
@@ -265,12 +316,12 @@ int TextField_obj::get_backgroundColor( ){
 HX_DEFINE_DYNAMIC_FUNC0(TextField_obj,get_backgroundColor,return )
 
 int TextField_obj::set_backgroundColor( int value){
-	HX_STACK_FRAME("openfl._v2.text.TextField","set_backgroundColor",0xf5138f87,"openfl._v2.text.TextField.set_backgroundColor","openfl/_v2/text/TextField.hx",128,0xa8dfafe0)
+	HX_STACK_FRAME("openfl._v2.text.TextField","set_backgroundColor",0xf5138f87,"openfl._v2.text.TextField.set_backgroundColor","openfl/_v2/text/TextField.hx",155,0xa8dfafe0)
 	HX_STACK_THIS(this)
 	HX_STACK_ARG(value,"value")
-	HX_STACK_LINE(128)
+	HX_STACK_LINE(155)
 	::openfl::_v2::text::TextField_obj::lime_text_field_set_background_color(this->__handle,value);
-	HX_STACK_LINE(128)
+	HX_STACK_LINE(155)
 	return value;
 }
 
@@ -278,9 +329,9 @@ int TextField_obj::set_backgroundColor( int value){
 HX_DEFINE_DYNAMIC_FUNC1(TextField_obj,set_backgroundColor,return )
 
 bool TextField_obj::get_border( ){
-	HX_STACK_FRAME("openfl._v2.text.TextField","get_border",0xade453c6,"openfl._v2.text.TextField.get_border","openfl/_v2/text/TextField.hx",129,0xa8dfafe0)
+	HX_STACK_FRAME("openfl._v2.text.TextField","get_border",0xade453c6,"openfl._v2.text.TextField.get_border","openfl/_v2/text/TextField.hx",156,0xa8dfafe0)
 	HX_STACK_THIS(this)
-	HX_STACK_LINE(129)
+	HX_STACK_LINE(156)
 	return ::openfl::_v2::text::TextField_obj::lime_text_field_get_border(this->__handle);
 }
 
@@ -288,12 +339,12 @@ bool TextField_obj::get_border( ){
 HX_DEFINE_DYNAMIC_FUNC0(TextField_obj,get_border,return )
 
 bool TextField_obj::set_border( bool value){
-	HX_STACK_FRAME("openfl._v2.text.TextField","set_border",0xb161f23a,"openfl._v2.text.TextField.set_border","openfl/_v2/text/TextField.hx",130,0xa8dfafe0)
+	HX_STACK_FRAME("openfl._v2.text.TextField","set_border",0xb161f23a,"openfl._v2.text.TextField.set_border","openfl/_v2/text/TextField.hx",157,0xa8dfafe0)
 	HX_STACK_THIS(this)
 	HX_STACK_ARG(value,"value")
-	HX_STACK_LINE(130)
+	HX_STACK_LINE(157)
 	::openfl::_v2::text::TextField_obj::lime_text_field_set_border(this->__handle,value);
-	HX_STACK_LINE(130)
+	HX_STACK_LINE(157)
 	return value;
 }
 
@@ -301,9 +352,9 @@ bool TextField_obj::set_border( bool value){
 HX_DEFINE_DYNAMIC_FUNC1(TextField_obj,set_border,return )
 
 int TextField_obj::get_borderColor( ){
-	HX_STACK_FRAME("openfl._v2.text.TextField","get_borderColor",0x1ec21fbd,"openfl._v2.text.TextField.get_borderColor","openfl/_v2/text/TextField.hx",131,0xa8dfafe0)
+	HX_STACK_FRAME("openfl._v2.text.TextField","get_borderColor",0x1ec21fbd,"openfl._v2.text.TextField.get_borderColor","openfl/_v2/text/TextField.hx",158,0xa8dfafe0)
 	HX_STACK_THIS(this)
-	HX_STACK_LINE(131)
+	HX_STACK_LINE(158)
 	return ::openfl::_v2::text::TextField_obj::lime_text_field_get_border_color(this->__handle);
 }
 
@@ -311,12 +362,12 @@ int TextField_obj::get_borderColor( ){
 HX_DEFINE_DYNAMIC_FUNC0(TextField_obj,get_borderColor,return )
 
 int TextField_obj::set_borderColor( int value){
-	HX_STACK_FRAME("openfl._v2.text.TextField","set_borderColor",0x1a8d9cc9,"openfl._v2.text.TextField.set_borderColor","openfl/_v2/text/TextField.hx",132,0xa8dfafe0)
+	HX_STACK_FRAME("openfl._v2.text.TextField","set_borderColor",0x1a8d9cc9,"openfl._v2.text.TextField.set_borderColor","openfl/_v2/text/TextField.hx",159,0xa8dfafe0)
 	HX_STACK_THIS(this)
 	HX_STACK_ARG(value,"value")
-	HX_STACK_LINE(132)
+	HX_STACK_LINE(159)
 	::openfl::_v2::text::TextField_obj::lime_text_field_set_border_color(this->__handle,value);
-	HX_STACK_LINE(132)
+	HX_STACK_LINE(159)
 	return value;
 }
 
@@ -324,9 +375,9 @@ int TextField_obj::set_borderColor( int value){
 HX_DEFINE_DYNAMIC_FUNC1(TextField_obj,set_borderColor,return )
 
 int TextField_obj::get_bottomScrollV( ){
-	HX_STACK_FRAME("openfl._v2.text.TextField","get_bottomScrollV",0x529fe064,"openfl._v2.text.TextField.get_bottomScrollV","openfl/_v2/text/TextField.hx",133,0xa8dfafe0)
+	HX_STACK_FRAME("openfl._v2.text.TextField","get_bottomScrollV",0x529fe064,"openfl._v2.text.TextField.get_bottomScrollV","openfl/_v2/text/TextField.hx",160,0xa8dfafe0)
 	HX_STACK_THIS(this)
-	HX_STACK_LINE(133)
+	HX_STACK_LINE(160)
 	return ::openfl::_v2::text::TextField_obj::lime_text_field_get_bottom_scroll_v(this->__handle);
 }
 
@@ -334,13 +385,37 @@ int TextField_obj::get_bottomScrollV( ){
 HX_DEFINE_DYNAMIC_FUNC0(TextField_obj,get_bottomScrollV,return )
 
 ::openfl::_v2::text::TextFormat TextField_obj::get_defaultTextFormat( ){
-	HX_STACK_FRAME("openfl._v2.text.TextField","get_defaultTextFormat",0x5aebdb4b,"openfl._v2.text.TextField.get_defaultTextFormat","openfl/_v2/text/TextField.hx",134,0xa8dfafe0)
+	HX_STACK_FRAME("openfl._v2.text.TextField","get_defaultTextFormat",0x5aebdb4b,"openfl._v2.text.TextField.get_defaultTextFormat","openfl/_v2/text/TextField.hx",163,0xa8dfafe0)
 	HX_STACK_THIS(this)
-	HX_STACK_LINE(134)
+	HX_STACK_LINE(165)
 	::openfl::_v2::text::TextFormat result = ::openfl::_v2::text::TextFormat_obj::__new(null(),null(),null(),null(),null(),null(),null(),null(),null(),null(),null(),null(),null());		HX_STACK_VAR(result,"result");
-	HX_STACK_LINE(134)
+	HX_STACK_LINE(166)
 	::openfl::_v2::text::TextField_obj::lime_text_field_get_def_text_format(this->__handle,result);
-	HX_STACK_LINE(134)
+	HX_STACK_LINE(168)
+	{
+		HX_STACK_LINE(168)
+		int _g = (int)0;		HX_STACK_VAR(_g,"_g");
+		HX_STACK_LINE(168)
+		Array< ::Dynamic > _g1 = ::openfl::_v2::text::Font_obj::__registeredFonts;		HX_STACK_VAR(_g1,"_g1");
+		HX_STACK_LINE(168)
+		while((true)){
+			HX_STACK_LINE(168)
+			if ((!(((_g < _g1->length))))){
+				HX_STACK_LINE(168)
+				break;
+			}
+			HX_STACK_LINE(168)
+			::openfl::_v2::text::Font font = _g1->__get(_g).StaticCast< ::openfl::_v2::text::Font >();		HX_STACK_VAR(font,"font");
+			HX_STACK_LINE(168)
+			++(_g);
+			HX_STACK_LINE(170)
+			if (((result->font == font->__fontPath))){
+				HX_STACK_LINE(172)
+				result->font = font->fontName;
+			}
+		}
+	}
+	HX_STACK_LINE(178)
 	return result;
 }
 
@@ -348,12 +423,36 @@ HX_DEFINE_DYNAMIC_FUNC0(TextField_obj,get_bottomScrollV,return )
 HX_DEFINE_DYNAMIC_FUNC0(TextField_obj,get_defaultTextFormat,return )
 
 ::openfl::_v2::text::TextFormat TextField_obj::set_defaultTextFormat( ::openfl::_v2::text::TextFormat value){
-	HX_STACK_FRAME("openfl._v2.text.TextField","set_defaultTextFormat",0xaef4a957,"openfl._v2.text.TextField.set_defaultTextFormat","openfl/_v2/text/TextField.hx",135,0xa8dfafe0)
+	HX_STACK_FRAME("openfl._v2.text.TextField","set_defaultTextFormat",0xaef4a957,"openfl._v2.text.TextField.set_defaultTextFormat","openfl/_v2/text/TextField.hx",183,0xa8dfafe0)
 	HX_STACK_THIS(this)
 	HX_STACK_ARG(value,"value")
-	HX_STACK_LINE(135)
+	HX_STACK_LINE(185)
+	if (((value != null()))){
+		HX_STACK_LINE(187)
+		int _g = (int)0;		HX_STACK_VAR(_g,"_g");
+		HX_STACK_LINE(187)
+		Array< ::Dynamic > _g1 = ::openfl::_v2::text::Font_obj::__registeredFonts;		HX_STACK_VAR(_g1,"_g1");
+		HX_STACK_LINE(187)
+		while((true)){
+			HX_STACK_LINE(187)
+			if ((!(((_g < _g1->length))))){
+				HX_STACK_LINE(187)
+				break;
+			}
+			HX_STACK_LINE(187)
+			::openfl::_v2::text::Font font = _g1->__get(_g).StaticCast< ::openfl::_v2::text::Font >();		HX_STACK_VAR(font,"font");
+			HX_STACK_LINE(187)
+			++(_g);
+			HX_STACK_LINE(189)
+			if (((bool((font->__fontPath != null())) && bool((value->font == font->fontName))))){
+				HX_STACK_LINE(191)
+				value->font = font->__fontPath;
+			}
+		}
+	}
+	HX_STACK_LINE(199)
 	::openfl::_v2::text::TextField_obj::lime_text_field_set_def_text_format(this->__handle,value);
-	HX_STACK_LINE(135)
+	HX_STACK_LINE(200)
 	return value;
 }
 
@@ -361,9 +460,9 @@ HX_DEFINE_DYNAMIC_FUNC0(TextField_obj,get_defaultTextFormat,return )
 HX_DEFINE_DYNAMIC_FUNC1(TextField_obj,set_defaultTextFormat,return )
 
 bool TextField_obj::get_displayAsPassword( ){
-	HX_STACK_FRAME("openfl._v2.text.TextField","get_displayAsPassword",0x3aa1de75,"openfl._v2.text.TextField.get_displayAsPassword","openfl/_v2/text/TextField.hx",136,0xa8dfafe0)
+	HX_STACK_FRAME("openfl._v2.text.TextField","get_displayAsPassword",0x3aa1de75,"openfl._v2.text.TextField.get_displayAsPassword","openfl/_v2/text/TextField.hx",205,0xa8dfafe0)
 	HX_STACK_THIS(this)
-	HX_STACK_LINE(136)
+	HX_STACK_LINE(205)
 	return ::openfl::_v2::text::TextField_obj::lime_text_field_get_display_as_password(this->__handle);
 }
 
@@ -371,12 +470,12 @@ bool TextField_obj::get_displayAsPassword( ){
 HX_DEFINE_DYNAMIC_FUNC0(TextField_obj,get_displayAsPassword,return )
 
 bool TextField_obj::set_displayAsPassword( bool value){
-	HX_STACK_FRAME("openfl._v2.text.TextField","set_displayAsPassword",0x8eaaac81,"openfl._v2.text.TextField.set_displayAsPassword","openfl/_v2/text/TextField.hx",137,0xa8dfafe0)
+	HX_STACK_FRAME("openfl._v2.text.TextField","set_displayAsPassword",0x8eaaac81,"openfl._v2.text.TextField.set_displayAsPassword","openfl/_v2/text/TextField.hx",206,0xa8dfafe0)
 	HX_STACK_THIS(this)
 	HX_STACK_ARG(value,"value")
-	HX_STACK_LINE(137)
+	HX_STACK_LINE(206)
 	::openfl::_v2::text::TextField_obj::lime_text_field_set_display_as_password(this->__handle,value);
-	HX_STACK_LINE(137)
+	HX_STACK_LINE(206)
 	return value;
 }
 
@@ -384,9 +483,9 @@ bool TextField_obj::set_displayAsPassword( bool value){
 HX_DEFINE_DYNAMIC_FUNC1(TextField_obj,set_displayAsPassword,return )
 
 bool TextField_obj::get_embedFonts( ){
-	HX_STACK_FRAME("openfl._v2.text.TextField","get_embedFonts",0x72814305,"openfl._v2.text.TextField.get_embedFonts","openfl/_v2/text/TextField.hx",138,0xa8dfafe0)
+	HX_STACK_FRAME("openfl._v2.text.TextField","get_embedFonts",0x72814305,"openfl._v2.text.TextField.get_embedFonts","openfl/_v2/text/TextField.hx",207,0xa8dfafe0)
 	HX_STACK_THIS(this)
-	HX_STACK_LINE(138)
+	HX_STACK_LINE(207)
 	return this->__embedFonts;
 }
 
@@ -394,10 +493,10 @@ bool TextField_obj::get_embedFonts( ){
 HX_DEFINE_DYNAMIC_FUNC0(TextField_obj,get_embedFonts,return )
 
 bool TextField_obj::set_embedFonts( bool value){
-	HX_STACK_FRAME("openfl._v2.text.TextField","set_embedFonts",0x92a12b79,"openfl._v2.text.TextField.set_embedFonts","openfl/_v2/text/TextField.hx",139,0xa8dfafe0)
+	HX_STACK_FRAME("openfl._v2.text.TextField","set_embedFonts",0x92a12b79,"openfl._v2.text.TextField.set_embedFonts","openfl/_v2/text/TextField.hx",208,0xa8dfafe0)
 	HX_STACK_THIS(this)
 	HX_STACK_ARG(value,"value")
-	HX_STACK_LINE(139)
+	HX_STACK_LINE(208)
 	return this->__embedFonts = value;
 }
 
@@ -405,11 +504,11 @@ bool TextField_obj::set_embedFonts( bool value){
 HX_DEFINE_DYNAMIC_FUNC1(TextField_obj,set_embedFonts,return )
 
 ::String TextField_obj::get_htmlText( ){
-	HX_STACK_FRAME("openfl._v2.text.TextField","get_htmlText",0xe5b51112,"openfl._v2.text.TextField.get_htmlText","openfl/_v2/text/TextField.hx",140,0xa8dfafe0)
+	HX_STACK_FRAME("openfl._v2.text.TextField","get_htmlText",0xe5b51112,"openfl._v2.text.TextField.get_htmlText","openfl/_v2/text/TextField.hx",209,0xa8dfafe0)
 	HX_STACK_THIS(this)
-	HX_STACK_LINE(140)
+	HX_STACK_LINE(209)
 	::String _g = ::openfl::_v2::text::TextField_obj::lime_text_field_get_html_text(this->__handle);		HX_STACK_VAR(_g,"_g");
-	HX_STACK_LINE(140)
+	HX_STACK_LINE(209)
 	return ::StringTools_obj::replace(_g,HX_CSTRING("\n"),HX_CSTRING("<br/>"));
 }
 
@@ -417,12 +516,12 @@ HX_DEFINE_DYNAMIC_FUNC1(TextField_obj,set_embedFonts,return )
 HX_DEFINE_DYNAMIC_FUNC0(TextField_obj,get_htmlText,return )
 
 ::String TextField_obj::set_htmlText( ::String value){
-	HX_STACK_FRAME("openfl._v2.text.TextField","set_htmlText",0xfaae3486,"openfl._v2.text.TextField.set_htmlText","openfl/_v2/text/TextField.hx",141,0xa8dfafe0)
+	HX_STACK_FRAME("openfl._v2.text.TextField","set_htmlText",0xfaae3486,"openfl._v2.text.TextField.set_htmlText","openfl/_v2/text/TextField.hx",210,0xa8dfafe0)
 	HX_STACK_THIS(this)
 	HX_STACK_ARG(value,"value")
-	HX_STACK_LINE(141)
+	HX_STACK_LINE(210)
 	::openfl::_v2::text::TextField_obj::lime_text_field_set_html_text(this->__handle,value);
-	HX_STACK_LINE(141)
+	HX_STACK_LINE(210)
 	return value;
 }
 
@@ -430,9 +529,9 @@ HX_DEFINE_DYNAMIC_FUNC0(TextField_obj,get_htmlText,return )
 HX_DEFINE_DYNAMIC_FUNC1(TextField_obj,set_htmlText,return )
 
 int TextField_obj::get_maxChars( ){
-	HX_STACK_FRAME("openfl._v2.text.TextField","get_maxChars",0xc54de0f3,"openfl._v2.text.TextField.get_maxChars","openfl/_v2/text/TextField.hx",142,0xa8dfafe0)
+	HX_STACK_FRAME("openfl._v2.text.TextField","get_maxChars",0xc54de0f3,"openfl._v2.text.TextField.get_maxChars","openfl/_v2/text/TextField.hx",211,0xa8dfafe0)
 	HX_STACK_THIS(this)
-	HX_STACK_LINE(142)
+	HX_STACK_LINE(211)
 	return ::openfl::_v2::text::TextField_obj::lime_text_field_get_max_chars(this->__handle);
 }
 
@@ -440,12 +539,12 @@ int TextField_obj::get_maxChars( ){
 HX_DEFINE_DYNAMIC_FUNC0(TextField_obj,get_maxChars,return )
 
 int TextField_obj::set_maxChars( int value){
-	HX_STACK_FRAME("openfl._v2.text.TextField","set_maxChars",0xda470467,"openfl._v2.text.TextField.set_maxChars","openfl/_v2/text/TextField.hx",143,0xa8dfafe0)
+	HX_STACK_FRAME("openfl._v2.text.TextField","set_maxChars",0xda470467,"openfl._v2.text.TextField.set_maxChars","openfl/_v2/text/TextField.hx",212,0xa8dfafe0)
 	HX_STACK_THIS(this)
 	HX_STACK_ARG(value,"value")
-	HX_STACK_LINE(143)
+	HX_STACK_LINE(212)
 	::openfl::_v2::text::TextField_obj::lime_text_field_set_max_chars(this->__handle,value);
-	HX_STACK_LINE(143)
+	HX_STACK_LINE(212)
 	return value;
 }
 
@@ -453,9 +552,9 @@ int TextField_obj::set_maxChars( int value){
 HX_DEFINE_DYNAMIC_FUNC1(TextField_obj,set_maxChars,return )
 
 int TextField_obj::get_maxScrollH( ){
-	HX_STACK_FRAME("openfl._v2.text.TextField","get_maxScrollH",0x7e9c2931,"openfl._v2.text.TextField.get_maxScrollH","openfl/_v2/text/TextField.hx",144,0xa8dfafe0)
+	HX_STACK_FRAME("openfl._v2.text.TextField","get_maxScrollH",0x7e9c2931,"openfl._v2.text.TextField.get_maxScrollH","openfl/_v2/text/TextField.hx",213,0xa8dfafe0)
 	HX_STACK_THIS(this)
-	HX_STACK_LINE(144)
+	HX_STACK_LINE(213)
 	return ::openfl::_v2::text::TextField_obj::lime_text_field_get_max_scroll_h(this->__handle);
 }
 
@@ -463,9 +562,9 @@ int TextField_obj::get_maxScrollH( ){
 HX_DEFINE_DYNAMIC_FUNC0(TextField_obj,get_maxScrollH,return )
 
 int TextField_obj::get_maxScrollV( ){
-	HX_STACK_FRAME("openfl._v2.text.TextField","get_maxScrollV",0x7e9c293f,"openfl._v2.text.TextField.get_maxScrollV","openfl/_v2/text/TextField.hx",145,0xa8dfafe0)
+	HX_STACK_FRAME("openfl._v2.text.TextField","get_maxScrollV",0x7e9c293f,"openfl._v2.text.TextField.get_maxScrollV","openfl/_v2/text/TextField.hx",214,0xa8dfafe0)
 	HX_STACK_THIS(this)
-	HX_STACK_LINE(145)
+	HX_STACK_LINE(214)
 	return ::openfl::_v2::text::TextField_obj::lime_text_field_get_max_scroll_v(this->__handle);
 }
 
@@ -473,9 +572,9 @@ int TextField_obj::get_maxScrollV( ){
 HX_DEFINE_DYNAMIC_FUNC0(TextField_obj,get_maxScrollV,return )
 
 bool TextField_obj::get_multiline( ){
-	HX_STACK_FRAME("openfl._v2.text.TextField","get_multiline",0x95e81053,"openfl._v2.text.TextField.get_multiline","openfl/_v2/text/TextField.hx",146,0xa8dfafe0)
+	HX_STACK_FRAME("openfl._v2.text.TextField","get_multiline",0x95e81053,"openfl._v2.text.TextField.get_multiline","openfl/_v2/text/TextField.hx",215,0xa8dfafe0)
 	HX_STACK_THIS(this)
-	HX_STACK_LINE(146)
+	HX_STACK_LINE(215)
 	return ::openfl::_v2::text::TextField_obj::lime_text_field_get_multiline(this->__handle);
 }
 
@@ -483,12 +582,12 @@ bool TextField_obj::get_multiline( ){
 HX_DEFINE_DYNAMIC_FUNC0(TextField_obj,get_multiline,return )
 
 bool TextField_obj::set_multiline( bool value){
-	HX_STACK_FRAME("openfl._v2.text.TextField","set_multiline",0xdaedf25f,"openfl._v2.text.TextField.set_multiline","openfl/_v2/text/TextField.hx",147,0xa8dfafe0)
+	HX_STACK_FRAME("openfl._v2.text.TextField","set_multiline",0xdaedf25f,"openfl._v2.text.TextField.set_multiline","openfl/_v2/text/TextField.hx",216,0xa8dfafe0)
 	HX_STACK_THIS(this)
 	HX_STACK_ARG(value,"value")
-	HX_STACK_LINE(147)
+	HX_STACK_LINE(216)
 	::openfl::_v2::text::TextField_obj::lime_text_field_set_multiline(this->__handle,value);
-	HX_STACK_LINE(147)
+	HX_STACK_LINE(216)
 	return value;
 }
 
@@ -496,9 +595,9 @@ bool TextField_obj::set_multiline( bool value){
 HX_DEFINE_DYNAMIC_FUNC1(TextField_obj,set_multiline,return )
 
 int TextField_obj::get_numLines( ){
-	HX_STACK_FRAME("openfl._v2.text.TextField","get_numLines",0x078ee333,"openfl._v2.text.TextField.get_numLines","openfl/_v2/text/TextField.hx",148,0xa8dfafe0)
+	HX_STACK_FRAME("openfl._v2.text.TextField","get_numLines",0x078ee333,"openfl._v2.text.TextField.get_numLines","openfl/_v2/text/TextField.hx",217,0xa8dfafe0)
 	HX_STACK_THIS(this)
-	HX_STACK_LINE(148)
+	HX_STACK_LINE(217)
 	return ::openfl::_v2::text::TextField_obj::lime_text_field_get_num_lines(this->__handle);
 }
 
@@ -506,9 +605,9 @@ int TextField_obj::get_numLines( ){
 HX_DEFINE_DYNAMIC_FUNC0(TextField_obj,get_numLines,return )
 
 int TextField_obj::get_scrollH( ){
-	HX_STACK_FRAME("openfl._v2.text.TextField","get_scrollH",0x77d42b81,"openfl._v2.text.TextField.get_scrollH","openfl/_v2/text/TextField.hx",149,0xa8dfafe0)
+	HX_STACK_FRAME("openfl._v2.text.TextField","get_scrollH",0x77d42b81,"openfl._v2.text.TextField.get_scrollH","openfl/_v2/text/TextField.hx",218,0xa8dfafe0)
 	HX_STACK_THIS(this)
-	HX_STACK_LINE(149)
+	HX_STACK_LINE(218)
 	return ::openfl::_v2::text::TextField_obj::lime_text_field_get_scroll_h(this->__handle);
 }
 
@@ -516,12 +615,12 @@ int TextField_obj::get_scrollH( ){
 HX_DEFINE_DYNAMIC_FUNC0(TextField_obj,get_scrollH,return )
 
 int TextField_obj::set_scrollH( int value){
-	HX_STACK_FRAME("openfl._v2.text.TextField","set_scrollH",0x8241328d,"openfl._v2.text.TextField.set_scrollH","openfl/_v2/text/TextField.hx",150,0xa8dfafe0)
+	HX_STACK_FRAME("openfl._v2.text.TextField","set_scrollH",0x8241328d,"openfl._v2.text.TextField.set_scrollH","openfl/_v2/text/TextField.hx",219,0xa8dfafe0)
 	HX_STACK_THIS(this)
 	HX_STACK_ARG(value,"value")
-	HX_STACK_LINE(150)
+	HX_STACK_LINE(219)
 	::openfl::_v2::text::TextField_obj::lime_text_field_set_scroll_h(this->__handle,value);
-	HX_STACK_LINE(150)
+	HX_STACK_LINE(219)
 	return value;
 }
 
@@ -529,9 +628,9 @@ int TextField_obj::set_scrollH( int value){
 HX_DEFINE_DYNAMIC_FUNC1(TextField_obj,set_scrollH,return )
 
 int TextField_obj::get_scrollV( ){
-	HX_STACK_FRAME("openfl._v2.text.TextField","get_scrollV",0x77d42b8f,"openfl._v2.text.TextField.get_scrollV","openfl/_v2/text/TextField.hx",151,0xa8dfafe0)
+	HX_STACK_FRAME("openfl._v2.text.TextField","get_scrollV",0x77d42b8f,"openfl._v2.text.TextField.get_scrollV","openfl/_v2/text/TextField.hx",220,0xa8dfafe0)
 	HX_STACK_THIS(this)
-	HX_STACK_LINE(151)
+	HX_STACK_LINE(220)
 	return ::openfl::_v2::text::TextField_obj::lime_text_field_get_scroll_v(this->__handle);
 }
 
@@ -539,12 +638,12 @@ int TextField_obj::get_scrollV( ){
 HX_DEFINE_DYNAMIC_FUNC0(TextField_obj,get_scrollV,return )
 
 int TextField_obj::set_scrollV( int value){
-	HX_STACK_FRAME("openfl._v2.text.TextField","set_scrollV",0x8241329b,"openfl._v2.text.TextField.set_scrollV","openfl/_v2/text/TextField.hx",152,0xa8dfafe0)
+	HX_STACK_FRAME("openfl._v2.text.TextField","set_scrollV",0x8241329b,"openfl._v2.text.TextField.set_scrollV","openfl/_v2/text/TextField.hx",221,0xa8dfafe0)
 	HX_STACK_THIS(this)
 	HX_STACK_ARG(value,"value")
-	HX_STACK_LINE(152)
+	HX_STACK_LINE(221)
 	::openfl::_v2::text::TextField_obj::lime_text_field_set_scroll_v(this->__handle,value);
-	HX_STACK_LINE(152)
+	HX_STACK_LINE(221)
 	return value;
 }
 
@@ -552,9 +651,9 @@ int TextField_obj::set_scrollV( int value){
 HX_DEFINE_DYNAMIC_FUNC1(TextField_obj,set_scrollV,return )
 
 bool TextField_obj::get_selectable( ){
-	HX_STACK_FRAME("openfl._v2.text.TextField","get_selectable",0xa7ca3270,"openfl._v2.text.TextField.get_selectable","openfl/_v2/text/TextField.hx",153,0xa8dfafe0)
+	HX_STACK_FRAME("openfl._v2.text.TextField","get_selectable",0xa7ca3270,"openfl._v2.text.TextField.get_selectable","openfl/_v2/text/TextField.hx",222,0xa8dfafe0)
 	HX_STACK_THIS(this)
-	HX_STACK_LINE(153)
+	HX_STACK_LINE(222)
 	return ::openfl::_v2::text::TextField_obj::lime_text_field_get_selectable(this->__handle);
 }
 
@@ -562,12 +661,12 @@ bool TextField_obj::get_selectable( ){
 HX_DEFINE_DYNAMIC_FUNC0(TextField_obj,get_selectable,return )
 
 bool TextField_obj::set_selectable( bool value){
-	HX_STACK_FRAME("openfl._v2.text.TextField","set_selectable",0xc7ea1ae4,"openfl._v2.text.TextField.set_selectable","openfl/_v2/text/TextField.hx",154,0xa8dfafe0)
+	HX_STACK_FRAME("openfl._v2.text.TextField","set_selectable",0xc7ea1ae4,"openfl._v2.text.TextField.set_selectable","openfl/_v2/text/TextField.hx",223,0xa8dfafe0)
 	HX_STACK_THIS(this)
 	HX_STACK_ARG(value,"value")
-	HX_STACK_LINE(154)
+	HX_STACK_LINE(223)
 	::openfl::_v2::text::TextField_obj::lime_text_field_set_selectable(this->__handle,value);
-	HX_STACK_LINE(154)
+	HX_STACK_LINE(223)
 	return value;
 }
 
@@ -575,9 +674,9 @@ bool TextField_obj::set_selectable( bool value){
 HX_DEFINE_DYNAMIC_FUNC1(TextField_obj,set_selectable,return )
 
 ::String TextField_obj::get_text( ){
-	HX_STACK_FRAME("openfl._v2.text.TextField","get_text",0xf4588907,"openfl._v2.text.TextField.get_text","openfl/_v2/text/TextField.hx",155,0xa8dfafe0)
+	HX_STACK_FRAME("openfl._v2.text.TextField","get_text",0xf4588907,"openfl._v2.text.TextField.get_text","openfl/_v2/text/TextField.hx",224,0xa8dfafe0)
 	HX_STACK_THIS(this)
-	HX_STACK_LINE(155)
+	HX_STACK_LINE(224)
 	return ::openfl::_v2::text::TextField_obj::lime_text_field_get_text(this->__handle);
 }
 
@@ -585,12 +684,12 @@ HX_DEFINE_DYNAMIC_FUNC1(TextField_obj,set_selectable,return )
 HX_DEFINE_DYNAMIC_FUNC0(TextField_obj,get_text,return )
 
 ::String TextField_obj::set_text( ::String value){
-	HX_STACK_FRAME("openfl._v2.text.TextField","set_text",0xa2b5e27b,"openfl._v2.text.TextField.set_text","openfl/_v2/text/TextField.hx",156,0xa8dfafe0)
+	HX_STACK_FRAME("openfl._v2.text.TextField","set_text",0xa2b5e27b,"openfl._v2.text.TextField.set_text","openfl/_v2/text/TextField.hx",225,0xa8dfafe0)
 	HX_STACK_THIS(this)
 	HX_STACK_ARG(value,"value")
-	HX_STACK_LINE(156)
+	HX_STACK_LINE(225)
 	::openfl::_v2::text::TextField_obj::lime_text_field_set_text(this->__handle,value);
-	HX_STACK_LINE(156)
+	HX_STACK_LINE(225)
 	return value;
 }
 
@@ -598,9 +697,9 @@ HX_DEFINE_DYNAMIC_FUNC0(TextField_obj,get_text,return )
 HX_DEFINE_DYNAMIC_FUNC1(TextField_obj,set_text,return )
 
 int TextField_obj::get_textColor( ){
-	HX_STACK_FRAME("openfl._v2.text.TextField","get_textColor",0xdb203edc,"openfl._v2.text.TextField.get_textColor","openfl/_v2/text/TextField.hx",157,0xa8dfafe0)
+	HX_STACK_FRAME("openfl._v2.text.TextField","get_textColor",0xdb203edc,"openfl._v2.text.TextField.get_textColor","openfl/_v2/text/TextField.hx",226,0xa8dfafe0)
 	HX_STACK_THIS(this)
-	HX_STACK_LINE(157)
+	HX_STACK_LINE(226)
 	return ::openfl::_v2::text::TextField_obj::lime_text_field_get_text_color(this->__handle);
 }
 
@@ -608,12 +707,12 @@ int TextField_obj::get_textColor( ){
 HX_DEFINE_DYNAMIC_FUNC0(TextField_obj,get_textColor,return )
 
 int TextField_obj::set_textColor( int value){
-	HX_STACK_FRAME("openfl._v2.text.TextField","set_textColor",0x202620e8,"openfl._v2.text.TextField.set_textColor","openfl/_v2/text/TextField.hx",158,0xa8dfafe0)
+	HX_STACK_FRAME("openfl._v2.text.TextField","set_textColor",0x202620e8,"openfl._v2.text.TextField.set_textColor","openfl/_v2/text/TextField.hx",227,0xa8dfafe0)
 	HX_STACK_THIS(this)
 	HX_STACK_ARG(value,"value")
-	HX_STACK_LINE(158)
+	HX_STACK_LINE(227)
 	::openfl::_v2::text::TextField_obj::lime_text_field_set_text_color(this->__handle,value);
-	HX_STACK_LINE(158)
+	HX_STACK_LINE(227)
 	return value;
 }
 
@@ -621,9 +720,9 @@ int TextField_obj::set_textColor( int value){
 HX_DEFINE_DYNAMIC_FUNC1(TextField_obj,set_textColor,return )
 
 Float TextField_obj::get_textWidth( ){
-	HX_STACK_FRAME("openfl._v2.text.TextField","get_textWidth",0x5b26837f,"openfl._v2.text.TextField.get_textWidth","openfl/_v2/text/TextField.hx",159,0xa8dfafe0)
+	HX_STACK_FRAME("openfl._v2.text.TextField","get_textWidth",0x5b26837f,"openfl._v2.text.TextField.get_textWidth","openfl/_v2/text/TextField.hx",228,0xa8dfafe0)
 	HX_STACK_THIS(this)
-	HX_STACK_LINE(159)
+	HX_STACK_LINE(228)
 	return ::openfl::_v2::text::TextField_obj::lime_text_field_get_text_width(this->__handle);
 }
 
@@ -631,9 +730,9 @@ Float TextField_obj::get_textWidth( ){
 HX_DEFINE_DYNAMIC_FUNC0(TextField_obj,get_textWidth,return )
 
 Float TextField_obj::get_textHeight( ){
-	HX_STACK_FRAME("openfl._v2.text.TextField","get_textHeight",0x1cdc044e,"openfl._v2.text.TextField.get_textHeight","openfl/_v2/text/TextField.hx",160,0xa8dfafe0)
+	HX_STACK_FRAME("openfl._v2.text.TextField","get_textHeight",0x1cdc044e,"openfl._v2.text.TextField.get_textHeight","openfl/_v2/text/TextField.hx",229,0xa8dfafe0)
 	HX_STACK_THIS(this)
-	HX_STACK_LINE(160)
+	HX_STACK_LINE(229)
 	return ::openfl::_v2::text::TextField_obj::lime_text_field_get_text_height(this->__handle);
 }
 
@@ -641,18 +740,18 @@ Float TextField_obj::get_textHeight( ){
 HX_DEFINE_DYNAMIC_FUNC0(TextField_obj,get_textHeight,return )
 
 ::openfl::text::TextFieldType TextField_obj::get_type( ){
-	HX_STACK_FRAME("openfl._v2.text.TextField","get_type",0xf467af14,"openfl._v2.text.TextField.get_type","openfl/_v2/text/TextField.hx",161,0xa8dfafe0)
+	HX_STACK_FRAME("openfl._v2.text.TextField","get_type",0xf467af14,"openfl._v2.text.TextField.get_type","openfl/_v2/text/TextField.hx",230,0xa8dfafe0)
 	HX_STACK_THIS(this)
-	HX_STACK_LINE(161)
+	HX_STACK_LINE(230)
 	if ((::openfl::_v2::text::TextField_obj::lime_text_field_get_type(this->__handle))){
-		HX_STACK_LINE(161)
+		HX_STACK_LINE(230)
 		return ::openfl::text::TextFieldType_obj::INPUT;
 	}
 	else{
-		HX_STACK_LINE(161)
+		HX_STACK_LINE(230)
 		return ::openfl::text::TextFieldType_obj::DYNAMIC;
 	}
-	HX_STACK_LINE(161)
+	HX_STACK_LINE(230)
 	return null();
 }
 
@@ -660,12 +759,12 @@ HX_DEFINE_DYNAMIC_FUNC0(TextField_obj,get_textHeight,return )
 HX_DEFINE_DYNAMIC_FUNC0(TextField_obj,get_type,return )
 
 ::openfl::text::TextFieldType TextField_obj::set_type( ::openfl::text::TextFieldType value){
-	HX_STACK_FRAME("openfl._v2.text.TextField","set_type",0xa2c50888,"openfl._v2.text.TextField.set_type","openfl/_v2/text/TextField.hx",162,0xa8dfafe0)
+	HX_STACK_FRAME("openfl._v2.text.TextField","set_type",0xa2c50888,"openfl._v2.text.TextField.set_type","openfl/_v2/text/TextField.hx",231,0xa8dfafe0)
 	HX_STACK_THIS(this)
 	HX_STACK_ARG(value,"value")
-	HX_STACK_LINE(162)
+	HX_STACK_LINE(231)
 	::openfl::_v2::text::TextField_obj::lime_text_field_set_type(this->__handle,(value == ::openfl::text::TextFieldType_obj::INPUT));
-	HX_STACK_LINE(162)
+	HX_STACK_LINE(231)
 	return value;
 }
 
@@ -673,9 +772,9 @@ HX_DEFINE_DYNAMIC_FUNC0(TextField_obj,get_type,return )
 HX_DEFINE_DYNAMIC_FUNC1(TextField_obj,set_type,return )
 
 bool TextField_obj::get_wordWrap( ){
-	HX_STACK_FRAME("openfl._v2.text.TextField","get_wordWrap",0xd658060e,"openfl._v2.text.TextField.get_wordWrap","openfl/_v2/text/TextField.hx",163,0xa8dfafe0)
+	HX_STACK_FRAME("openfl._v2.text.TextField","get_wordWrap",0xd658060e,"openfl._v2.text.TextField.get_wordWrap","openfl/_v2/text/TextField.hx",232,0xa8dfafe0)
 	HX_STACK_THIS(this)
-	HX_STACK_LINE(163)
+	HX_STACK_LINE(232)
 	return ::openfl::_v2::text::TextField_obj::lime_text_field_get_word_wrap(this->__handle);
 }
 
@@ -683,12 +782,12 @@ bool TextField_obj::get_wordWrap( ){
 HX_DEFINE_DYNAMIC_FUNC0(TextField_obj,get_wordWrap,return )
 
 bool TextField_obj::set_wordWrap( bool value){
-	HX_STACK_FRAME("openfl._v2.text.TextField","set_wordWrap",0xeb512982,"openfl._v2.text.TextField.set_wordWrap","openfl/_v2/text/TextField.hx",164,0xa8dfafe0)
+	HX_STACK_FRAME("openfl._v2.text.TextField","set_wordWrap",0xeb512982,"openfl._v2.text.TextField.set_wordWrap","openfl/_v2/text/TextField.hx",233,0xa8dfafe0)
 	HX_STACK_THIS(this)
 	HX_STACK_ARG(value,"value")
-	HX_STACK_LINE(164)
+	HX_STACK_LINE(233)
 	::openfl::_v2::text::TextField_obj::lime_text_field_set_word_wrap(this->__handle,value);
-	HX_STACK_LINE(164)
+	HX_STACK_LINE(233)
 	return value;
 }
 

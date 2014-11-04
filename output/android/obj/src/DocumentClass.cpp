@@ -3,6 +3,9 @@
 #ifndef INCLUDED_DocumentClass
 #include <DocumentClass.h>
 #endif
+#ifndef INCLUDED_com_arm_demo_Application
+#include <com/arm/demo/Application.h>
+#endif
 #ifndef INCLUDED_com_arm_demo_Main
 #include <com/arm/demo/Main.h>
 #endif
@@ -42,10 +45,10 @@
 
 Void DocumentClass_obj::__construct()
 {
-HX_STACK_FRAME("DocumentClass","new",0x4aeb0a6f,"DocumentClass.new","ApplicationMain.hx",128,0x0780ded5)
+HX_STACK_FRAME("DocumentClass","new",0x4aeb0a6f,"DocumentClass.new","ApplicationMain.hx",135,0x0780ded5)
 HX_STACK_THIS(this)
 {
-	HX_STACK_LINE(128)
+	HX_STACK_LINE(135)
 	super::__construct();
 }
 ;
@@ -66,9 +69,9 @@ Dynamic DocumentClass_obj::__Create(hx::DynamicArray inArgs)
 	return result;}
 
 ::openfl::_v2::display::Stage DocumentClass_obj::get_stage( ){
-	HX_STACK_FRAME("DocumentClass","get_stage",0xea357664,"DocumentClass.get_stage","ApplicationMain.hx",154,0x0780ded5)
+	HX_STACK_FRAME("DocumentClass","get_stage",0xea357664,"DocumentClass.get_stage","ApplicationMain.hx",161,0x0780ded5)
 	HX_STACK_THIS(this)
-	HX_STACK_LINE(154)
+	HX_STACK_LINE(161)
 	return ::openfl::_v2::Lib_obj::get_current()->get_stage();
 }
 

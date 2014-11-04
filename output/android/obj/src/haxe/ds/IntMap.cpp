@@ -89,6 +89,18 @@ bool IntMap_obj::remove( int key){
 
 HX_DEFINE_DYNAMIC_FUNC1(IntMap_obj,remove,return )
 
+Dynamic IntMap_obj::iterator( ){
+	HX_STACK_FRAME("haxe.ds.IntMap","iterator",0x4dc7ddd8,"haxe.ds.IntMap.iterator","/usr/lib/haxe/std/cpp/_std/haxe/ds/IntMap.hx",53,0x0f19a47c)
+	HX_STACK_THIS(this)
+	HX_STACK_LINE(54)
+	Dynamic a = ::__int_hash_values(this->h);		HX_STACK_VAR(a,"a");
+	HX_STACK_LINE(55)
+	return a->__Field(HX_CSTRING("iterator"),true)();
+}
+
+
+HX_DEFINE_DYNAMIC_FUNC0(IntMap_obj,iterator,return )
+
 
 IntMap_obj::IntMap_obj()
 {
@@ -119,6 +131,9 @@ Dynamic IntMap_obj::__Field(const ::String &inName,bool inCallProp)
 	case 6:
 		if (HX_FIELD_EQ(inName,"exists") ) { return exists_dyn(); }
 		if (HX_FIELD_EQ(inName,"remove") ) { return remove_dyn(); }
+		break;
+	case 8:
+		if (HX_FIELD_EQ(inName,"iterator") ) { return iterator_dyn(); }
 	}
 	return super::__Field(inName,inCallProp);
 }
@@ -154,6 +169,7 @@ static ::String sMemberFields[] = {
 	HX_CSTRING("get"),
 	HX_CSTRING("exists"),
 	HX_CSTRING("remove"),
+	HX_CSTRING("iterator"),
 	String(null()) };
 
 static void sMarkStatics(HX_MARK_PARAMS) {

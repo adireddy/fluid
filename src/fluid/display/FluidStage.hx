@@ -12,6 +12,9 @@ class FluidStage extends #if js pixi.display.Stage #else openfl.display.Stage #e
 	public inline static var PORTRAIT:String = "PORTRAIT";
 
 	public function new(#if js bgColor:UInt #end) {
-		super(#if js bgColor #end);
+		#if js super(bgColor);
+		#elseif android super(null, screenWidth, screenHeight);
+		#else super(); #end
+
 	}
 }

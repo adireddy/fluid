@@ -7,6 +7,7 @@
 
 #include <com/arm/demo/Main.h>
 HX_DECLARE_CLASS0(DocumentClass)
+HX_DECLARE_CLASS3(com,arm,demo,Application)
 HX_DECLARE_CLASS3(com,arm,demo,Main)
 HX_DECLARE_CLASS1(fluid,Fluid)
 HX_DECLARE_CLASS3(openfl,_v2,display,DisplayObject)

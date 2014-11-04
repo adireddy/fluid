@@ -8,11 +8,14 @@
 #include <openfl/_v2/display/Sprite.h>
 HX_DECLARE_CLASS0(Date)
 HX_DECLARE_CLASS1(fluid,Fluid)
+HX_DECLARE_CLASS2(fluid,display,FluidSprite)
+HX_DECLARE_CLASS2(fluid,display,FluidStage)
 HX_DECLARE_CLASS3(openfl,_v2,display,DisplayObject)
 HX_DECLARE_CLASS3(openfl,_v2,display,DisplayObjectContainer)
 HX_DECLARE_CLASS3(openfl,_v2,display,IBitmapDrawable)
 HX_DECLARE_CLASS3(openfl,_v2,display,InteractiveObject)
 HX_DECLARE_CLASS3(openfl,_v2,display,Sprite)
+HX_DECLARE_CLASS3(openfl,_v2,display,Stage)
 HX_DECLARE_CLASS3(openfl,_v2,events,Event)
 HX_DECLARE_CLASS3(openfl,_v2,events,EventDispatcher)
 HX_DECLARE_CLASS3(openfl,_v2,events,IEventDispatcher)
@@ -49,6 +52,8 @@ class HXCPP_CLASS_ATTRIBUTES  Fluid_obj : public ::openfl::_v2::display::Sprite_
 		Dynamic _renderer;
 		::Date _lastTime;
 		::Date _currentTime;
+		Float _elapsedTime;
+		bool _fluidFrameSkip;
 		Dynamic mouseDown;
 		Dynamic &mouseDown_dyn() { return mouseDown;}
 		Dynamic mouseOut;
@@ -57,8 +62,8 @@ class HXCPP_CLASS_ATTRIBUTES  Fluid_obj : public ::openfl::_v2::display::Sprite_
 		Dynamic &mouseOver_dyn() { return mouseOver;}
 		Dynamic mouseUp;
 		Dynamic &mouseUp_dyn() { return mouseUp;}
-		Dynamic click;
-		Dynamic &click_dyn() { return click;}
+		Dynamic mouseClick;
+		Dynamic &mouseClick_dyn() { return mouseClick;}
 		Dynamic rightClick;
 		Dynamic &rightClick_dyn() { return rightClick;}
 		Dynamic rightMouseDown;
@@ -71,13 +76,21 @@ class HXCPP_CLASS_ATTRIBUTES  Fluid_obj : public ::openfl::_v2::display::Sprite_
 		Dynamic &touchEnd_dyn() { return touchEnd;}
 		Dynamic touchOut;
 		Dynamic &touchOut_dyn() { return touchOut;}
-		Float elapsedTime;
 		bool skipFrame;
-		bool _fluidFrameSkip;
-		::openfl::_v2::display::Sprite container;
+		bool stats;
+		int backgroundColor;
+		Dynamic update;
+		Dynamic &update_dyn() { return update;}
+		Dynamic resize;
+		Dynamic &resize_dyn() { return resize;}
+		::fluid::display::FluidStage _fluidStage;
+		::fluid::display::FluidSprite container;
 		::openfl::display::FPS _stats;
 		virtual Void _setStageProperties( );
 		Dynamic _setStageProperties_dyn();
+
+		virtual int set_backgroundColor( int clr);
+		Dynamic set_backgroundColor_dyn();
 
 		virtual Void _fluidOnMouseDown( ::openfl::_v2::events::MouseEvent evt);
 		Dynamic _fluidOnMouseDown_dyn();
@@ -124,14 +137,8 @@ class HXCPP_CLASS_ATTRIBUTES  Fluid_obj : public ::openfl::_v2::display::Sprite_
 		virtual Void _fluidOnResize( Dynamic event);
 		Dynamic _fluidOnResize_dyn();
 
-		virtual Void _update( Float elapsed);
-		Dynamic _update_dyn();
-
-		virtual Void _resize( );
-		Dynamic _resize_dyn();
-
-		virtual Void _showStats( );
-		Dynamic _showStats_dyn();
+		virtual bool set_stats( bool val);
+		Dynamic set_stats_dyn();
 
 };
 

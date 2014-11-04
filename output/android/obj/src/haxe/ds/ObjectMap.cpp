@@ -67,6 +67,44 @@ return null();
 
 HX_DEFINE_DYNAMIC_FUNC2(ObjectMap_obj,set,(void))
 
+Dynamic ObjectMap_obj::get( Dynamic key){
+	HX_STACK_FRAME("haxe.ds.ObjectMap","get",0x27aa04ce,"haxe.ds.ObjectMap.get","/usr/lib/haxe/std/cpp/_std/haxe/ds/ObjectMap.hx",40,0x941a7216)
+	HX_STACK_THIS(this)
+	HX_STACK_ARG(key,"key")
+	HX_STACK_LINE(41)
+	int _g = ::__hxcpp_obj_id(key);		HX_STACK_VAR(_g,"_g");
+	HX_STACK_LINE(41)
+	return this->__Internal->get(_g);
+}
+
+
+HX_DEFINE_DYNAMIC_FUNC1(ObjectMap_obj,get,return )
+
+bool ObjectMap_obj::remove( Dynamic key){
+	HX_STACK_FRAME("haxe.ds.ObjectMap","remove",0x0d3b8b0c,"haxe.ds.ObjectMap.remove","/usr/lib/haxe/std/cpp/_std/haxe/ds/ObjectMap.hx",48,0x941a7216)
+	HX_STACK_THIS(this)
+	HX_STACK_ARG(key,"key")
+	HX_STACK_LINE(49)
+	int id = ::__hxcpp_obj_id(key);		HX_STACK_VAR(id,"id");
+	HX_STACK_LINE(50)
+	this->__Internal->remove(id);
+	HX_STACK_LINE(51)
+	return this->__KeyRefs->remove(id);
+}
+
+
+HX_DEFINE_DYNAMIC_FUNC1(ObjectMap_obj,remove,return )
+
+Dynamic ObjectMap_obj::iterator( ){
+	HX_STACK_FRAME("haxe.ds.ObjectMap","iterator",0x61fc7ab6,"haxe.ds.ObjectMap.iterator","/usr/lib/haxe/std/cpp/_std/haxe/ds/ObjectMap.hx",59,0x941a7216)
+	HX_STACK_THIS(this)
+	HX_STACK_LINE(59)
+	return this->__Internal->iterator();
+}
+
+
+HX_DEFINE_DYNAMIC_FUNC0(ObjectMap_obj,iterator,return )
+
 
 ObjectMap_obj::ObjectMap_obj()
 {
@@ -91,6 +129,13 @@ Dynamic ObjectMap_obj::__Field(const ::String &inName,bool inCallProp)
 	switch(inName.length) {
 	case 3:
 		if (HX_FIELD_EQ(inName,"set") ) { return set_dyn(); }
+		if (HX_FIELD_EQ(inName,"get") ) { return get_dyn(); }
+		break;
+	case 6:
+		if (HX_FIELD_EQ(inName,"remove") ) { return remove_dyn(); }
+		break;
+	case 8:
+		if (HX_FIELD_EQ(inName,"iterator") ) { return iterator_dyn(); }
 		break;
 	case 9:
 		if (HX_FIELD_EQ(inName,"__KeyRefs") ) { return __KeyRefs; }
@@ -135,6 +180,9 @@ static ::String sMemberFields[] = {
 	HX_CSTRING("__Internal"),
 	HX_CSTRING("__KeyRefs"),
 	HX_CSTRING("set"),
+	HX_CSTRING("get"),
+	HX_CSTRING("remove"),
+	HX_CSTRING("iterator"),
 	String(null()) };
 
 static void sMarkStatics(HX_MARK_PARAMS) {

@@ -43,6 +43,15 @@ class HXCPP_CLASS_ATTRIBUTES  ObjectMap_obj : public hx::Object{
 		virtual Void set( Dynamic key,Dynamic value);
 		Dynamic set_dyn();
 
+		virtual Dynamic get( Dynamic key);
+		Dynamic get_dyn();
+
+		virtual bool remove( Dynamic key);
+		Dynamic remove_dyn();
+
+		virtual Dynamic iterator( );
+		Dynamic iterator_dyn();
+
 };
 
 } // end namespace haxe

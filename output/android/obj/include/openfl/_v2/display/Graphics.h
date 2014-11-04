@@ -124,6 +124,8 @@ class HXCPP_CLASS_ATTRIBUTES  Graphics_obj : public hx::Object{
 		static int TILE_RGB;
 		static int TILE_ALPHA;
 		static int TILE_TRANS_2x2;
+		static int TILE_RECT;
+		static int TILE_ORIGIN;
 		static int TILE_SMOOTH;
 		static int TILE_BLEND_NORMAL;
 		static int TILE_BLEND_ADD;

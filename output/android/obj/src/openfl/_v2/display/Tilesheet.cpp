@@ -27,35 +27,35 @@ namespace display{
 
 Void Tilesheet_obj::__construct(::openfl::_v2::display::BitmapData image)
 {
-HX_STACK_FRAME("openfl._v2.display.Tilesheet","new",0xc575eee6,"openfl._v2.display.Tilesheet.new","openfl/_v2/display/Tilesheet.hx",36,0xeaf30e4d)
+HX_STACK_FRAME("openfl._v2.display.Tilesheet","new",0xc575eee6,"openfl._v2.display.Tilesheet.new","openfl/_v2/display/Tilesheet.hx",38,0xeaf30e4d)
 HX_STACK_THIS(this)
 HX_STACK_ARG(image,"image")
 {
-	HX_STACK_LINE(38)
+	HX_STACK_LINE(40)
 	this->__bitmap = image;
-	HX_STACK_LINE(39)
+	HX_STACK_LINE(41)
 	Dynamic _g = ::openfl::_v2::display::Tilesheet_obj::lime_tilesheet_create(image->__handle);		HX_STACK_VAR(_g,"_g");
-	HX_STACK_LINE(39)
+	HX_STACK_LINE(41)
 	this->__handle = _g;
-	HX_STACK_LINE(41)
+	HX_STACK_LINE(43)
 	int _g1 = this->__bitmap->get_width();		HX_STACK_VAR(_g1,"_g1");
-	HX_STACK_LINE(41)
+	HX_STACK_LINE(43)
 	this->_bitmapWidth = _g1;
-	HX_STACK_LINE(42)
+	HX_STACK_LINE(44)
 	int _g2 = this->__bitmap->get_height();		HX_STACK_VAR(_g2,"_g2");
-	HX_STACK_LINE(42)
+	HX_STACK_LINE(44)
 	this->_bitmapHeight = _g2;
-	HX_STACK_LINE(44)
+	HX_STACK_LINE(46)
 	Array< ::Dynamic > _g3 = Array_obj< ::Dynamic >::__new();		HX_STACK_VAR(_g3,"_g3");
-	HX_STACK_LINE(44)
+	HX_STACK_LINE(46)
 	this->_tilePoints = _g3;
-	HX_STACK_LINE(45)
+	HX_STACK_LINE(47)
 	Array< ::Dynamic > _g4 = Array_obj< ::Dynamic >::__new();		HX_STACK_VAR(_g4,"_g4");
-	HX_STACK_LINE(45)
+	HX_STACK_LINE(47)
 	this->_tiles = _g4;
-	HX_STACK_LINE(46)
+	HX_STACK_LINE(48)
 	Array< ::Dynamic > _g5 = Array_obj< ::Dynamic >::__new();		HX_STACK_VAR(_g5,"_g5");
-	HX_STACK_LINE(46)
+	HX_STACK_LINE(48)
 	this->_tileUVs = _g5;
 }
 ;
@@ -76,44 +76,44 @@ Dynamic Tilesheet_obj::__Create(hx::DynamicArray inArgs)
 	return result;}
 
 int Tilesheet_obj::addTileRect( ::openfl::_v2::geom::Rectangle rectangle,::openfl::_v2::geom::Point centerPoint){
-	HX_STACK_FRAME("openfl._v2.display.Tilesheet","addTileRect",0x22d6bf39,"openfl._v2.display.Tilesheet.addTileRect","openfl/_v2/display/Tilesheet.hx",51,0xeaf30e4d)
+	HX_STACK_FRAME("openfl._v2.display.Tilesheet","addTileRect",0x22d6bf39,"openfl._v2.display.Tilesheet.addTileRect","openfl/_v2/display/Tilesheet.hx",53,0xeaf30e4d)
 	HX_STACK_THIS(this)
 	HX_STACK_ARG(rectangle,"rectangle")
 	HX_STACK_ARG(centerPoint,"centerPoint")
-	HX_STACK_LINE(53)
+	HX_STACK_LINE(55)
 	this->_tiles->push(rectangle);
-	HX_STACK_LINE(54)
+	HX_STACK_LINE(56)
 	if (((centerPoint == null()))){
-		HX_STACK_LINE(54)
+		HX_STACK_LINE(56)
 		this->_tilePoints->push(::openfl::_v2::display::Tilesheet_obj::defaultRatio);
 	}
 	else{
-		HX_STACK_LINE(55)
+		HX_STACK_LINE(57)
 		::openfl::_v2::geom::Point _g = ::openfl::_v2::geom::Point_obj::__new((Float(centerPoint->x) / Float(rectangle->width)),(Float(centerPoint->y) / Float(rectangle->height)));		HX_STACK_VAR(_g,"_g");
-		HX_STACK_LINE(55)
+		HX_STACK_LINE(57)
 		this->_tilePoints->push(_g);
 	}
-	HX_STACK_LINE(56)
+	HX_STACK_LINE(58)
 	Float _g1 = rectangle->get_left();		HX_STACK_VAR(_g1,"_g1");
-	HX_STACK_LINE(56)
+	HX_STACK_LINE(58)
 	Float _g2 = (Float(_g1) / Float(this->_bitmapWidth));		HX_STACK_VAR(_g2,"_g2");
-	HX_STACK_LINE(56)
+	HX_STACK_LINE(58)
 	Float _g3 = rectangle->get_top();		HX_STACK_VAR(_g3,"_g3");
-	HX_STACK_LINE(56)
+	HX_STACK_LINE(58)
 	Float _g4 = (Float(_g3) / Float(this->_bitmapHeight));		HX_STACK_VAR(_g4,"_g4");
-	HX_STACK_LINE(56)
+	HX_STACK_LINE(58)
 	Float _g5 = rectangle->get_right();		HX_STACK_VAR(_g5,"_g5");
-	HX_STACK_LINE(56)
+	HX_STACK_LINE(58)
 	Float _g6 = (Float(_g5) / Float(this->_bitmapWidth));		HX_STACK_VAR(_g6,"_g6");
-	HX_STACK_LINE(56)
+	HX_STACK_LINE(58)
 	Float _g7 = rectangle->get_bottom();		HX_STACK_VAR(_g7,"_g7");
-	HX_STACK_LINE(56)
+	HX_STACK_LINE(58)
 	Float _g8 = (Float(_g7) / Float(this->_bitmapHeight));		HX_STACK_VAR(_g8,"_g8");
-	HX_STACK_LINE(56)
+	HX_STACK_LINE(58)
 	::openfl::_v2::geom::Rectangle _g9 = ::openfl::_v2::geom::Rectangle_obj::__new(_g2,_g4,_g6,_g8);		HX_STACK_VAR(_g9,"_g9");
-	HX_STACK_LINE(56)
+	HX_STACK_LINE(58)
 	this->_tileUVs->push(_g9);
-	HX_STACK_LINE(57)
+	HX_STACK_LINE(59)
 	return ::openfl::_v2::display::Tilesheet_obj::lime_tilesheet_add_rect(this->__handle,rectangle,centerPoint);
 }
 
@@ -124,7 +124,7 @@ Void Tilesheet_obj::drawTiles( ::openfl::_v2::display::Graphics graphics,Array< 
 bool smooth = __o_smooth.Default(false);
 int flags = __o_flags.Default(0);
 int count = __o_count.Default(-1);
-	HX_STACK_FRAME("openfl._v2.display.Tilesheet","drawTiles",0x6b08f9e7,"openfl._v2.display.Tilesheet.drawTiles","openfl/_v2/display/Tilesheet.hx",64,0xeaf30e4d)
+	HX_STACK_FRAME("openfl._v2.display.Tilesheet","drawTiles",0x6b08f9e7,"openfl._v2.display.Tilesheet.drawTiles","openfl/_v2/display/Tilesheet.hx",66,0xeaf30e4d)
 	HX_STACK_THIS(this)
 	HX_STACK_ARG(graphics,"graphics")
 	HX_STACK_ARG(tileData,"tileData")
@@ -132,7 +132,7 @@ int count = __o_count.Default(-1);
 	HX_STACK_ARG(flags,"flags")
 	HX_STACK_ARG(count,"count")
 {
-		HX_STACK_LINE(64)
+		HX_STACK_LINE(66)
 		graphics->drawTiles(hx::ObjectPtr<OBJ_>(this),tileData,smooth,flags,count);
 	}
 return null();
@@ -142,10 +142,10 @@ return null();
 HX_DEFINE_DYNAMIC_FUNC5(Tilesheet_obj,drawTiles,(void))
 
 ::openfl::_v2::geom::Point Tilesheet_obj::getTileCenter( int index){
-	HX_STACK_FRAME("openfl._v2.display.Tilesheet","getTileCenter",0x8f8419df,"openfl._v2.display.Tilesheet.getTileCenter","openfl/_v2/display/Tilesheet.hx",70,0xeaf30e4d)
+	HX_STACK_FRAME("openfl._v2.display.Tilesheet","getTileCenter",0x8f8419df,"openfl._v2.display.Tilesheet.getTileCenter","openfl/_v2/display/Tilesheet.hx",72,0xeaf30e4d)
 	HX_STACK_THIS(this)
 	HX_STACK_ARG(index,"index")
-	HX_STACK_LINE(70)
+	HX_STACK_LINE(72)
 	return this->_tilePoints->__get(index).StaticCast< ::openfl::_v2::geom::Point >();
 }
 
@@ -153,10 +153,10 @@ HX_DEFINE_DYNAMIC_FUNC5(Tilesheet_obj,drawTiles,(void))
 HX_DEFINE_DYNAMIC_FUNC1(Tilesheet_obj,getTileCenter,return )
 
 ::openfl::_v2::geom::Rectangle Tilesheet_obj::getTileRect( int index){
-	HX_STACK_FRAME("openfl._v2.display.Tilesheet","getTileRect",0x176e4aae,"openfl._v2.display.Tilesheet.getTileRect","openfl/_v2/display/Tilesheet.hx",74,0xeaf30e4d)
+	HX_STACK_FRAME("openfl._v2.display.Tilesheet","getTileRect",0x176e4aae,"openfl._v2.display.Tilesheet.getTileRect","openfl/_v2/display/Tilesheet.hx",76,0xeaf30e4d)
 	HX_STACK_THIS(this)
 	HX_STACK_ARG(index,"index")
-	HX_STACK_LINE(74)
+	HX_STACK_LINE(76)
 	return this->_tiles->__get(index).StaticCast< ::openfl::_v2::geom::Rectangle >();
 }
 
@@ -164,10 +164,10 @@ HX_DEFINE_DYNAMIC_FUNC1(Tilesheet_obj,getTileCenter,return )
 HX_DEFINE_DYNAMIC_FUNC1(Tilesheet_obj,getTileRect,return )
 
 ::openfl::_v2::geom::Rectangle Tilesheet_obj::getTileUVs( int index){
-	HX_STACK_FRAME("openfl._v2.display.Tilesheet","getTileUVs",0x71c394c8,"openfl._v2.display.Tilesheet.getTileUVs","openfl/_v2/display/Tilesheet.hx",78,0xeaf30e4d)
+	HX_STACK_FRAME("openfl._v2.display.Tilesheet","getTileUVs",0x71c394c8,"openfl._v2.display.Tilesheet.getTileUVs","openfl/_v2/display/Tilesheet.hx",80,0xeaf30e4d)
 	HX_STACK_THIS(this)
 	HX_STACK_ARG(index,"index")
-	HX_STACK_LINE(78)
+	HX_STACK_LINE(80)
 	return this->_tileUVs->__get(index).StaticCast< ::openfl::_v2::geom::Rectangle >();
 }
 
@@ -183,6 +183,10 @@ int Tilesheet_obj::TILE_RGB;
 int Tilesheet_obj::TILE_ALPHA;
 
 int Tilesheet_obj::TILE_TRANS_2x2;
+
+int Tilesheet_obj::TILE_RECT;
+
+int Tilesheet_obj::TILE_ORIGIN;
 
 int Tilesheet_obj::TILE_BLEND_NORMAL;
 
@@ -314,6 +318,8 @@ static ::String sStaticFields[] = {
 	HX_CSTRING("TILE_RGB"),
 	HX_CSTRING("TILE_ALPHA"),
 	HX_CSTRING("TILE_TRANS_2x2"),
+	HX_CSTRING("TILE_RECT"),
+	HX_CSTRING("TILE_ORIGIN"),
 	HX_CSTRING("TILE_BLEND_NORMAL"),
 	HX_CSTRING("TILE_BLEND_ADD"),
 	HX_CSTRING("TILE_BLEND_MULTIPLY"),
@@ -358,6 +364,8 @@ static void sMarkStatics(HX_MARK_PARAMS) {
 	HX_MARK_MEMBER_NAME(Tilesheet_obj::TILE_RGB,"TILE_RGB");
 	HX_MARK_MEMBER_NAME(Tilesheet_obj::TILE_ALPHA,"TILE_ALPHA");
 	HX_MARK_MEMBER_NAME(Tilesheet_obj::TILE_TRANS_2x2,"TILE_TRANS_2x2");
+	HX_MARK_MEMBER_NAME(Tilesheet_obj::TILE_RECT,"TILE_RECT");
+	HX_MARK_MEMBER_NAME(Tilesheet_obj::TILE_ORIGIN,"TILE_ORIGIN");
 	HX_MARK_MEMBER_NAME(Tilesheet_obj::TILE_BLEND_NORMAL,"TILE_BLEND_NORMAL");
 	HX_MARK_MEMBER_NAME(Tilesheet_obj::TILE_BLEND_ADD,"TILE_BLEND_ADD");
 	HX_MARK_MEMBER_NAME(Tilesheet_obj::TILE_BLEND_MULTIPLY,"TILE_BLEND_MULTIPLY");
@@ -375,6 +383,8 @@ static void sVisitStatics(HX_VISIT_PARAMS) {
 	HX_VISIT_MEMBER_NAME(Tilesheet_obj::TILE_RGB,"TILE_RGB");
 	HX_VISIT_MEMBER_NAME(Tilesheet_obj::TILE_ALPHA,"TILE_ALPHA");
 	HX_VISIT_MEMBER_NAME(Tilesheet_obj::TILE_TRANS_2x2,"TILE_TRANS_2x2");
+	HX_VISIT_MEMBER_NAME(Tilesheet_obj::TILE_RECT,"TILE_RECT");
+	HX_VISIT_MEMBER_NAME(Tilesheet_obj::TILE_ORIGIN,"TILE_ORIGIN");
 	HX_VISIT_MEMBER_NAME(Tilesheet_obj::TILE_BLEND_NORMAL,"TILE_BLEND_NORMAL");
 	HX_VISIT_MEMBER_NAME(Tilesheet_obj::TILE_BLEND_ADD,"TILE_BLEND_ADD");
 	HX_VISIT_MEMBER_NAME(Tilesheet_obj::TILE_BLEND_MULTIPLY,"TILE_BLEND_MULTIPLY");
@@ -409,6 +419,8 @@ void Tilesheet_obj::__boot()
 	TILE_RGB= (int)4;
 	TILE_ALPHA= (int)8;
 	TILE_TRANS_2x2= (int)16;
+	TILE_RECT= (int)32;
+	TILE_ORIGIN= (int)64;
 	TILE_BLEND_NORMAL= (int)0;
 	TILE_BLEND_ADD= (int)65536;
 	TILE_BLEND_MULTIPLY= (int)131072;

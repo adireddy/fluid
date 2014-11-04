@@ -1,5 +1,6 @@
 package com.arm.demo.widgets.menu;
 
+import fluid.events.EventData;
 import fluid.display.FluidGraphics;
 import fluid.geom.FluidRectangle;
 import fluid.display.FluidGraphics;
@@ -35,7 +36,7 @@ class PopoutMenu extends FluidSprite {
 	}
 
 	function _setupOpenButton() {
-		var buttonRect = new FluidRectangle(0, 0, 15, 60);
+		var buttonRect = new FluidRectangle(0, 0, 30, 80);
 		var hitRect = new FluidRectangle(0, 0, 15, 60);
 
 		_openButton = new FluidGraphics();
@@ -44,7 +45,7 @@ class PopoutMenu extends FluidSprite {
 		_openButton.endFill();
 		//_openButton.hitArea = hitRect;
 		_openButton.interactive = true;
-		_openButton.touchBegin = function(data) {};
+		_openButton.touchBegin = _toggleShow;//function(data:EventData) {};
 		_openButton.touchEnd = _toggleShow;
 		_openButton.mouseUp = _toggleShow;
 		_container.addChild(_openButton);
@@ -56,7 +57,7 @@ class PopoutMenu extends FluidSprite {
 		_container.addChild(_menu);
 	}
 
-	function _toggleShow(data:Dynamic) {
+	function _toggleShow(data:EventData) {
 		if (_state == PopoutMenu.STATE_SHOW) hide();
 		else show();
 	}

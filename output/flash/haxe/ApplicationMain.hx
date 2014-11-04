@@ -19,7 +19,7 @@ class ApplicationMain {
 		var display = new NMEPreloader ();
 		
 		preloader = new openfl.display.Preloader (display);
-		preloader.onComplete = start;
+		preloader.onComplete = init;
 		preloader.create (config);
 		
 		#if js
@@ -40,6 +40,33 @@ class ApplicationMain {
 		#if sys
 		Sys.exit (result);
 		#end
+		
+	}
+	
+	
+	public static function init ():Void {
+		
+		var loaded = 0;
+		var total = 0;
+		var library_onLoad = function (_) {
+			
+			loaded++;
+			
+			if (loaded == total) {
+				
+				start ();
+				
+			}
+			
+		}
+		
+		
+		
+		if (loaded == total) {
+			
+			start ();
+			
+		}
 		
 	}
 	

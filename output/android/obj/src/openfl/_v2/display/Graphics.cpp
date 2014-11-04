@@ -51,11 +51,11 @@ namespace display{
 
 Void Graphics_obj::__construct(Dynamic handle)
 {
-HX_STACK_FRAME("openfl._v2.display.Graphics","new",0x320113da,"openfl._v2.display.Graphics.new","openfl/_v2/display/Graphics.hx",29,0xef949733)
+HX_STACK_FRAME("openfl._v2.display.Graphics","new",0x320113da,"openfl._v2.display.Graphics.new","openfl/_v2/display/Graphics.hx",31,0xef949733)
 HX_STACK_THIS(this)
 HX_STACK_ARG(handle,"handle")
 {
-	HX_STACK_LINE(29)
+	HX_STACK_LINE(31)
 	this->__handle = handle;
 }
 ;
@@ -77,13 +77,13 @@ Dynamic Graphics_obj::__Create(hx::DynamicArray inArgs)
 
 Void Graphics_obj::arcTo( Float controlX,Float controlY,Float x,Float y){
 {
-		HX_STACK_FRAME("openfl._v2.display.Graphics","arcTo",0x0fa49667,"openfl._v2.display.Graphics.arcTo","openfl/_v2/display/Graphics.hx",36,0xef949733)
+		HX_STACK_FRAME("openfl._v2.display.Graphics","arcTo",0x0fa49667,"openfl._v2.display.Graphics.arcTo","openfl/_v2/display/Graphics.hx",38,0xef949733)
 		HX_STACK_THIS(this)
 		HX_STACK_ARG(controlX,"controlX")
 		HX_STACK_ARG(controlY,"controlY")
 		HX_STACK_ARG(x,"x")
 		HX_STACK_ARG(y,"y")
-		HX_STACK_LINE(36)
+		HX_STACK_LINE(38)
 		::openfl::_v2::display::Graphics_obj::lime_gfx_arc_to(this->__handle,controlX,controlY,x,y);
 	}
 return null();
@@ -95,14 +95,14 @@ HX_DEFINE_DYNAMIC_FUNC4(Graphics_obj,arcTo,(void))
 Void Graphics_obj::beginBitmapFill( ::openfl::_v2::display::BitmapData bitmap,::openfl::_v2::geom::Matrix matrix,hx::Null< bool >  __o_repeat,hx::Null< bool >  __o_smooth){
 bool repeat = __o_repeat.Default(true);
 bool smooth = __o_smooth.Default(false);
-	HX_STACK_FRAME("openfl._v2.display.Graphics","beginBitmapFill",0x89c95c15,"openfl._v2.display.Graphics.beginBitmapFill","openfl/_v2/display/Graphics.hx",43,0xef949733)
+	HX_STACK_FRAME("openfl._v2.display.Graphics","beginBitmapFill",0x89c95c15,"openfl._v2.display.Graphics.beginBitmapFill","openfl/_v2/display/Graphics.hx",45,0xef949733)
 	HX_STACK_THIS(this)
 	HX_STACK_ARG(bitmap,"bitmap")
 	HX_STACK_ARG(matrix,"matrix")
 	HX_STACK_ARG(repeat,"repeat")
 	HX_STACK_ARG(smooth,"smooth")
 {
-		HX_STACK_LINE(43)
+		HX_STACK_LINE(45)
 		::openfl::_v2::display::Graphics_obj::lime_gfx_begin_bitmap_fill(this->__handle,bitmap->__handle,matrix,repeat,smooth);
 	}
 return null();
@@ -113,12 +113,12 @@ HX_DEFINE_DYNAMIC_FUNC4(Graphics_obj,beginBitmapFill,(void))
 
 Void Graphics_obj::beginFill( int color,hx::Null< Float >  __o_alpha){
 Float alpha = __o_alpha.Default(1.0);
-	HX_STACK_FRAME("openfl._v2.display.Graphics","beginFill",0xad51c846,"openfl._v2.display.Graphics.beginFill","openfl/_v2/display/Graphics.hx",50,0xef949733)
+	HX_STACK_FRAME("openfl._v2.display.Graphics","beginFill",0xad51c846,"openfl._v2.display.Graphics.beginFill","openfl/_v2/display/Graphics.hx",52,0xef949733)
 	HX_STACK_THIS(this)
 	HX_STACK_ARG(color,"color")
 	HX_STACK_ARG(alpha,"alpha")
 {
-		HX_STACK_LINE(50)
+		HX_STACK_LINE(52)
 		::openfl::_v2::display::Graphics_obj::lime_gfx_begin_fill(this->__handle,color,alpha);
 	}
 return null();
@@ -129,7 +129,7 @@ HX_DEFINE_DYNAMIC_FUNC2(Graphics_obj,beginFill,(void))
 
 Void Graphics_obj::beginGradientFill( ::openfl::display::GradientType type,Dynamic colors,Dynamic alphas,Dynamic ratios,::openfl::_v2::geom::Matrix matrix,::openfl::_v2::display::SpreadMethod spreadMethod,::openfl::display::InterpolationMethod interpolationMethod,hx::Null< Float >  __o_focalPointRatio){
 Float focalPointRatio = __o_focalPointRatio.Default(0.0);
-	HX_STACK_FRAME("openfl._v2.display.Graphics","beginGradientFill",0xef29e156,"openfl._v2.display.Graphics.beginGradientFill","openfl/_v2/display/Graphics.hx",55,0xef949733)
+	HX_STACK_FRAME("openfl._v2.display.Graphics","beginGradientFill",0xef29e156,"openfl._v2.display.Graphics.beginGradientFill","openfl/_v2/display/Graphics.hx",57,0xef949733)
 	HX_STACK_THIS(this)
 	HX_STACK_ARG(type,"type")
 	HX_STACK_ARG(colors,"colors")
@@ -140,40 +140,40 @@ Float focalPointRatio = __o_focalPointRatio.Default(0.0);
 	HX_STACK_ARG(interpolationMethod,"interpolationMethod")
 	HX_STACK_ARG(focalPointRatio,"focalPointRatio")
 {
-		HX_STACK_LINE(57)
+		HX_STACK_LINE(59)
 		if (((matrix == null()))){
-			HX_STACK_LINE(59)
+			HX_STACK_LINE(61)
 			::openfl::_v2::geom::Matrix _g = ::openfl::_v2::geom::Matrix_obj::__new(null(),null(),null(),null(),null(),null());		HX_STACK_VAR(_g,"_g");
-			HX_STACK_LINE(59)
+			HX_STACK_LINE(61)
 			matrix = _g;
-			HX_STACK_LINE(60)
+			HX_STACK_LINE(62)
 			matrix->createGradientBox((int)200,(int)200,(int)0,(int)-100,(int)-100);
 		}
-		HX_STACK_LINE(64)
+		HX_STACK_LINE(66)
 		int _g1 = type->__Index();		HX_STACK_VAR(_g1,"_g1");
-		HX_STACK_LINE(64)
+		HX_STACK_LINE(66)
 		int _g2;		HX_STACK_VAR(_g2,"_g2");
-		HX_STACK_LINE(64)
+		HX_STACK_LINE(66)
 		if (((spreadMethod == null()))){
-			HX_STACK_LINE(64)
+			HX_STACK_LINE(66)
 			_g2 = (int)0;
 		}
 		else{
-			HX_STACK_LINE(64)
+			HX_STACK_LINE(66)
 			_g2 = spreadMethod->__Index();
 		}
-		HX_STACK_LINE(64)
+		HX_STACK_LINE(66)
 		int _g3;		HX_STACK_VAR(_g3,"_g3");
-		HX_STACK_LINE(64)
+		HX_STACK_LINE(66)
 		if (((interpolationMethod == null()))){
-			HX_STACK_LINE(64)
+			HX_STACK_LINE(66)
 			_g3 = (int)0;
 		}
 		else{
-			HX_STACK_LINE(64)
+			HX_STACK_LINE(66)
 			_g3 = interpolationMethod->__Index();
 		}
-		HX_STACK_LINE(64)
+		HX_STACK_LINE(66)
 		::openfl::_v2::display::Graphics_obj::lime_gfx_begin_gradient_fill(this->__handle,_g1,colors,alphas,ratios,matrix,_g2,_g3,focalPointRatio);
 	}
 return null();
@@ -184,9 +184,9 @@ HX_DEFINE_DYNAMIC_FUNC8(Graphics_obj,beginGradientFill,(void))
 
 Void Graphics_obj::clear( ){
 {
-		HX_STACK_FRAME("openfl._v2.display.Graphics","clear",0x327c0787,"openfl._v2.display.Graphics.clear","openfl/_v2/display/Graphics.hx",71,0xef949733)
+		HX_STACK_FRAME("openfl._v2.display.Graphics","clear",0x327c0787,"openfl._v2.display.Graphics.clear","openfl/_v2/display/Graphics.hx",73,0xef949733)
 		HX_STACK_THIS(this)
-		HX_STACK_LINE(71)
+		HX_STACK_LINE(73)
 		::openfl::_v2::display::Graphics_obj::lime_gfx_clear(this->__handle);
 	}
 return null();
@@ -197,10 +197,10 @@ HX_DEFINE_DYNAMIC_FUNC0(Graphics_obj,clear,(void))
 
 Void Graphics_obj::copyFrom( ::openfl::_v2::display::Graphics sourceGraphics){
 {
-		HX_STACK_FRAME("openfl._v2.display.Graphics","copyFrom",0x144aee05,"openfl._v2.display.Graphics.copyFrom","openfl/_v2/display/Graphics.hx",78,0xef949733)
+		HX_STACK_FRAME("openfl._v2.display.Graphics","copyFrom",0x144aee05,"openfl._v2.display.Graphics.copyFrom","openfl/_v2/display/Graphics.hx",80,0xef949733)
 		HX_STACK_THIS(this)
 		HX_STACK_ARG(sourceGraphics,"sourceGraphics")
-		HX_STACK_LINE(78)
+		HX_STACK_LINE(80)
 		::openfl::_v2::Lib_obj::notImplemented(HX_CSTRING("Graphics.copyFrom"));
 	}
 return null();
@@ -211,13 +211,13 @@ HX_DEFINE_DYNAMIC_FUNC1(Graphics_obj,copyFrom,(void))
 
 Void Graphics_obj::curveTo( Float controlX,Float controlY,Float anchorX,Float anchorY){
 {
-		HX_STACK_FRAME("openfl._v2.display.Graphics","curveTo",0xf275e884,"openfl._v2.display.Graphics.curveTo","openfl/_v2/display/Graphics.hx",85,0xef949733)
+		HX_STACK_FRAME("openfl._v2.display.Graphics","curveTo",0xf275e884,"openfl._v2.display.Graphics.curveTo","openfl/_v2/display/Graphics.hx",87,0xef949733)
 		HX_STACK_THIS(this)
 		HX_STACK_ARG(controlX,"controlX")
 		HX_STACK_ARG(controlY,"controlY")
 		HX_STACK_ARG(anchorX,"anchorX")
 		HX_STACK_ARG(anchorY,"anchorY")
-		HX_STACK_LINE(85)
+		HX_STACK_LINE(87)
 		::openfl::_v2::display::Graphics_obj::lime_gfx_curve_to(this->__handle,controlX,controlY,anchorX,anchorY);
 	}
 return null();
@@ -228,12 +228,12 @@ HX_DEFINE_DYNAMIC_FUNC4(Graphics_obj,curveTo,(void))
 
 Void Graphics_obj::drawCircle( Float x,Float y,Float radius){
 {
-		HX_STACK_FRAME("openfl._v2.display.Graphics","drawCircle",0x1bac6cfa,"openfl._v2.display.Graphics.drawCircle","openfl/_v2/display/Graphics.hx",92,0xef949733)
+		HX_STACK_FRAME("openfl._v2.display.Graphics","drawCircle",0x1bac6cfa,"openfl._v2.display.Graphics.drawCircle","openfl/_v2/display/Graphics.hx",94,0xef949733)
 		HX_STACK_THIS(this)
 		HX_STACK_ARG(x,"x")
 		HX_STACK_ARG(y,"y")
 		HX_STACK_ARG(radius,"radius")
-		HX_STACK_LINE(92)
+		HX_STACK_LINE(94)
 		::openfl::_v2::display::Graphics_obj::lime_gfx_draw_ellipse(this->__handle,(x - radius),(y - radius),(radius * (int)2),(radius * (int)2));
 	}
 return null();
@@ -244,13 +244,13 @@ HX_DEFINE_DYNAMIC_FUNC3(Graphics_obj,drawCircle,(void))
 
 Void Graphics_obj::drawEllipse( Float x,Float y,Float width,Float height){
 {
-		HX_STACK_FRAME("openfl._v2.display.Graphics","drawEllipse",0x3102d2b4,"openfl._v2.display.Graphics.drawEllipse","openfl/_v2/display/Graphics.hx",99,0xef949733)
+		HX_STACK_FRAME("openfl._v2.display.Graphics","drawEllipse",0x3102d2b4,"openfl._v2.display.Graphics.drawEllipse","openfl/_v2/display/Graphics.hx",101,0xef949733)
 		HX_STACK_THIS(this)
 		HX_STACK_ARG(x,"x")
 		HX_STACK_ARG(y,"y")
 		HX_STACK_ARG(width,"width")
 		HX_STACK_ARG(height,"height")
-		HX_STACK_LINE(99)
+		HX_STACK_LINE(101)
 		::openfl::_v2::display::Graphics_obj::lime_gfx_draw_ellipse(this->__handle,x,y,width,height);
 	}
 return null();
@@ -261,31 +261,31 @@ HX_DEFINE_DYNAMIC_FUNC4(Graphics_obj,drawEllipse,(void))
 
 Void Graphics_obj::drawGraphicsData( Array< ::Dynamic > graphicsData){
 {
-		HX_STACK_FRAME("openfl._v2.display.Graphics","drawGraphicsData",0x0a0d42ff,"openfl._v2.display.Graphics.drawGraphicsData","openfl/_v2/display/Graphics.hx",104,0xef949733)
+		HX_STACK_FRAME("openfl._v2.display.Graphics","drawGraphicsData",0x0a0d42ff,"openfl._v2.display.Graphics.drawGraphicsData","openfl/_v2/display/Graphics.hx",106,0xef949733)
 		HX_STACK_THIS(this)
 		HX_STACK_ARG(graphicsData,"graphicsData")
-		HX_STACK_LINE(106)
-		Dynamic handles = Dynamic( Array_obj<Dynamic>::__new() );		HX_STACK_VAR(handles,"handles");
 		HX_STACK_LINE(108)
+		Dynamic handles = Dynamic( Array_obj<Dynamic>::__new() );		HX_STACK_VAR(handles,"handles");
+		HX_STACK_LINE(110)
 		{
-			HX_STACK_LINE(108)
+			HX_STACK_LINE(110)
 			int _g = (int)0;		HX_STACK_VAR(_g,"_g");
-			HX_STACK_LINE(108)
+			HX_STACK_LINE(110)
 			while((true)){
-				HX_STACK_LINE(108)
+				HX_STACK_LINE(110)
 				if ((!(((_g < graphicsData->length))))){
-					HX_STACK_LINE(108)
+					HX_STACK_LINE(110)
 					break;
 				}
-				HX_STACK_LINE(108)
-				::openfl::_v2::display::IGraphicsData datum = graphicsData->__get(_g).StaticCast< ::openfl::_v2::display::IGraphicsData >();		HX_STACK_VAR(datum,"datum");
-				HX_STACK_LINE(108)
-				++(_g);
 				HX_STACK_LINE(110)
+				::openfl::_v2::display::IGraphicsData datum = graphicsData->__get(_g).StaticCast< ::openfl::_v2::display::IGraphicsData >();		HX_STACK_VAR(datum,"datum");
+				HX_STACK_LINE(110)
+				++(_g);
+				HX_STACK_LINE(112)
 				handles->__Field(HX_CSTRING("push"),true)(datum->__handle);
 			}
 		}
-		HX_STACK_LINE(114)
+		HX_STACK_LINE(116)
 		::openfl::_v2::display::Graphics_obj::lime_gfx_draw_data(this->__handle,handles);
 	}
 return null();
@@ -296,10 +296,10 @@ HX_DEFINE_DYNAMIC_FUNC1(Graphics_obj,drawGraphicsData,(void))
 
 Void Graphics_obj::drawGraphicsDatum( ::openfl::_v2::display::IGraphicsData graphicsDatum){
 {
-		HX_STACK_FRAME("openfl._v2.display.Graphics","drawGraphicsDatum",0xc18d6dfa,"openfl._v2.display.Graphics.drawGraphicsDatum","openfl/_v2/display/Graphics.hx",121,0xef949733)
+		HX_STACK_FRAME("openfl._v2.display.Graphics","drawGraphicsDatum",0xc18d6dfa,"openfl._v2.display.Graphics.drawGraphicsDatum","openfl/_v2/display/Graphics.hx",123,0xef949733)
 		HX_STACK_THIS(this)
 		HX_STACK_ARG(graphicsDatum,"graphicsDatum")
-		HX_STACK_LINE(121)
+		HX_STACK_LINE(123)
 		::openfl::_v2::display::Graphics_obj::lime_gfx_draw_datum(this->__handle,graphicsDatum->__handle);
 	}
 return null();
@@ -311,14 +311,14 @@ HX_DEFINE_DYNAMIC_FUNC1(Graphics_obj,drawGraphicsDatum,(void))
 Void Graphics_obj::drawPoints( Array< Float > xy,Array< int > pointRGBA,hx::Null< int >  __o_defaultRGBA,hx::Null< Float >  __o_size){
 int defaultRGBA = __o_defaultRGBA.Default(-1);
 Float size = __o_size.Default(-1.0);
-	HX_STACK_FRAME("openfl._v2.display.Graphics","drawPoints",0xbccd0d0d,"openfl._v2.display.Graphics.drawPoints","openfl/_v2/display/Graphics.hx",128,0xef949733)
+	HX_STACK_FRAME("openfl._v2.display.Graphics","drawPoints",0xbccd0d0d,"openfl._v2.display.Graphics.drawPoints","openfl/_v2/display/Graphics.hx",130,0xef949733)
 	HX_STACK_THIS(this)
 	HX_STACK_ARG(xy,"xy")
 	HX_STACK_ARG(pointRGBA,"pointRGBA")
 	HX_STACK_ARG(defaultRGBA,"defaultRGBA")
 	HX_STACK_ARG(size,"size")
 {
-		HX_STACK_LINE(128)
+		HX_STACK_LINE(130)
 		::openfl::_v2::display::Graphics_obj::lime_gfx_draw_points(this->__handle,xy,pointRGBA,defaultRGBA,false,size);
 	}
 return null();
@@ -329,13 +329,13 @@ HX_DEFINE_DYNAMIC_FUNC4(Graphics_obj,drawPoints,(void))
 
 Void Graphics_obj::drawRect( Float x,Float y,Float width,Float height){
 {
-		HX_STACK_FRAME("openfl._v2.display.Graphics","drawRect",0xabfad98e,"openfl._v2.display.Graphics.drawRect","openfl/_v2/display/Graphics.hx",135,0xef949733)
+		HX_STACK_FRAME("openfl._v2.display.Graphics","drawRect",0xabfad98e,"openfl._v2.display.Graphics.drawRect","openfl/_v2/display/Graphics.hx",137,0xef949733)
 		HX_STACK_THIS(this)
 		HX_STACK_ARG(x,"x")
 		HX_STACK_ARG(y,"y")
 		HX_STACK_ARG(width,"width")
 		HX_STACK_ARG(height,"height")
-		HX_STACK_LINE(135)
+		HX_STACK_LINE(137)
 		::openfl::_v2::display::Graphics_obj::lime_gfx_draw_rect(this->__handle,x,y,width,height);
 	}
 return null();
@@ -346,7 +346,7 @@ HX_DEFINE_DYNAMIC_FUNC4(Graphics_obj,drawRect,(void))
 
 Void Graphics_obj::drawRoundRect( Float x,Float y,Float width,Float height,Float radiusX,Dynamic radiusY){
 {
-		HX_STACK_FRAME("openfl._v2.display.Graphics","drawRoundRect",0x6ea8e3e8,"openfl._v2.display.Graphics.drawRoundRect","openfl/_v2/display/Graphics.hx",142,0xef949733)
+		HX_STACK_FRAME("openfl._v2.display.Graphics","drawRoundRect",0x6ea8e3e8,"openfl._v2.display.Graphics.drawRoundRect","openfl/_v2/display/Graphics.hx",144,0xef949733)
 		HX_STACK_THIS(this)
 		HX_STACK_ARG(x,"x")
 		HX_STACK_ARG(y,"y")
@@ -354,7 +354,7 @@ Void Graphics_obj::drawRoundRect( Float x,Float y,Float width,Float height,Float
 		HX_STACK_ARG(height,"height")
 		HX_STACK_ARG(radiusX,"radiusX")
 		HX_STACK_ARG(radiusY,"radiusY")
-		HX_STACK_LINE(142)
+		HX_STACK_LINE(144)
 		::openfl::_v2::display::Graphics_obj::lime_gfx_draw_round_rect(this->__handle,x,y,width,height,radiusX,(  (((radiusY == null()))) ? Dynamic(radiusX) : Dynamic(radiusY) ));
 	}
 return null();
@@ -365,7 +365,7 @@ HX_DEFINE_DYNAMIC_FUNC6(Graphics_obj,drawRoundRect,(void))
 
 Void Graphics_obj::drawRoundRectComplex( Float x,Float y,Float width,Float height,Float topLeftRadius,Float topRightRadius,Float bottomLeftRadius,Float bottomRightRadius){
 {
-		HX_STACK_FRAME("openfl._v2.display.Graphics","drawRoundRectComplex",0x18037728,"openfl._v2.display.Graphics.drawRoundRectComplex","openfl/_v2/display/Graphics.hx",149,0xef949733)
+		HX_STACK_FRAME("openfl._v2.display.Graphics","drawRoundRectComplex",0x18037728,"openfl._v2.display.Graphics.drawRoundRectComplex","openfl/_v2/display/Graphics.hx",151,0xef949733)
 		HX_STACK_THIS(this)
 		HX_STACK_ARG(x,"x")
 		HX_STACK_ARG(y,"y")
@@ -375,7 +375,7 @@ Void Graphics_obj::drawRoundRectComplex( Float x,Float y,Float width,Float heigh
 		HX_STACK_ARG(topRightRadius,"topRightRadius")
 		HX_STACK_ARG(bottomLeftRadius,"bottomLeftRadius")
 		HX_STACK_ARG(bottomRightRadius,"bottomRightRadius")
-		HX_STACK_LINE(149)
+		HX_STACK_LINE(151)
 		::openfl::_v2::Lib_obj::notImplemented(HX_CSTRING("Graphics.drawRoundRectComplex"));
 	}
 return null();
@@ -386,12 +386,12 @@ HX_DEFINE_DYNAMIC_FUNC8(Graphics_obj,drawRoundRectComplex,(void))
 
 Void Graphics_obj::drawPath( Array< int > commands,Array< Float > data,::openfl::display::GraphicsPathWinding winding){
 {
-		HX_STACK_FRAME("openfl._v2.display.Graphics","drawPath",0xaaa5720f,"openfl._v2.display.Graphics.drawPath","openfl/_v2/display/Graphics.hx",156,0xef949733)
+		HX_STACK_FRAME("openfl._v2.display.Graphics","drawPath",0xaaa5720f,"openfl._v2.display.Graphics.drawPath","openfl/_v2/display/Graphics.hx",158,0xef949733)
 		HX_STACK_THIS(this)
 		HX_STACK_ARG(commands,"commands")
 		HX_STACK_ARG(data,"data")
 		HX_STACK_ARG(winding,"winding")
-		HX_STACK_LINE(156)
+		HX_STACK_LINE(158)
 		::openfl::_v2::display::Graphics_obj::lime_gfx_draw_path(this->__handle,commands,data,(winding == ::openfl::display::GraphicsPathWinding_obj::EVEN_ODD));
 	}
 return null();
@@ -404,7 +404,7 @@ Void Graphics_obj::drawTiles( ::openfl::_v2::display::Tilesheet sheet,Array< Flo
 bool smooth = __o_smooth.Default(false);
 int flags = __o_flags.Default(0);
 int count = __o_count.Default(-1);
-	HX_STACK_FRAME("openfl._v2.display.Graphics","drawTiles",0xf8fc4ddb,"openfl._v2.display.Graphics.drawTiles","openfl/_v2/display/Graphics.hx",161,0xef949733)
+	HX_STACK_FRAME("openfl._v2.display.Graphics","drawTiles",0xf8fc4ddb,"openfl._v2.display.Graphics.drawTiles","openfl/_v2/display/Graphics.hx",163,0xef949733)
 	HX_STACK_THIS(this)
 	HX_STACK_ARG(sheet,"sheet")
 	HX_STACK_ARG(data,"data")
@@ -412,14 +412,14 @@ int count = __o_count.Default(-1);
 	HX_STACK_ARG(flags,"flags")
 	HX_STACK_ARG(count,"count")
 {
-		HX_STACK_LINE(163)
-		this->beginBitmapFill(sheet->__bitmap,null(),false,smooth);
 		HX_STACK_LINE(165)
+		this->beginBitmapFill(sheet->__bitmap,null(),false,smooth);
+		HX_STACK_LINE(167)
 		if ((smooth)){
-			HX_STACK_LINE(167)
+			HX_STACK_LINE(169)
 			hx::OrEq(flags,(int)4096);
 		}
-		HX_STACK_LINE(171)
+		HX_STACK_LINE(173)
 		::openfl::_v2::display::Graphics_obj::lime_gfx_draw_tiles(this->__handle,sheet->__handle,data,flags,count);
 	}
 return null();
@@ -430,7 +430,7 @@ HX_DEFINE_DYNAMIC_FUNC5(Graphics_obj,drawTiles,(void))
 
 Void Graphics_obj::drawTriangles( Array< Float > vertices,Array< int > indices,Array< Float > uvtData,::openfl::_v2::display::TriangleCulling culling,Array< int > colors,hx::Null< int >  __o_blendMode){
 int blendMode = __o_blendMode.Default(0);
-	HX_STACK_FRAME("openfl._v2.display.Graphics","drawTriangles",0x6a666401,"openfl._v2.display.Graphics.drawTriangles","openfl/_v2/display/Graphics.hx",176,0xef949733)
+	HX_STACK_FRAME("openfl._v2.display.Graphics","drawTriangles",0x6a666401,"openfl._v2.display.Graphics.drawTriangles","openfl/_v2/display/Graphics.hx",177,0xef949733)
 	HX_STACK_THIS(this)
 	HX_STACK_ARG(vertices,"vertices")
 	HX_STACK_ARG(indices,"indices")
@@ -439,20 +439,20 @@ int blendMode = __o_blendMode.Default(0);
 	HX_STACK_ARG(colors,"colors")
 	HX_STACK_ARG(blendMode,"blendMode")
 {
-		HX_STACK_LINE(178)
+		HX_STACK_LINE(179)
 		int cull;		HX_STACK_VAR(cull,"cull");
-		HX_STACK_LINE(178)
+		HX_STACK_LINE(179)
 		if (((culling == null()))){
-			HX_STACK_LINE(178)
+			HX_STACK_LINE(179)
 			cull = (int)0;
 		}
 		else{
-			HX_STACK_LINE(178)
+			HX_STACK_LINE(179)
 			int _g = culling->__Index();		HX_STACK_VAR(_g,"_g");
-			HX_STACK_LINE(178)
+			HX_STACK_LINE(179)
 			cull = (_g - (int)1);
 		}
-		HX_STACK_LINE(179)
+		HX_STACK_LINE(180)
 		::openfl::_v2::display::Graphics_obj::lime_gfx_draw_triangles(this->__handle,vertices,indices,uvtData,cull,colors,blendMode);
 	}
 return null();
@@ -463,9 +463,9 @@ HX_DEFINE_DYNAMIC_FUNC6(Graphics_obj,drawTriangles,(void))
 
 Void Graphics_obj::endFill( ){
 {
-		HX_STACK_FRAME("openfl._v2.display.Graphics","endFill",0x49ce1078,"openfl._v2.display.Graphics.endFill","openfl/_v2/display/Graphics.hx",186,0xef949733)
+		HX_STACK_FRAME("openfl._v2.display.Graphics","endFill",0x49ce1078,"openfl._v2.display.Graphics.endFill","openfl/_v2/display/Graphics.hx",187,0xef949733)
 		HX_STACK_THIS(this)
-		HX_STACK_LINE(186)
+		HX_STACK_LINE(187)
 		::openfl::_v2::display::Graphics_obj::lime_gfx_end_fill(this->__handle);
 	}
 return null();
@@ -477,14 +477,14 @@ HX_DEFINE_DYNAMIC_FUNC0(Graphics_obj,endFill,(void))
 Void Graphics_obj::lineBitmapStyle( ::openfl::_v2::display::BitmapData bitmap,::openfl::_v2::geom::Matrix matrix,hx::Null< bool >  __o_repeat,hx::Null< bool >  __o_smooth){
 bool repeat = __o_repeat.Default(true);
 bool smooth = __o_smooth.Default(false);
-	HX_STACK_FRAME("openfl._v2.display.Graphics","lineBitmapStyle",0x64e2d1a8,"openfl._v2.display.Graphics.lineBitmapStyle","openfl/_v2/display/Graphics.hx",193,0xef949733)
+	HX_STACK_FRAME("openfl._v2.display.Graphics","lineBitmapStyle",0x64e2d1a8,"openfl._v2.display.Graphics.lineBitmapStyle","openfl/_v2/display/Graphics.hx",194,0xef949733)
 	HX_STACK_THIS(this)
 	HX_STACK_ARG(bitmap,"bitmap")
 	HX_STACK_ARG(matrix,"matrix")
 	HX_STACK_ARG(repeat,"repeat")
 	HX_STACK_ARG(smooth,"smooth")
 {
-		HX_STACK_LINE(193)
+		HX_STACK_LINE(194)
 		::openfl::_v2::display::Graphics_obj::lime_gfx_line_bitmap_fill(this->__handle,bitmap->__handle,matrix,repeat,smooth);
 	}
 return null();
@@ -495,7 +495,7 @@ HX_DEFINE_DYNAMIC_FUNC4(Graphics_obj,lineBitmapStyle,(void))
 
 Void Graphics_obj::lineGradientStyle( ::openfl::display::GradientType type,Dynamic colors,Dynamic alphas,Dynamic ratios,::openfl::_v2::geom::Matrix matrix,::openfl::_v2::display::SpreadMethod spreadMethod,::openfl::display::InterpolationMethod interpolationMethod,hx::Null< Float >  __o_focalPointRatio){
 Float focalPointRatio = __o_focalPointRatio.Default(0.0);
-	HX_STACK_FRAME("openfl._v2.display.Graphics","lineGradientStyle",0x8318c987,"openfl._v2.display.Graphics.lineGradientStyle","openfl/_v2/display/Graphics.hx",198,0xef949733)
+	HX_STACK_FRAME("openfl._v2.display.Graphics","lineGradientStyle",0x8318c987,"openfl._v2.display.Graphics.lineGradientStyle","openfl/_v2/display/Graphics.hx",199,0xef949733)
 	HX_STACK_THIS(this)
 	HX_STACK_ARG(type,"type")
 	HX_STACK_ARG(colors,"colors")
@@ -506,40 +506,40 @@ Float focalPointRatio = __o_focalPointRatio.Default(0.0);
 	HX_STACK_ARG(interpolationMethod,"interpolationMethod")
 	HX_STACK_ARG(focalPointRatio,"focalPointRatio")
 {
-		HX_STACK_LINE(200)
+		HX_STACK_LINE(201)
 		if (((matrix == null()))){
-			HX_STACK_LINE(202)
-			::openfl::_v2::geom::Matrix _g = ::openfl::_v2::geom::Matrix_obj::__new(null(),null(),null(),null(),null(),null());		HX_STACK_VAR(_g,"_g");
-			HX_STACK_LINE(202)
-			matrix = _g;
 			HX_STACK_LINE(203)
+			::openfl::_v2::geom::Matrix _g = ::openfl::_v2::geom::Matrix_obj::__new(null(),null(),null(),null(),null(),null());		HX_STACK_VAR(_g,"_g");
+			HX_STACK_LINE(203)
+			matrix = _g;
+			HX_STACK_LINE(204)
 			matrix->createGradientBox((int)200,(int)200,(int)0,(int)-100,(int)-100);
 		}
-		HX_STACK_LINE(207)
+		HX_STACK_LINE(208)
 		int _g1 = type->__Index();		HX_STACK_VAR(_g1,"_g1");
-		HX_STACK_LINE(207)
+		HX_STACK_LINE(208)
 		int _g2;		HX_STACK_VAR(_g2,"_g2");
-		HX_STACK_LINE(207)
+		HX_STACK_LINE(208)
 		if (((spreadMethod == null()))){
-			HX_STACK_LINE(207)
+			HX_STACK_LINE(208)
 			_g2 = (int)0;
 		}
 		else{
-			HX_STACK_LINE(207)
+			HX_STACK_LINE(208)
 			_g2 = spreadMethod->__Index();
 		}
-		HX_STACK_LINE(207)
+		HX_STACK_LINE(208)
 		int _g3;		HX_STACK_VAR(_g3,"_g3");
-		HX_STACK_LINE(207)
+		HX_STACK_LINE(208)
 		if (((interpolationMethod == null()))){
-			HX_STACK_LINE(207)
+			HX_STACK_LINE(208)
 			_g3 = (int)0;
 		}
 		else{
-			HX_STACK_LINE(207)
+			HX_STACK_LINE(208)
 			_g3 = interpolationMethod->__Index();
 		}
-		HX_STACK_LINE(207)
+		HX_STACK_LINE(208)
 		::openfl::_v2::display::Graphics_obj::lime_gfx_line_gradient_fill(this->__handle,_g1,colors,alphas,ratios,matrix,_g2,_g3,focalPointRatio);
 	}
 return null();
@@ -553,7 +553,7 @@ int color = __o_color.Default(0);
 Float alpha = __o_alpha.Default(1.0);
 bool pixelHinting = __o_pixelHinting.Default(false);
 Float miterLimit = __o_miterLimit.Default(3);
-	HX_STACK_FRAME("openfl._v2.display.Graphics","lineStyle",0xebd4c397,"openfl._v2.display.Graphics.lineStyle","openfl/_v2/display/Graphics.hx",212,0xef949733)
+	HX_STACK_FRAME("openfl._v2.display.Graphics","lineStyle",0xebd4c397,"openfl._v2.display.Graphics.lineStyle","openfl/_v2/display/Graphics.hx",213,0xef949733)
 	HX_STACK_THIS(this)
 	HX_STACK_ARG(thickness,"thickness")
 	HX_STACK_ARG(color,"color")
@@ -564,40 +564,40 @@ Float miterLimit = __o_miterLimit.Default(3);
 	HX_STACK_ARG(joints,"joints")
 	HX_STACK_ARG(miterLimit,"miterLimit")
 {
-		HX_STACK_LINE(214)
+		HX_STACK_LINE(215)
 		int _g;		HX_STACK_VAR(_g,"_g");
-		HX_STACK_LINE(214)
+		HX_STACK_LINE(215)
 		if (((scaleMode == null()))){
-			HX_STACK_LINE(214)
+			HX_STACK_LINE(215)
 			_g = (int)0;
 		}
 		else{
-			HX_STACK_LINE(214)
+			HX_STACK_LINE(215)
 			_g = scaleMode->__Index();
 		}
-		HX_STACK_LINE(214)
+		HX_STACK_LINE(215)
 		int _g1;		HX_STACK_VAR(_g1,"_g1");
-		HX_STACK_LINE(214)
+		HX_STACK_LINE(215)
 		if (((caps == null()))){
-			HX_STACK_LINE(214)
+			HX_STACK_LINE(215)
 			_g1 = (int)0;
 		}
 		else{
-			HX_STACK_LINE(214)
+			HX_STACK_LINE(215)
 			_g1 = caps->__Index();
 		}
-		HX_STACK_LINE(214)
+		HX_STACK_LINE(215)
 		int _g2;		HX_STACK_VAR(_g2,"_g2");
-		HX_STACK_LINE(214)
+		HX_STACK_LINE(215)
 		if (((joints == null()))){
-			HX_STACK_LINE(214)
+			HX_STACK_LINE(215)
 			_g2 = (int)0;
 		}
 		else{
-			HX_STACK_LINE(214)
+			HX_STACK_LINE(215)
 			_g2 = joints->__Index();
 		}
-		HX_STACK_LINE(214)
+		HX_STACK_LINE(215)
 		::openfl::_v2::display::Graphics_obj::lime_gfx_line_style(this->__handle,thickness,color,alpha,pixelHinting,_g,_g1,_g2,miterLimit);
 	}
 return null();
@@ -608,11 +608,11 @@ HX_DEFINE_DYNAMIC_FUNC8(Graphics_obj,lineStyle,(void))
 
 Void Graphics_obj::lineTo( Float x,Float y){
 {
-		HX_STACK_FRAME("openfl._v2.display.Graphics","lineTo",0xdf02eb55,"openfl._v2.display.Graphics.lineTo","openfl/_v2/display/Graphics.hx",221,0xef949733)
+		HX_STACK_FRAME("openfl._v2.display.Graphics","lineTo",0xdf02eb55,"openfl._v2.display.Graphics.lineTo","openfl/_v2/display/Graphics.hx",222,0xef949733)
 		HX_STACK_THIS(this)
 		HX_STACK_ARG(x,"x")
 		HX_STACK_ARG(y,"y")
-		HX_STACK_LINE(221)
+		HX_STACK_LINE(222)
 		::openfl::_v2::display::Graphics_obj::lime_gfx_line_to(this->__handle,x,y);
 	}
 return null();
@@ -623,11 +623,11 @@ HX_DEFINE_DYNAMIC_FUNC2(Graphics_obj,lineTo,(void))
 
 Void Graphics_obj::moveTo( Float x,Float y){
 {
-		HX_STACK_FRAME("openfl._v2.display.Graphics","moveTo",0xbf0f77b2,"openfl._v2.display.Graphics.moveTo","openfl/_v2/display/Graphics.hx",228,0xef949733)
+		HX_STACK_FRAME("openfl._v2.display.Graphics","moveTo",0xbf0f77b2,"openfl._v2.display.Graphics.moveTo","openfl/_v2/display/Graphics.hx",229,0xef949733)
 		HX_STACK_THIS(this)
 		HX_STACK_ARG(x,"x")
 		HX_STACK_ARG(y,"y")
-		HX_STACK_LINE(228)
+		HX_STACK_LINE(229)
 		::openfl::_v2::display::Graphics_obj::lime_gfx_move_to(this->__handle,x,y);
 	}
 return null();
@@ -646,6 +646,10 @@ int Graphics_obj::TILE_ALPHA;
 
 int Graphics_obj::TILE_TRANS_2x2;
 
+int Graphics_obj::TILE_RECT;
+
+int Graphics_obj::TILE_ORIGIN;
+
 int Graphics_obj::TILE_SMOOTH;
 
 int Graphics_obj::TILE_BLEND_NORMAL;
@@ -654,11 +658,11 @@ int Graphics_obj::TILE_BLEND_ADD;
 
 int Graphics_obj::RGBA( int rgb,hx::Null< int >  __o_alpha){
 int alpha = __o_alpha.Default(255);
-	HX_STACK_FRAME("openfl._v2.display.Graphics","RGBA",0x7c575ffa,"openfl._v2.display.Graphics.RGBA","openfl/_v2/display/Graphics.hx",235,0xef949733)
+	HX_STACK_FRAME("openfl._v2.display.Graphics","RGBA",0x7c575ffa,"openfl._v2.display.Graphics.RGBA","openfl/_v2/display/Graphics.hx",236,0xef949733)
 	HX_STACK_ARG(rgb,"rgb")
 	HX_STACK_ARG(alpha,"alpha")
 {
-		HX_STACK_LINE(235)
+		HX_STACK_LINE(236)
 		return (int(rgb) | int((int(alpha) << int((int)24))));
 	}
 }
@@ -894,6 +898,8 @@ static ::String sStaticFields[] = {
 	HX_CSTRING("TILE_RGB"),
 	HX_CSTRING("TILE_ALPHA"),
 	HX_CSTRING("TILE_TRANS_2x2"),
+	HX_CSTRING("TILE_RECT"),
+	HX_CSTRING("TILE_ORIGIN"),
 	HX_CSTRING("TILE_SMOOTH"),
 	HX_CSTRING("TILE_BLEND_NORMAL"),
 	HX_CSTRING("TILE_BLEND_ADD"),
@@ -963,6 +969,8 @@ static void sMarkStatics(HX_MARK_PARAMS) {
 	HX_MARK_MEMBER_NAME(Graphics_obj::TILE_RGB,"TILE_RGB");
 	HX_MARK_MEMBER_NAME(Graphics_obj::TILE_ALPHA,"TILE_ALPHA");
 	HX_MARK_MEMBER_NAME(Graphics_obj::TILE_TRANS_2x2,"TILE_TRANS_2x2");
+	HX_MARK_MEMBER_NAME(Graphics_obj::TILE_RECT,"TILE_RECT");
+	HX_MARK_MEMBER_NAME(Graphics_obj::TILE_ORIGIN,"TILE_ORIGIN");
 	HX_MARK_MEMBER_NAME(Graphics_obj::TILE_SMOOTH,"TILE_SMOOTH");
 	HX_MARK_MEMBER_NAME(Graphics_obj::TILE_BLEND_NORMAL,"TILE_BLEND_NORMAL");
 	HX_MARK_MEMBER_NAME(Graphics_obj::TILE_BLEND_ADD,"TILE_BLEND_ADD");
@@ -997,6 +1005,8 @@ static void sVisitStatics(HX_VISIT_PARAMS) {
 	HX_VISIT_MEMBER_NAME(Graphics_obj::TILE_RGB,"TILE_RGB");
 	HX_VISIT_MEMBER_NAME(Graphics_obj::TILE_ALPHA,"TILE_ALPHA");
 	HX_VISIT_MEMBER_NAME(Graphics_obj::TILE_TRANS_2x2,"TILE_TRANS_2x2");
+	HX_VISIT_MEMBER_NAME(Graphics_obj::TILE_RECT,"TILE_RECT");
+	HX_VISIT_MEMBER_NAME(Graphics_obj::TILE_ORIGIN,"TILE_ORIGIN");
 	HX_VISIT_MEMBER_NAME(Graphics_obj::TILE_SMOOTH,"TILE_SMOOTH");
 	HX_VISIT_MEMBER_NAME(Graphics_obj::TILE_BLEND_NORMAL,"TILE_BLEND_NORMAL");
 	HX_VISIT_MEMBER_NAME(Graphics_obj::TILE_BLEND_ADD,"TILE_BLEND_ADD");
@@ -1048,6 +1058,8 @@ void Graphics_obj::__boot()
 	TILE_RGB= (int)4;
 	TILE_ALPHA= (int)8;
 	TILE_TRANS_2x2= (int)16;
+	TILE_RECT= (int)32;
+	TILE_ORIGIN= (int)64;
 	TILE_SMOOTH= (int)4096;
 	TILE_BLEND_NORMAL= (int)0;
 	TILE_BLEND_ADD= (int)65536;

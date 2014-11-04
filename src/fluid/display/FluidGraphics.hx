@@ -118,4 +118,19 @@ class FluidGraphics extends #if !js openfl.display.Sprite #else pixi.primitives.
 		#if js return super.drawRoundedRect(x, y, w, h, r);
 		#else this.graphics.drawRoundRectComplex(x, y, w, h, r, r, r, r); #end
 	}
+
+	#if js override #end public function lineStyle(lineWidth:Float, ?color:UInt = 0, ?alpha:Float = 1)#if js :pixi.primitives.Graphics #end {
+		#if js return super.lineStyle(lineWidth, color, alpha);
+		#else this.graphics.lineStyle(lineWidth, color, alpha); #end
+	}
+
+	#if js override #end public function lineTo(x:Float, y:Float)#if js :pixi.primitives.Graphics #end {
+		#if js return super.lineTo(x, y);
+		#else this.graphics.lineTo(x, y); #end
+	}
+
+	#if js override #end public function moveTo(x:Float, y:Float)#if js :pixi.primitives.Graphics #end {
+		#if js return super.moveTo(x, y);
+		#else this.graphics.moveTo(x, y); #end
+	}
 }
