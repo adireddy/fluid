@@ -1,5 +1,6 @@
 package com.arm.demo;
 
+import fluid.display.FluidStage;
 import com.arm.demo.widgets.Button;
 import com.arm.demo.controller.DemoController;
 import com.arm.demo.model.DemoModel;
@@ -7,7 +8,6 @@ import com.arm.demo.comms.DemoCommsController;
 import com.arm.demo.view.DemoView;
 
 import fluid.text.FluidText;
-import fluid.StageProperties;
 import fluid.display.FluidSprite;
 import fluid.FluidAssets;
 import fluid.Fluid;
@@ -41,8 +41,8 @@ class Main extends Application {
 		_setupMVCS();
 
 		_minX = _minY = 0;
-		_maxX = StageProperties.screenWidth;
-		_maxY = StageProperties.screenHeight;
+		_maxX = FluidStage.screenWidth;
+		_maxY = FluidStage.screenHeight;
 		_sprites = [];
 
 		var _background = new FluidGraphics();
@@ -68,10 +68,11 @@ class Main extends Application {
 	}
 
 	function _setupMVCS() {
-		view = new DemoView(stage, container);
+		view = new DemoView(container);
 		comms = new DemoCommsController();
 		model = new DemoModel();
 		controller = new DemoController(model, view, comms);
+		controller.setupComponents();
 	}
 
 	/*function _addBunnys(count:Int) {
@@ -133,8 +134,8 @@ class Main extends Application {
 	}*/
 
 	function _onRresize() {
-		_maxX = StageProperties.screenWidth;
-		_maxY = StageProperties.screenHeight;
+		_maxX = FluidStage.screenWidth;
+		_maxY = FluidStage.screenHeight;
 	}
 
 	#if js

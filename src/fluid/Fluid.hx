@@ -1,5 +1,8 @@
 package fluid;
 
+import fluid.display.FluidStage;
+import fluid.display.FluidSprite;
+
 class Fluid #if !js extends openfl.display.Sprite #end {
 
 	@:noCompletion var _canvas:Dynamic;
@@ -29,53 +32,50 @@ class Fluid #if !js extends openfl.display.Sprite #end {
 	public var update:Float -> Void;
 	public var resize:Void -> Void;
 
-	#if js
-		public var stage(default, default):pixi.display.Stage;
-		public var container(default, default):pixi.display.DisplayObjectContainer;
-		private var _stats:fluid.utils.StatsJS;
-	#else
-		public var container(default, default):openfl.display.Sprite;
-		var _stats:openfl.display.FPS;
-	#end
+	@:noCompletion private var _fluidStage:FluidStage;
+
+	public var container(default, null):FluidSprite;
+	#if js private var _stats:fluid.utils.StatsJS;
+	#else var _stats:openfl.display.FPS; #end
 
 	public function new() {
 		_lastTime = Date.now();
 		_setStageProperties();
 		#if js
 			_canvas = js.Browser.document.createCanvasElement();
-	        _canvas.style.width = StageProperties.screenWidth + "px";
-	        _canvas.style.height = StageProperties.screenHeight + "px";
+	        _canvas.style.width = FluidStage.screenWidth + "px";
+	        _canvas.style.height = FluidStage.screenHeight + "px";
 	        js.Browser.document.body.appendChild(_canvas);
 
-	        stage = new pixi.display.Stage(backgroundColor);
-	        container = new pixi.display.DisplayObjectContainer();
-	        stage.addChild(container);
-	        stage.mousedown = _fluidOnMouseDown;
-	        stage.mouseout = _fluidOnMouseOut;
-	        stage.mouseover = _fluidOnMouseOver;
-	        stage.mouseup = _fluidOnMouseUp;
-	        stage.click = _fluidOnMouseClick;
-	        stage.rightclick = _fluidOnRightClick;
-	        stage.rightdown = _fluidOnRightMouseDown;
-	        stage.rightup = _fluidOnRightMouseUp;
-	        stage.touchstart = _fluidOnTouchBegin;
-	        stage.touchend = _fluidOnTouchEnd;
-	        stage.touchendoutside = _fluidOnTouchOut;
-	        //stage.mouseupoutside = _fluidOnMouseDown;
-	        //stage.rightupoutside = _fluidOnMouseDown;
+	        _fluidStage = new FluidStage(backgroundColor);
+	        container = new FluidSprite();
+	        _fluidStage.addChild(container);
+	        _fluidStage.mousedown = _fluidOnMouseDown;
+	        _fluidStage.mouseout = _fluidOnMouseOut;
+	        _fluidStage.mouseover = _fluidOnMouseOver;
+	        _fluidStage.mouseup = _fluidOnMouseUp;
+	        _fluidStage.click = _fluidOnMouseClick;
+	        _fluidStage.rightclick = _fluidOnRightClick;
+	        _fluidStage.rightdown = _fluidOnRightMouseDown;
+	        _fluidStage.rightup = _fluidOnRightMouseUp;
+	        _fluidStage.touchstart = _fluidOnTouchBegin;
+	        _fluidStage.touchend = _fluidOnTouchEnd;
+	        _fluidStage.touchendoutside = _fluidOnTouchOut;
+	        //_fluidStage.mouseupoutside = _fluidOnMouseDown;
+	        //_fluidStage.rightupoutside = _fluidOnMouseDown;
 
 	        var renderingOptions = new pixi.utils.Detector.RenderingOptions();
 		    renderingOptions.view = _canvas;
-		    renderingOptions.resolution = StageProperties.pixelRatio;
+		    renderingOptions.resolution = FluidStage.pixelRatio;
 
-	        _renderer = pixi.utils.Detector.autoDetectRenderer(StageProperties.screenWidth, StageProperties.screenHeight, renderingOptions);
+	        _renderer = pixi.utils.Detector.autoDetectRenderer(FluidStage.screenWidth, FluidStage.screenHeight, renderingOptions);
 	        js.Browser.document.body.appendChild(_renderer.view);
 	        js.Browser.window.onresize = _fluidOnResize;
 	        js.Browser.window.requestAnimationFrame(cast _fluidOnUpdate);
 	        _lastTime = Date.now();
 		#else
 			super();
-			container = new openfl.display.Sprite();
+			container = new FluidSprite();
 			stage.addEventListener(openfl.events.Event.ENTER_FRAME, _fluidOnEnterFrame);
 			stage.addEventListener(openfl.events.Event.RESIZE, _fluidOnResize);
 			stage.addEventListener(openfl.events.MouseEvent.MOUSE_DOWN, _fluidOnMouseDown);
@@ -94,14 +94,14 @@ class Fluid #if !js extends openfl.display.Sprite #end {
 	}
 
 	function _setStageProperties() {
-		StageProperties.pixelRatio = #if js js.Browser.window.devicePixelRatio; #else (openfl.system.Capabilities.screenDPI < 300) ? 1 : 2; #end
-		StageProperties.screenWidth = #if js js.Browser.window.innerWidth; #else stage.stageWidth; #end
-		StageProperties.screenHeight = #if js js.Browser.window.innerHeight; #else stage.stageHeight; #end
-		StageProperties.orientation = (StageProperties.screenWidth > StageProperties.screenHeight) ? StageProperties.LANDSCAPE : StageProperties.PORTRAIT;
+		FluidStage.pixelRatio = #if js js.Browser.window.devicePixelRatio; #else (openfl.system.Capabilities.screenDPI < 300) ? 1 : 2; #end
+		FluidStage.screenWidth = #if js js.Browser.window.innerWidth; #else stage.stageWidth; #end
+		FluidStage.screenHeight = #if js js.Browser.window.innerHeight; #else stage.stageHeight; #end
+		FluidStage.orientation = (FluidStage.screenWidth > FluidStage.screenHeight) ? FluidStage.LANDSCAPE : FluidStage.PORTRAIT;
 	}
 
 	@:noCompletion function set_backgroundColor(clr:UInt):UInt {
-		#if js stage.setBackgroundColor(clr); #else stage.color = clr; #end
+		#if js _fluidStage.setBackgroundColor(clr); #else stage.color = clr; #end
 		return backgroundColor = clr;
 	}
 
@@ -132,7 +132,7 @@ class Fluid #if !js extends openfl.display.Sprite #end {
 			_fluidFrameSkip = true;
 			_fluidCalculateElapsedTime();
 			if (update != null) update(_elapsedTime);
-			#if js _renderer.render(stage); #end
+			#if js _renderer.render(_fluidStage); #end
 		}
 		#if js
 			js.Browser.window.requestAnimationFrame(cast _fluidOnUpdate);
@@ -149,7 +149,7 @@ class Fluid #if !js extends openfl.display.Sprite #end {
 	@:noCompletion function _fluidOnResize(event) {
 		_setStageProperties();
 		#if !js
-			if (stats) _stats.x = StageProperties.screenWidth - 50;
+			if (stats) _stats.x = FluidStage.screenWidth - 50;
 		#end
 		if (resize != null) resize();
 	}
@@ -167,7 +167,7 @@ class Fluid #if !js extends openfl.display.Sprite #end {
 				_stats.begin();
 			#else
 				_stats = new openfl.display.FPS();
-				_stats.x = StageProperties.screenWidth - 50;
+				_stats.x = FluidStage.screenWidth - 50;
 				addChild(_stats);
 			#end
 		}

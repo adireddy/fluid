@@ -1,33 +1,47 @@
 package com.arm.demo.controller;
 
-import arm.mvc.controller.Controller;
+import com.arm.demo.comms.DemoCommsController;
 import com.arm.demo.view.DemoView;
 import com.arm.demo.model.DemoModel;
 
-//import com.arm.demo.components.menu.MenuController;
-//import com.arm.demo.components.menu.MenuView;
+import com.arm.demo.components.menu.MenuController;
+import com.arm.demo.components.menu.MenuView;
 
-class DemoController extends Controller {
+class DemoController {
 
-	var _view:DemoView;
+	public var model(default, default):DemoModel;
+	public var view(default, default):DemoView;
+	public var comms(default, default):DemoCommsController;
 
-	public function new(m, v, c) {
-		_view = cast(v, DemoView);
-		super(m, v, c);
+	public function new(m:DemoModel, v:DemoView, c:DemoCommsController) {
+		model = m;
+		view = v;
+		comms = c;
+
+		_addNotificationListeners();
+		_addViewListeners();
 	}
 
-	function _getMainModel():DemoModel {
-		return cast(model, DemoModel);
+	private function _addNotificationListeners():Void {}
+	private function _addViewListeners():Void {}
+
+	public function reset():Void {
+		if (view != null) view.reset();
+		if (model != null) model.reset();
+		if (comms != null) comms.reset();
+		model = null;
+		view = null;
+		comms = null;
 	}
 
-	override function _setupComponents() {
-		//_setupMenuComponent();
+	public function setupComponents() {
+		_setupMenuComponent();
 		//_setupScreenGuideComponent();
 		//_setupBunnymarkComponent();
 	}
 
-	/*function _setupMenuComponent() {
-		var menuView:MenuView = new MenuView(_view.gameStage, _view.gameContainer);
-		var menuController:MenuController = new MenuController(null, menuView, comms, _getMainModel());
-	}*/
+	function _setupMenuComponent() {
+		var menuView:MenuView = new MenuView(view.container);
+		var menuController:MenuController = new MenuController(null, menuView, comms, model);
+	}
 }

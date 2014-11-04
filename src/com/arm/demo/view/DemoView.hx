@@ -1,26 +1,24 @@
 package com.arm.demo.view;
 
-import arm.mvc.view.View;
+import fluid.display.FluidSprite;
 
-import fluid.display.FluidStage;
-import fluid.display.FluidDisplayObjectContainer;
+class DemoView {
 
-class DemoView extends View {
+	@:isVar public var container(get, set):FluidSprite;
 
-	//public var gameStage(default, default):FluidStage;
-	//public var gameContainer(default, default):FluidDisplayObjectContainer;
-
-	public function new(stage, ?container) {
-		super(stage, container);
-		//gameStage = cast(stage, FluidStage);
-		//gameContainer = cast(container, FluidDisplayObjectContainer);
+	public function new(container:FluidSprite) {
+		this.container = container;
 	}
 
-	/*override function get_stage():FluidStage {
-		return cast(stage, FluidStage);
+	private function get_container():FluidSprite {
+		return container;
 	}
 
-	override function get_container():FluidDisplayObjectContainer {
-		return cast(container, FluidDisplayObjectContainer);
-	}*/
+	private function set_container(container):FluidSprite {
+		return this.container = container;
+	}
+
+	public function reset():Void {
+		container = null;
+	}
 }
