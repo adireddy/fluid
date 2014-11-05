@@ -7,6 +7,7 @@
 
 #include <com/arm/demo/view/DemoView.h>
 HX_DECLARE_CLASS4(com,arm,demo,components,GameComponentView)
+HX_DECLARE_CLASS5(com,arm,demo,components,bunnymark,Bunny)
 HX_DECLARE_CLASS4(com,arm,demo,view,DemoView)
 HX_DECLARE_CLASS2(fluid,display,FluidSprite)
 HX_DECLARE_CLASS3(openfl,_v2,display,DisplayObject)
@@ -42,7 +43,7 @@ class HXCPP_CLASS_ATTRIBUTES  GameComponentView_obj : public ::com::arm::demo::v
 		static void __register();
 		::String __ToString() const { return HX_CSTRING("GameComponentView"); }
 
-		virtual Void _applyScale( Dynamic item);
+		virtual Void _applyScale( ::com::arm::demo::components::bunnymark::Bunny item);
 		Dynamic _applyScale_dyn();
 
 };

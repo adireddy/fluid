@@ -7,6 +7,9 @@ import com.arm.demo.model.DemoModel;
 import com.arm.demo.components.menu.MenuController;
 import com.arm.demo.components.menu.MenuView;
 
+import com.arm.demo.components.bunnymark.BunnymarkController;
+import com.arm.demo.components.bunnymark.BunnymarkView;
+
 class DemoController {
 
 	public var model(default, default):DemoModel;
@@ -37,7 +40,12 @@ class DemoController {
 	public function setupComponents() {
 		_setupMenuComponent();
 		//_setupScreenGuideComponent();
-		//_setupBunnymarkComponent();
+		_setupBunnymarkComponent();
+	}
+
+	function _setupBunnymarkComponent() {
+		var bunnymarkView:BunnymarkView = new BunnymarkView(view.container);
+		var bunnymarkController:BunnymarkController = new BunnymarkController(null, bunnymarkView, comms, model);
 	}
 
 	function _setupMenuComponent() {

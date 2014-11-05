@@ -21,11 +21,10 @@ class Button extends FluidSprite {
 
 	var _enabled:Bool;
 
-	public var action:Signal1<Dynamic>;
+	public var action:Signal1<Dynamic> = new Signal1(Dynamic);
 
 	public function new(label:String, width:Float, height:Float, ?data:Dynamic, ?fontSize:Int) {
 		super();
-		action = new Signal1(Dynamic);
 		_data = data;
 		_setupBackground(width, height);
 		_setupLabel(width, height, fontSize);

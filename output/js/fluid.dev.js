@@ -71,6 +71,9 @@ Std.__name__ = true;
 Std.string = function(s) {
 	return js.Boot.__string_rec(s,"");
 };
+Std.random = function(x) {
+	if(x <= 0) return 0; else return Math.floor(Math.random() * x);
+};
 var Type = function() { };
 Type.__name__ = true;
 Type.createInstance = function(cl,args) {
@@ -226,6 +229,120 @@ com.arm.demo.Application.__super__ = fluid.Fluid;
 com.arm.demo.Application.prototype = $extend(fluid.Fluid.prototype,{
 	__class__: com.arm.demo.Application
 });
+com.arm.demo.Main = function() {
+	com.arm.demo.Application.call(this);
+	this.set_stats(true);
+	this.set_backgroundColor(12515201);
+	this.skipFrame = true;
+	this.resize = $bind(this,this._onResize);
+	this.update = $bind(this,this._onUpdate);
+	this._setupMVCS();
+};
+com.arm.demo.Main.__name__ = true;
+com.arm.demo.Main.main = function() {
+	new com.arm.demo.Main();
+};
+com.arm.demo.Main.__super__ = com.arm.demo.Application;
+com.arm.demo.Main.prototype = $extend(com.arm.demo.Application.prototype,{
+	_setupMVCS: function() {
+		this.view = new com.arm.demo.view.DemoView(this.container);
+		this.comms = new com.arm.demo.comms.DemoCommsController();
+		this.model = new com.arm.demo.model.DemoModel();
+		this.controller = new com.arm.demo.controller.DemoController(this.model,this.view,this.comms);
+		this.controller.setupComponents();
+	}
+	,_onUpdate: function(time) {
+		com.arm.demo.notifications.internal.ViewStateNotification.update.dispatch(time);
+	}
+	,_onResize: function() {
+		com.arm.demo.notifications.internal.ViewStateNotification.resize.dispatch();
+	}
+	,__class__: com.arm.demo.Main
+});
+com.arm.demo.comms = {};
+com.arm.demo.comms.DemoCommsController = function() {
+};
+com.arm.demo.comms.DemoCommsController.__name__ = true;
+com.arm.demo.comms.DemoCommsController.prototype = {
+	__class__: com.arm.demo.comms.DemoCommsController
+};
+com.arm.demo.controller = {};
+com.arm.demo.controller.DemoController = function(m,v,c) {
+	this.model = m;
+	this.view = v;
+	this.comms = c;
+	this._addNotificationListeners();
+	this._addViewListeners();
+};
+com.arm.demo.controller.DemoController.__name__ = true;
+com.arm.demo.controller.DemoController.prototype = {
+	_addNotificationListeners: function() {
+	}
+	,_addViewListeners: function() {
+	}
+	,setupComponents: function() {
+		this._setupMenuComponent();
+		this._setupBunnymarkComponent();
+	}
+	,_setupBunnymarkComponent: function() {
+		var bunnymarkView = new com.arm.demo.components.bunnymark.BunnymarkView(this.view.get_container());
+		var bunnymarkController = new com.arm.demo.components.bunnymark.BunnymarkController(null,bunnymarkView,this.comms,this.model);
+	}
+	,_setupMenuComponent: function() {
+		var menuView = new com.arm.demo.components.menu.MenuView(this.view.get_container());
+		var menuController = new com.arm.demo.components.menu.MenuController(null,menuView,this.comms,this.model);
+	}
+	,__class__: com.arm.demo.controller.DemoController
+};
+com.arm.demo.components = {};
+com.arm.demo.components.GameComponentController = function(m,v,c,mm) {
+	com.arm.demo.controller.DemoController.call(this,m,v,c);
+	this.mainModel = mm;
+};
+com.arm.demo.components.GameComponentController.__name__ = true;
+com.arm.demo.components.GameComponentController.__super__ = com.arm.demo.controller.DemoController;
+com.arm.demo.components.GameComponentController.prototype = $extend(com.arm.demo.controller.DemoController.prototype,{
+	_addNotificationListeners: function() {
+		com.arm.demo.notifications.internal.ViewStateNotification.preload.addOnce($bind(this,this._preload));
+		com.arm.demo.notifications.internal.ViewStateNotification.create.addOnce($bind(this,this._create));
+		com.arm.demo.notifications.internal.ViewStateNotification.update.add($bind(this,this._update));
+		com.arm.demo.notifications.internal.ViewStateNotification.resize.add($bind(this,this._resize));
+	}
+	,_preload: function() {
+	}
+	,_create: function() {
+	}
+	,_update: function(elapsedTime) {
+	}
+	,_resize: function() {
+	}
+	,__class__: com.arm.demo.components.GameComponentController
+});
+com.arm.demo.view = {};
+com.arm.demo.view.DemoView = function(container) {
+	this.set_container(container);
+};
+com.arm.demo.view.DemoView.__name__ = true;
+com.arm.demo.view.DemoView.prototype = {
+	get_container: function() {
+		return this.container;
+	}
+	,set_container: function(container) {
+		return this.container = container;
+	}
+	,__class__: com.arm.demo.view.DemoView
+	,__properties__: {set_container:"set_container",get_container:"get_container"}
+};
+com.arm.demo.components.GameComponentView = function(container) {
+	com.arm.demo.view.DemoView.call(this,container);
+};
+com.arm.demo.components.GameComponentView.__name__ = true;
+com.arm.demo.components.GameComponentView.__super__ = com.arm.demo.view.DemoView;
+com.arm.demo.components.GameComponentView.prototype = $extend(com.arm.demo.view.DemoView.prototype,{
+	_applyScale: function(item) {
+	}
+	,__class__: com.arm.demo.components.GameComponentView
+});
 fluid.display = {};
 fluid.display.FluidSprite = function(texture) {
 	PIXI.DisplayObjectContainer.call(this);
@@ -300,121 +417,186 @@ fluid.display.FluidSprite.prototype = $extend(PIXI.DisplayObjectContainer.protot
 	}
 	,__class__: fluid.display.FluidSprite
 });
-com.arm.demo.Bunny = function() { };
-com.arm.demo.Bunny.__name__ = true;
-com.arm.demo.Bunny.__super__ = fluid.display.FluidSprite;
-com.arm.demo.Bunny.prototype = $extend(fluid.display.FluidSprite.prototype,{
-	__class__: com.arm.demo.Bunny
+com.arm.demo.components.bunnymark = {};
+com.arm.demo.components.bunnymark.Bunny = function(texture) {
+	fluid.display.FluidSprite.call(this,texture);
+};
+com.arm.demo.components.bunnymark.Bunny.__name__ = true;
+com.arm.demo.components.bunnymark.Bunny.__super__ = fluid.display.FluidSprite;
+com.arm.demo.components.bunnymark.Bunny.prototype = $extend(fluid.display.FluidSprite.prototype,{
+	__class__: com.arm.demo.components.bunnymark.Bunny
 });
-com.arm.demo.Main = function() {
-	com.arm.demo.Application.call(this);
-	this.set_stats(true);
-	this.set_backgroundColor(13421772);
-	this.skipFrame = true;
-	this.resize = $bind(this,this._onRresize);
-	this._setupMVCS();
+com.arm.demo.components.bunnymark.BunnymarkController = function(m,v,c,mainModel) {
+	this._showing = false;
+	this._id = 4;
+	com.arm.demo.components.GameComponentController.call(this,m,v,c,mainModel);
+	this._view = js.Boot.__cast(v , com.arm.demo.components.bunnymark.BunnymarkView);
+};
+com.arm.demo.components.bunnymark.BunnymarkController.__name__ = true;
+com.arm.demo.components.bunnymark.BunnymarkController.__super__ = com.arm.demo.components.GameComponentController;
+com.arm.demo.components.bunnymark.BunnymarkController.prototype = $extend(com.arm.demo.components.GameComponentController.prototype,{
+	_update: function(elapsedTime) {
+		if(this._showing) this._view.update(elapsedTime);
+	}
+	,_resize: function() {
+		if(this._showing) this._view.resize();
+	}
+	,_addNotificationListeners: function() {
+		com.arm.demo.components.GameComponentController.prototype._addNotificationListeners.call(this);
+		com.arm.demo.notifications.internal.MenuNotification.click.add($bind(this,this._onMenuClick));
+		com.arm.demo.notifications.internal.MenuNotification.reset.add($bind(this,this._reset));
+	}
+	,_reset: function() {
+		if(this._showing) {
+			this._view.hide();
+			this._showing = false;
+		}
+	}
+	,_onMenuClick: function(id) {
+		if(id == this._id) {
+			if(!this._showing) this._view.show();
+			this._showing = true;
+		}
+	}
+	,__class__: com.arm.demo.components.bunnymark.BunnymarkController
+});
+com.arm.demo.components.bunnymark.BunnymarkView = function(container) {
+	com.arm.demo.components.GameComponentView.call(this,container);
 	this._minX = this._minY = 0;
 	this._maxX = fluid.display.FluidStage.screenWidth;
 	this._maxY = fluid.display.FluidStage.screenHeight;
-	this._sprites = [];
 };
-com.arm.demo.Main.__name__ = true;
-com.arm.demo.Main.main = function() {
-	new com.arm.demo.Main();
-};
-com.arm.demo.Main.__super__ = com.arm.demo.Application;
-com.arm.demo.Main.prototype = $extend(com.arm.demo.Application.prototype,{
-	_setupMVCS: function() {
-		this.view = new com.arm.demo.view.DemoView(this.container);
-		this.comms = new com.arm.demo.comms.DemoCommsController();
-		this.model = new com.arm.demo.model.DemoModel();
-		this.controller = new com.arm.demo.controller.DemoController(this.model,this.view,this.comms);
-		this.controller.setupComponents();
+com.arm.demo.components.bunnymark.BunnymarkView.__name__ = true;
+com.arm.demo.components.bunnymark.BunnymarkView.__super__ = com.arm.demo.components.GameComponentView;
+com.arm.demo.components.bunnymark.BunnymarkView.prototype = $extend(com.arm.demo.components.GameComponentView.prototype,{
+	show: function() {
+		this._bunnyTexture = fluid.FluidAssets.getImage("assets/bunny.png");
+		this._sprites = [];
+		this._buttons = [];
+		this._spriteContainer = new fluid.display.FluidSprite();
+		this._uiContainer = new fluid.display.FluidSprite();
+		this._addButton("Reset",0,0,100,30,$bind(this,this._reset));
+		this._addButton("Scale",100,0,100,30,$bind(this,this._scale));
+		this._addButton("Rotation",200,0,100,30,$bind(this,this._rotation));
+		this._addButton("Add 10",0,30,100,30,$bind(this,this._addBunnys),10);
+		this._addButton("Add 100",100,30,100,30,$bind(this,this._addBunnys),100);
+		this._addButton("Add 500",200,30,100,30,$bind(this,this._addBunnys),500);
+		this._addButton("Add 1000",0,60,100,30,$bind(this,this._addBunnys),1000);
+		this._addButton("Add 5000",100,60,100,30,$bind(this,this._addBunnys),5000);
+		this._addButton("Add 10000",200,60,100,30,$bind(this,this._addBunnys),10000);
+		this._quantityLabel = new com.arm.demo.widgets.Label("",300,24);
+		this._quantityLabel.y = 90;
+		this._uiContainer.addChild(this._quantityLabel);
+		this._uiContainer.x = (fluid.display.FluidStage.screenWidth - 300) / 2;
+		this._uiContainer.y = 20;
+		this._updateQuanityLabel();
+		this.get_container().addChild(this._spriteContainer);
+		this.get_container().addChild(this._uiContainer);
 	}
-	,_onRresize: function() {
+	,_addButton: function(label,x,y,width,height,callback,data) {
+		var button = new com.arm.demo.widgets.Button(label,width,height,data);
+		button.x = x;
+		button.y = y;
+		button.action.add(callback);
+		button.enable();
+		this._buttons.push(button);
+		this._uiContainer.addChild(button);
+	}
+	,_updateQuanityLabel: function() {
+		this._quantityLabel.setText("Quantity: " + this._sprites.length);
+	}
+	,_reset: function() {
+		var _g1 = 0;
+		var _g = this._sprites.length;
+		while(_g1 < _g) {
+			var i = _g1++;
+			this._spriteContainer.removeChild(this._sprites[i]);
+		}
+		this._sprites = [];
+		this._isScale = false;
+		this._isRotation = false;
+		this._updateQuanityLabel();
+	}
+	,_scale: function() {
+		this._isScale = !this._isScale;
+	}
+	,_rotation: function() {
+		this._isRotation = !this._isRotation;
+	}
+	,_addBunnys: function(count) {
+		var _g = 0;
+		while(_g < count) {
+			var i = _g++;
+			var bunny = new com.arm.demo.components.bunnymark.Bunny(this._bunnyTexture);
+			this._spriteContainer.addChild(bunny);
+			bunny.x = Std.random(fluid.display.FluidStage.screenWidth | 0);
+			bunny.y = Std.random(fluid.display.FluidStage.screenHeight | 0);
+			bunny.speedX = Math.random() * 16 + 2;
+			bunny.speedY = Math.random() * 16 - 10;
+			bunny.rotationSpeed = Math.random() / 50 + 0.01;
+			bunny.scaleSpeed = Math.random() / 50 + 0.01;
+			this._sprites.push(bunny);
+			this._applyScale(bunny);
+		}
+		this._updateQuanityLabel();
+	}
+	,update: function(elapsedTime) {
+		var _g1 = 0;
+		var _g = this._sprites.length;
+		while(_g1 < _g) {
+			var i = _g1++;
+			var bunny = this._sprites[i];
+			bunny.x += bunny.speedX;
+			bunny.y += bunny.speedY;
+			bunny.speedY += 4.75;
+			if(bunny.x > this._maxX) {
+				bunny.speedX *= -1;
+				bunny.x = this._maxX;
+			} else if(bunny.x < this._minX) {
+				bunny.speedX *= -1;
+				bunny.x = this._minX;
+			}
+			if(bunny.y > this._maxY) {
+				bunny.speedY *= -0.90;
+				bunny.y = this._maxY;
+				if(Math.random() > 0.5) bunny.speedY -= Math.random() * 6;
+			} else if(bunny.y < this._minY) {
+				bunny.speedY = 0;
+				bunny.y = this._minY;
+			}
+			if(this._isScale) {
+			}
+			if(this._isRotation) bunny.rotation += bunny.rotationSpeed;
+		}
+	}
+	,resize: function() {
 		this._maxX = fluid.display.FluidStage.screenWidth;
 		this._maxY = fluid.display.FluidStage.screenHeight;
 	}
-	,__class__: com.arm.demo.Main
-});
-com.arm.demo.comms = {};
-com.arm.demo.comms.DemoCommsController = function() {
-};
-com.arm.demo.comms.DemoCommsController.__name__ = true;
-com.arm.demo.comms.DemoCommsController.prototype = {
-	__class__: com.arm.demo.comms.DemoCommsController
-};
-com.arm.demo.controller = {};
-com.arm.demo.controller.DemoController = function(m,v,c) {
-	this.model = m;
-	this.view = v;
-	this.comms = c;
-	this._addNotificationListeners();
-	this._addViewListeners();
-};
-com.arm.demo.controller.DemoController.__name__ = true;
-com.arm.demo.controller.DemoController.prototype = {
-	_addNotificationListeners: function() {
+	,hide: function() {
+		this._reset();
+		var _g1 = 0;
+		var _g = this._buttons.length;
+		while(_g1 < _g) {
+			var i = _g1++;
+			var button = this._buttons[i];
+			button.disable();
+			this._uiContainer.removeChild(button);
+			this._buttons[i] = null;
+		}
+		this._isScale = false;
+		this._isRotation = false;
+		this._uiContainer.removeChild(this._quantityLabel);
+		this.get_container().removeChild(this._spriteContainer);
+		this.get_container().removeChild(this._uiContainer);
+		this._spriteContainer = null;
+		this._uiContainer = null;
+		this._quantityLabel = null;
+		this._buttons = null;
+		this._sprites = null;
+		this._bunnyTexture = null;
 	}
-	,_addViewListeners: function() {
-	}
-	,setupComponents: function() {
-		this._setupMenuComponent();
-	}
-	,_setupMenuComponent: function() {
-		var menuView = new com.arm.demo.components.menu.MenuView(this.view.get_container());
-		var menuController = new com.arm.demo.components.menu.MenuController(null,menuView,this.comms,this.model);
-	}
-	,__class__: com.arm.demo.controller.DemoController
-};
-com.arm.demo.components = {};
-com.arm.demo.components.GameComponentController = function(m,v,c,mm) {
-	com.arm.demo.controller.DemoController.call(this,m,v,c);
-	this.mainModel = mm;
-};
-com.arm.demo.components.GameComponentController.__name__ = true;
-com.arm.demo.components.GameComponentController.__super__ = com.arm.demo.controller.DemoController;
-com.arm.demo.components.GameComponentController.prototype = $extend(com.arm.demo.controller.DemoController.prototype,{
-	_addNotificationListeners: function() {
-		com.arm.demo.notifications.internal.ViewStateNotification.preload.addOnce($bind(this,this._preload));
-		com.arm.demo.notifications.internal.ViewStateNotification.create.addOnce($bind(this,this._create));
-		com.arm.demo.notifications.internal.ViewStateNotification.update.add($bind(this,this._update));
-		com.arm.demo.notifications.internal.ViewStateNotification.resize.add($bind(this,this._resize));
-	}
-	,_preload: function() {
-	}
-	,_create: function() {
-	}
-	,_update: function(elapsedTime) {
-	}
-	,_resize: function() {
-		this.mainModel = null;
-		com.arm.demo.notifications.internal.ViewStateNotification.reset();
-	}
-	,__class__: com.arm.demo.components.GameComponentController
-});
-com.arm.demo.view = {};
-com.arm.demo.view.DemoView = function(container) {
-	this.set_container(container);
-};
-com.arm.demo.view.DemoView.__name__ = true;
-com.arm.demo.view.DemoView.prototype = {
-	get_container: function() {
-		return this.container;
-	}
-	,set_container: function(container) {
-		return this.container = container;
-	}
-	,__class__: com.arm.demo.view.DemoView
-	,__properties__: {set_container:"set_container",get_container:"get_container"}
-};
-com.arm.demo.components.GameComponentView = function(container) {
-	com.arm.demo.view.DemoView.call(this,container);
-};
-com.arm.demo.components.GameComponentView.__name__ = true;
-com.arm.demo.components.GameComponentView.__super__ = com.arm.demo.view.DemoView;
-com.arm.demo.components.GameComponentView.prototype = $extend(com.arm.demo.view.DemoView.prototype,{
-	__class__: com.arm.demo.components.GameComponentView
+	,__class__: com.arm.demo.components.bunnymark.BunnymarkView
 });
 com.arm.demo.components.menu = {};
 com.arm.demo.components.menu.MenuController = function(m,v,c,mainModel) {
@@ -486,9 +668,6 @@ msignal.Signal.prototype = {
 		if(slot == null) return null;
 		this.slots = this.slots.filterNot(listener);
 		return slot;
-	}
-	,removeAll: function() {
-		this.slots = msignal.SlotList.NIL;
 	}
 	,registerListener: function(listener,once,priority) {
 		if(priority == null) priority = 0;
@@ -622,19 +801,10 @@ com.arm.demo.notifications.internal.MenuNotification = function() { };
 com.arm.demo.notifications.internal.MenuNotification.__name__ = true;
 com.arm.demo.notifications.internal.ViewStateNotification = function() { };
 com.arm.demo.notifications.internal.ViewStateNotification.__name__ = true;
-com.arm.demo.notifications.internal.ViewStateNotification.reset = function() {
-	com.arm.demo.notifications.internal.ViewStateNotification.preloader.removeAll();
-	com.arm.demo.notifications.internal.ViewStateNotification.preloaderProgress.removeAll();
-	com.arm.demo.notifications.internal.ViewStateNotification.preload.removeAll();
-	com.arm.demo.notifications.internal.ViewStateNotification.create.removeAll();
-	com.arm.demo.notifications.internal.ViewStateNotification.update.removeAll();
-	com.arm.demo.notifications.internal.ViewStateNotification.destroy.removeAll();
-	com.arm.demo.notifications.internal.ViewStateNotification.resize.removeAll();
-};
 com.arm.demo.widgets = {};
 com.arm.demo.widgets.Button = function(label,width,height,data,fontSize) {
-	fluid.display.FluidSprite.call(this);
 	this.action = new msignal.Signal1(Dynamic);
+	fluid.display.FluidSprite.call(this);
 	this._data = data;
 	this._setupBackground(width,height);
 	this._setupLabel(width,height,fontSize);
@@ -718,6 +888,42 @@ com.arm.demo.widgets.Button.prototype = $extend(fluid.display.FluidSprite.protot
 		this._enabled = false;
 	}
 	,__class__: com.arm.demo.widgets.Button
+});
+com.arm.demo.widgets.Label = function(label,width,height,style) {
+	fluid.display.FluidSprite.call(this);
+	this._format = new fluid.text.FluidTextFormat();
+	this._format.size = 16;
+	this._format.font = "Arial";
+	this._format.fill = "#333333";
+	this._setupBackground(width,height);
+	this._setupLabel(width,height);
+	this.setText(label);
+};
+com.arm.demo.widgets.Label.__name__ = true;
+com.arm.demo.widgets.Label.__super__ = fluid.display.FluidSprite;
+com.arm.demo.widgets.Label.prototype = $extend(fluid.display.FluidSprite.prototype,{
+	_setupBackground: function(width,height) {
+		this._rect = new fluid.geom.FluidRectangle(0,0,width,height);
+		this._background = new fluid.display.FluidGraphics();
+		this._background.beginFill(3355443);
+		this._background.drawRect(this._rect.x,this._rect.y,this._rect.width,this._rect.height);
+		this._background.endFill();
+		this._background.beginFill(16777215);
+		this._background.drawRect(this._rect.x + 1,this._rect.y + 1,this._rect.width - 2,this._rect.height - 2);
+		this._background.endFill();
+		this.addChild(this._background);
+	}
+	,_setupLabel: function(width,height) {
+		this._label = new fluid.text.FluidText("",this._format);
+		this._label.setAnchor(0.5);
+		this._label.x = width / 2;
+		this._label.y = 4;
+		this.addChild(this._label);
+	}
+	,setText: function(label) {
+		this._label.setText(label);
+	}
+	,__class__: com.arm.demo.widgets.Label
 });
 com.arm.demo.widgets.menu = {};
 com.arm.demo.widgets.menu.Menu = function(itemWidth,itemHeight) {
@@ -884,6 +1090,11 @@ com.arm.demo.widgets.menu.PopoutMenu.prototype = $extend(fluid.display.FluidSpri
 	}
 	,__class__: com.arm.demo.widgets.menu.PopoutMenu
 });
+fluid.FluidAssets = function() { };
+fluid.FluidAssets.__name__ = true;
+fluid.FluidAssets.getImage = function(url) {
+	return PIXI.Texture.fromImage(url);
+};
 fluid.display.FluidGraphics = function() {
 	PIXI.Graphics.call(this);
 	this.mousedown = $bind(this,this._fluidOnMouseDown);
@@ -999,6 +1210,8 @@ fluid.text.FluidText.__name__ = true;
 fluid.text.FluidText.__super__ = PIXI.Text;
 fluid.text.FluidText.prototype = $extend(PIXI.Text.prototype,{
 	setText: function(value) {
+		this.__width = this.width;
+		this.__height = this.height;
 		PIXI.Text.prototype.setText.call(this,value);
 	}
 	,setFormat: function(format) {
@@ -1013,8 +1226,8 @@ fluid.text.FluidText.prototype = $extend(PIXI.Text.prototype,{
 		PIXI.Text.prototype.setStyle.call(this,tf);
 	}
 	,setAnchor: function(ax,ay) {
-		if(ay == null) ay = 0.5;
-		if(ax == null) ax = 0.5;
+		if(ay == null) ay = 0;
+		if(ax == null) ax = 0;
 		this.anchor.set(ax,ay);
 	}
 	,__class__: fluid.text.FluidText
@@ -1928,12 +2141,9 @@ var Enum = { };
 msignal.SlotList.NIL = new msignal.SlotList(null,null);
 com.arm.demo.notifications.internal.MenuNotification.click = new msignal.Signal1(Int);
 com.arm.demo.notifications.internal.MenuNotification.reset = new msignal.Signal0();
-com.arm.demo.notifications.internal.ViewStateNotification.preloader = new msignal.Signal0();
-com.arm.demo.notifications.internal.ViewStateNotification.preloaderProgress = new msignal.Signal0();
 com.arm.demo.notifications.internal.ViewStateNotification.preload = new msignal.Signal0();
 com.arm.demo.notifications.internal.ViewStateNotification.create = new msignal.Signal0();
 com.arm.demo.notifications.internal.ViewStateNotification.update = new msignal.Signal1(Float);
-com.arm.demo.notifications.internal.ViewStateNotification.destroy = new msignal.Signal0();
 com.arm.demo.notifications.internal.ViewStateNotification.resize = new msignal.Signal0();
 fluid.display.FluidStage.pixelRatio = 1;
 fluid.display.FluidStage.screenWidth = 800;

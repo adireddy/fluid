@@ -177,6 +177,7 @@
 #include <com/arm/demo/widgets/menu/PopoutMenu.h>
 #include <com/arm/demo/widgets/menu/MenuItem.h>
 #include <com/arm/demo/widgets/menu/Menu.h>
+#include <com/arm/demo/widgets/Label.h>
 #include <com/arm/demo/widgets/Button.h>
 #include <com/arm/demo/notifications/internal/ViewStateNotification.h>
 #include <com/arm/demo/notifications/internal/MenuNotification.h>
@@ -187,13 +188,15 @@
 #include <com/arm/demo/model/DemoModel.h>
 #include <com/arm/demo/components/menu/MenuView.h>
 #include <com/arm/demo/components/menu/MenuController.h>
+#include <com/arm/demo/components/bunnymark/BunnymarkView.h>
+#include <com/arm/demo/components/bunnymark/BunnymarkController.h>
+#include <com/arm/demo/components/bunnymark/Bunny.h>
+#include <fluid/display/FluidSprite.h>
 #include <com/arm/demo/components/GameComponentView.h>
 #include <com/arm/demo/view/DemoView.h>
 #include <com/arm/demo/components/GameComponentController.h>
 #include <com/arm/demo/controller/DemoController.h>
 #include <com/arm/demo/comms/DemoCommsController.h>
-#include <com/arm/demo/Bunny.h>
-#include <fluid/display/FluidSprite.h>
 #include <Type.h>
 #include <StringTools.h>
 #include <StringBuf.h>
@@ -410,6 +413,7 @@ hx::RegisterResources( hx::GetResources() );
 ::com::arm::demo::widgets::menu::PopoutMenu_obj::__register();
 ::com::arm::demo::widgets::menu::MenuItem_obj::__register();
 ::com::arm::demo::widgets::menu::Menu_obj::__register();
+::com::arm::demo::widgets::Label_obj::__register();
 ::com::arm::demo::widgets::Button_obj::__register();
 ::com::arm::demo::notifications::internal::ViewStateNotification_obj::__register();
 ::com::arm::demo::notifications::internal::MenuNotification_obj::__register();
@@ -420,13 +424,15 @@ hx::RegisterResources( hx::GetResources() );
 ::com::arm::demo::model::DemoModel_obj::__register();
 ::com::arm::demo::components::menu::MenuView_obj::__register();
 ::com::arm::demo::components::menu::MenuController_obj::__register();
+::com::arm::demo::components::bunnymark::BunnymarkView_obj::__register();
+::com::arm::demo::components::bunnymark::BunnymarkController_obj::__register();
+::com::arm::demo::components::bunnymark::Bunny_obj::__register();
+::fluid::display::FluidSprite_obj::__register();
 ::com::arm::demo::components::GameComponentView_obj::__register();
 ::com::arm::demo::view::DemoView_obj::__register();
 ::com::arm::demo::components::GameComponentController_obj::__register();
 ::com::arm::demo::controller::DemoController_obj::__register();
 ::com::arm::demo::comms::DemoCommsController_obj::__register();
-::com::arm::demo::Bunny_obj::__register();
-::fluid::display::FluidSprite_obj::__register();
 ::Type_obj::__register();
 ::StringTools_obj::__register();
 ::StringBuf_obj::__register();
@@ -497,13 +503,15 @@ hx::RegisterResources( hx::GetResources() );
 ::StringBuf_obj::__boot();
 ::StringTools_obj::__boot();
 ::Type_obj::__boot();
-::fluid::display::FluidSprite_obj::__boot();
-::com::arm::demo::Bunny_obj::__boot();
 ::com::arm::demo::comms::DemoCommsController_obj::__boot();
 ::com::arm::demo::controller::DemoController_obj::__boot();
 ::com::arm::demo::components::GameComponentController_obj::__boot();
 ::com::arm::demo::view::DemoView_obj::__boot();
 ::com::arm::demo::components::GameComponentView_obj::__boot();
+::fluid::display::FluidSprite_obj::__boot();
+::com::arm::demo::components::bunnymark::Bunny_obj::__boot();
+::com::arm::demo::components::bunnymark::BunnymarkController_obj::__boot();
+::com::arm::demo::components::bunnymark::BunnymarkView_obj::__boot();
 ::com::arm::demo::components::menu::MenuController_obj::__boot();
 ::com::arm::demo::components::menu::MenuView_obj::__boot();
 ::com::arm::demo::model::DemoModel_obj::__boot();
@@ -514,6 +522,7 @@ hx::RegisterResources( hx::GetResources() );
 ::com::arm::demo::notifications::internal::MenuNotification_obj::__boot();
 ::com::arm::demo::notifications::internal::ViewStateNotification_obj::__boot();
 ::com::arm::demo::widgets::Button_obj::__boot();
+::com::arm::demo::widgets::Label_obj::__boot();
 ::com::arm::demo::widgets::menu::Menu_obj::__boot();
 ::com::arm::demo::widgets::menu::MenuItem_obj::__boot();
 ::com::arm::demo::widgets::menu::PopoutMenu_obj::__boot();

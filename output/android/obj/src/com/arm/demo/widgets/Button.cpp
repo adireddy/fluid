@@ -64,7 +64,7 @@ namespace widgets{
 
 Void Button_obj::__construct(::String label,Float width,Float height,Dynamic data,Dynamic fontSize)
 {
-HX_STACK_FRAME("com.arm.demo.widgets.Button","new",0x0ba9bc8f,"com.arm.demo.widgets.Button.new","com/arm/demo/widgets/Button.hx",26,0x40a93681)
+HX_STACK_FRAME("com.arm.demo.widgets.Button","new",0x0ba9bc8f,"com.arm.demo.widgets.Button.new","com/arm/demo/widgets/Button.hx",10,0x40a93681)
 HX_STACK_THIS(this)
 HX_STACK_ARG(label,"label")
 HX_STACK_ARG(width,"width")
@@ -72,19 +72,17 @@ HX_STACK_ARG(height,"height")
 HX_STACK_ARG(data,"data")
 HX_STACK_ARG(fontSize,"fontSize")
 {
+	HX_STACK_LINE(24)
+	this->action = ::msignal::Signal1_obj::__new(hx::ClassOf< ::Dynamic >());
 	HX_STACK_LINE(27)
 	super::__construct(null());
 	HX_STACK_LINE(28)
-	::msignal::Signal1 _g = ::msignal::Signal1_obj::__new(hx::ClassOf< ::Dynamic >());		HX_STACK_VAR(_g,"_g");
-	HX_STACK_LINE(28)
-	this->action = _g;
-	HX_STACK_LINE(29)
 	this->_data = data;
-	HX_STACK_LINE(30)
+	HX_STACK_LINE(29)
 	this->_setupBackground(width,height);
-	HX_STACK_LINE(31)
+	HX_STACK_LINE(30)
 	this->_setupLabel(width,height,fontSize);
-	HX_STACK_LINE(32)
+	HX_STACK_LINE(31)
 	this->setText(label);
 }
 ;
@@ -106,37 +104,37 @@ Dynamic Button_obj::__Create(hx::DynamicArray inArgs)
 
 Void Button_obj::_setupBackground( Float width,Float height){
 {
-		HX_STACK_FRAME("com.arm.demo.widgets.Button","_setupBackground",0x165649bd,"com.arm.demo.widgets.Button._setupBackground","com/arm/demo/widgets/Button.hx",35,0x40a93681)
+		HX_STACK_FRAME("com.arm.demo.widgets.Button","_setupBackground",0x165649bd,"com.arm.demo.widgets.Button._setupBackground","com/arm/demo/widgets/Button.hx",34,0x40a93681)
 		HX_STACK_THIS(this)
 		HX_STACK_ARG(width,"width")
 		HX_STACK_ARG(height,"height")
-		HX_STACK_LINE(36)
+		HX_STACK_LINE(35)
 		::fluid::geom::FluidRectangle _g = ::fluid::geom::FluidRectangle_obj::__new((int)0,(int)0,width,height);		HX_STACK_VAR(_g,"_g");
-		HX_STACK_LINE(36)
+		HX_STACK_LINE(35)
 		this->_rect = _g;
-		HX_STACK_LINE(37)
+		HX_STACK_LINE(36)
 		::fluid::display::FluidGraphics _g1 = ::fluid::display::FluidGraphics_obj::__new();		HX_STACK_VAR(_g1,"_g1");
-		HX_STACK_LINE(37)
+		HX_STACK_LINE(36)
 		this->_background = _g1;
-		HX_STACK_LINE(39)
+		HX_STACK_LINE(38)
 		this->_redraw((int)2187531);
-		HX_STACK_LINE(40)
+		HX_STACK_LINE(39)
 		this->addChild(this->_background);
-		HX_STACK_LINE(42)
+		HX_STACK_LINE(41)
 		this->_background->set_interactive(true);
-		HX_STACK_LINE(43)
+		HX_STACK_LINE(42)
 		this->_background->mouseOver = this->_onMouseOver_dyn();
-		HX_STACK_LINE(44)
+		HX_STACK_LINE(43)
 		this->_background->mouseOut = this->_onMouseOut_dyn();
-		HX_STACK_LINE(45)
+		HX_STACK_LINE(44)
 		this->_background->mouseDown = this->_onMouseDown_dyn();
-		HX_STACK_LINE(46)
+		HX_STACK_LINE(45)
 		this->_background->mouseUp = this->_onMouseUp_dyn();
-		HX_STACK_LINE(47)
+		HX_STACK_LINE(46)
 		this->_background->touchBegin = this->_onTouchStart_dyn();
-		HX_STACK_LINE(48)
+		HX_STACK_LINE(47)
 		this->_background->touchEnd = this->_onTouchEnd_dyn();
-		HX_STACK_LINE(49)
+		HX_STACK_LINE(48)
 		this->_background->touchOut = this->_onTouchEndOutside_dyn();
 	}
 return null();
@@ -147,33 +145,33 @@ HX_DEFINE_DYNAMIC_FUNC2(Button_obj,_setupBackground,(void))
 
 Void Button_obj::_setupLabel( Float width,Float height,Dynamic __o_fontSize){
 Dynamic fontSize = __o_fontSize.Default(16);
-	HX_STACK_FRAME("com.arm.demo.widgets.Button","_setupLabel",0x53b02a85,"com.arm.demo.widgets.Button._setupLabel","com/arm/demo/widgets/Button.hx",52,0x40a93681)
+	HX_STACK_FRAME("com.arm.demo.widgets.Button","_setupLabel",0x53b02a85,"com.arm.demo.widgets.Button._setupLabel","com/arm/demo/widgets/Button.hx",51,0x40a93681)
 	HX_STACK_THIS(this)
 	HX_STACK_ARG(width,"width")
 	HX_STACK_ARG(height,"height")
 	HX_STACK_ARG(fontSize,"fontSize")
 {
-		HX_STACK_LINE(53)
+		HX_STACK_LINE(52)
 		::fluid::text::FluidTextFormat format = ::fluid::text::FluidTextFormat_obj::__new(null(),null(),null(),null(),null(),null(),null());		HX_STACK_VAR(format,"format");
-		HX_STACK_LINE(54)
+		HX_STACK_LINE(53)
 		format->size = fontSize;
-		HX_STACK_LINE(55)
+		HX_STACK_LINE(54)
 		format->font = HX_CSTRING("Arial");
-		HX_STACK_LINE(56)
+		HX_STACK_LINE(55)
 		format->fill = HX_CSTRING("#FFFFFF");
-		HX_STACK_LINE(57)
+		HX_STACK_LINE(56)
 		::fluid::text::FluidText _g = ::fluid::text::FluidText_obj::__new(HX_CSTRING(""),format);		HX_STACK_VAR(_g,"_g");
-		HX_STACK_LINE(57)
+		HX_STACK_LINE(56)
 		this->_label = _g;
-		HX_STACK_LINE(58)
+		HX_STACK_LINE(57)
 		this->_label->setAnchor(0.5,0.5);
-		HX_STACK_LINE(59)
+		HX_STACK_LINE(58)
 		this->_label->set_interactive(false);
-		HX_STACK_LINE(60)
+		HX_STACK_LINE(59)
 		this->_label->set_x((Float(width) / Float((int)2)));
-		HX_STACK_LINE(61)
+		HX_STACK_LINE(60)
 		this->_label->set_y((Float(height) / Float((int)2)));
-		HX_STACK_LINE(62)
+		HX_STACK_LINE(61)
 		this->addChild(this->_label);
 	}
 return null();
@@ -184,24 +182,24 @@ HX_DEFINE_DYNAMIC_FUNC3(Button_obj,_setupLabel,(void))
 
 Void Button_obj::_redraw( int colour){
 {
-		HX_STACK_FRAME("com.arm.demo.widgets.Button","_redraw",0xe7a02685,"com.arm.demo.widgets.Button._redraw","com/arm/demo/widgets/Button.hx",65,0x40a93681)
+		HX_STACK_FRAME("com.arm.demo.widgets.Button","_redraw",0xe7a02685,"com.arm.demo.widgets.Button._redraw","com/arm/demo/widgets/Button.hx",64,0x40a93681)
 		HX_STACK_THIS(this)
 		HX_STACK_ARG(colour,"colour")
-		HX_STACK_LINE(66)
+		HX_STACK_LINE(65)
 		Float border = (int)1;		HX_STACK_VAR(border,"border");
-		HX_STACK_LINE(67)
+		HX_STACK_LINE(66)
 		this->_background->clear();
+		HX_STACK_LINE(67)
+		this->_background->beginFill(colour,null());
 		HX_STACK_LINE(68)
-		this->_background->beginFill(colour,null());
-		HX_STACK_LINE(69)
 		this->_background->drawRect(this->_rect->x,this->_rect->y,this->_rect->width,this->_rect->height);
-		HX_STACK_LINE(70)
+		HX_STACK_LINE(69)
 		this->_background->endFill();
-		HX_STACK_LINE(71)
+		HX_STACK_LINE(70)
 		this->_background->beginFill(colour,null());
-		HX_STACK_LINE(72)
+		HX_STACK_LINE(71)
 		this->_background->drawRect((this->_rect->x + (Float(border) / Float((int)2))),(this->_rect->y + (Float(border) / Float((int)2))),(this->_rect->width - border),(this->_rect->height - border));
-		HX_STACK_LINE(73)
+		HX_STACK_LINE(72)
 		this->_background->endFill();
 	}
 return null();
@@ -212,10 +210,10 @@ HX_DEFINE_DYNAMIC_FUNC1(Button_obj,_redraw,(void))
 
 Void Button_obj::setText( ::String label){
 {
-		HX_STACK_FRAME("com.arm.demo.widgets.Button","setText",0x8d0f3d1e,"com.arm.demo.widgets.Button.setText","com/arm/demo/widgets/Button.hx",77,0x40a93681)
+		HX_STACK_FRAME("com.arm.demo.widgets.Button","setText",0x8d0f3d1e,"com.arm.demo.widgets.Button.setText","com/arm/demo/widgets/Button.hx",76,0x40a93681)
 		HX_STACK_THIS(this)
 		HX_STACK_ARG(label,"label")
-		HX_STACK_LINE(77)
+		HX_STACK_LINE(76)
 		this->_label->setText(label);
 	}
 return null();
@@ -226,12 +224,12 @@ HX_DEFINE_DYNAMIC_FUNC1(Button_obj,setText,(void))
 
 Void Button_obj::_onMouseDown( Dynamic data){
 {
-		HX_STACK_FRAME("com.arm.demo.widgets.Button","_onMouseDown",0xcd47d7fa,"com.arm.demo.widgets.Button._onMouseDown","com/arm/demo/widgets/Button.hx",81,0x40a93681)
+		HX_STACK_FRAME("com.arm.demo.widgets.Button","_onMouseDown",0xcd47d7fa,"com.arm.demo.widgets.Button._onMouseDown","com/arm/demo/widgets/Button.hx",80,0x40a93681)
 		HX_STACK_THIS(this)
 		HX_STACK_ARG(data,"data")
-		HX_STACK_LINE(81)
+		HX_STACK_LINE(80)
 		if ((this->_enabled)){
-			HX_STACK_LINE(81)
+			HX_STACK_LINE(80)
 			this->_redraw((int)13158);
 		}
 	}
@@ -243,14 +241,14 @@ HX_DEFINE_DYNAMIC_FUNC1(Button_obj,_onMouseDown,(void))
 
 Void Button_obj::_onMouseUp( ::fluid::events::EventData data){
 {
-		HX_STACK_FRAME("com.arm.demo.widgets.Button","_onMouseUp",0x2e82aff3,"com.arm.demo.widgets.Button._onMouseUp","com/arm/demo/widgets/Button.hx",85,0x40a93681)
+		HX_STACK_FRAME("com.arm.demo.widgets.Button","_onMouseUp",0x2e82aff3,"com.arm.demo.widgets.Button._onMouseUp","com/arm/demo/widgets/Button.hx",84,0x40a93681)
 		HX_STACK_THIS(this)
 		HX_STACK_ARG(data,"data")
-		HX_STACK_LINE(85)
+		HX_STACK_LINE(84)
 		if ((this->_enabled)){
-			HX_STACK_LINE(86)
+			HX_STACK_LINE(85)
 			this->action->dispatch(this->_data);
-			HX_STACK_LINE(87)
+			HX_STACK_LINE(86)
 			this->_redraw((int)2187531);
 		}
 	}
@@ -262,12 +260,12 @@ HX_DEFINE_DYNAMIC_FUNC1(Button_obj,_onMouseUp,(void))
 
 Void Button_obj::_onMouseUpOutside( Dynamic data){
 {
-		HX_STACK_FRAME("com.arm.demo.widgets.Button","_onMouseUpOutside",0x00533972,"com.arm.demo.widgets.Button._onMouseUpOutside","com/arm/demo/widgets/Button.hx",92,0x40a93681)
+		HX_STACK_FRAME("com.arm.demo.widgets.Button","_onMouseUpOutside",0x00533972,"com.arm.demo.widgets.Button._onMouseUpOutside","com/arm/demo/widgets/Button.hx",91,0x40a93681)
 		HX_STACK_THIS(this)
 		HX_STACK_ARG(data,"data")
-		HX_STACK_LINE(92)
+		HX_STACK_LINE(91)
 		if ((this->_enabled)){
-			HX_STACK_LINE(92)
+			HX_STACK_LINE(91)
 			this->_redraw((int)2187531);
 		}
 	}
@@ -279,12 +277,12 @@ HX_DEFINE_DYNAMIC_FUNC1(Button_obj,_onMouseUpOutside,(void))
 
 Void Button_obj::_onMouseOver( ::fluid::events::EventData data){
 {
-		HX_STACK_FRAME("com.arm.demo.widgets.Button","_onMouseOver",0xd49270ec,"com.arm.demo.widgets.Button._onMouseOver","com/arm/demo/widgets/Button.hx",96,0x40a93681)
+		HX_STACK_FRAME("com.arm.demo.widgets.Button","_onMouseOver",0xd49270ec,"com.arm.demo.widgets.Button._onMouseOver","com/arm/demo/widgets/Button.hx",95,0x40a93681)
 		HX_STACK_THIS(this)
 		HX_STACK_ARG(data,"data")
-		HX_STACK_LINE(96)
+		HX_STACK_LINE(95)
 		if ((this->_enabled)){
-			HX_STACK_LINE(96)
+			HX_STACK_LINE(95)
 			this->_redraw((int)13158);
 		}
 	}
@@ -296,12 +294,12 @@ HX_DEFINE_DYNAMIC_FUNC1(Button_obj,_onMouseOver,(void))
 
 Void Button_obj::_onMouseOut( ::fluid::events::EventData data){
 {
-		HX_STACK_FRAME("com.arm.demo.widgets.Button","_onMouseOut",0x83d2bbf6,"com.arm.demo.widgets.Button._onMouseOut","com/arm/demo/widgets/Button.hx",100,0x40a93681)
+		HX_STACK_FRAME("com.arm.demo.widgets.Button","_onMouseOut",0x83d2bbf6,"com.arm.demo.widgets.Button._onMouseOut","com/arm/demo/widgets/Button.hx",99,0x40a93681)
 		HX_STACK_THIS(this)
 		HX_STACK_ARG(data,"data")
-		HX_STACK_LINE(100)
+		HX_STACK_LINE(99)
 		if ((this->_enabled)){
-			HX_STACK_LINE(100)
+			HX_STACK_LINE(99)
 			this->_redraw((int)2187531);
 		}
 	}
@@ -313,12 +311,12 @@ HX_DEFINE_DYNAMIC_FUNC1(Button_obj,_onMouseOut,(void))
 
 Void Button_obj::_onTouchEndOutside( ::fluid::events::EventData data){
 {
-		HX_STACK_FRAME("com.arm.demo.widgets.Button","_onTouchEndOutside",0x9cd01a3c,"com.arm.demo.widgets.Button._onTouchEndOutside","com/arm/demo/widgets/Button.hx",104,0x40a93681)
+		HX_STACK_FRAME("com.arm.demo.widgets.Button","_onTouchEndOutside",0x9cd01a3c,"com.arm.demo.widgets.Button._onTouchEndOutside","com/arm/demo/widgets/Button.hx",103,0x40a93681)
 		HX_STACK_THIS(this)
 		HX_STACK_ARG(data,"data")
-		HX_STACK_LINE(104)
+		HX_STACK_LINE(103)
 		if ((this->_enabled)){
-			HX_STACK_LINE(104)
+			HX_STACK_LINE(103)
 			this->_redraw((int)2187531);
 		}
 	}
@@ -330,14 +328,14 @@ HX_DEFINE_DYNAMIC_FUNC1(Button_obj,_onTouchEndOutside,(void))
 
 Void Button_obj::_onTouchEnd( ::fluid::events::EventData data){
 {
-		HX_STACK_FRAME("com.arm.demo.widgets.Button","_onTouchEnd",0xdfbe99e9,"com.arm.demo.widgets.Button._onTouchEnd","com/arm/demo/widgets/Button.hx",108,0x40a93681)
+		HX_STACK_FRAME("com.arm.demo.widgets.Button","_onTouchEnd",0xdfbe99e9,"com.arm.demo.widgets.Button._onTouchEnd","com/arm/demo/widgets/Button.hx",107,0x40a93681)
 		HX_STACK_THIS(this)
 		HX_STACK_ARG(data,"data")
-		HX_STACK_LINE(108)
+		HX_STACK_LINE(107)
 		if ((this->_enabled)){
-			HX_STACK_LINE(109)
+			HX_STACK_LINE(108)
 			this->_redraw((int)2187531);
-			HX_STACK_LINE(110)
+			HX_STACK_LINE(109)
 			this->action->dispatch(this->_data);
 		}
 	}
@@ -349,12 +347,12 @@ HX_DEFINE_DYNAMIC_FUNC1(Button_obj,_onTouchEnd,(void))
 
 Void Button_obj::_onTouchStart( ::fluid::events::EventData data){
 {
-		HX_STACK_FRAME("com.arm.demo.widgets.Button","_onTouchStart",0x539929f0,"com.arm.demo.widgets.Button._onTouchStart","com/arm/demo/widgets/Button.hx",115,0x40a93681)
+		HX_STACK_FRAME("com.arm.demo.widgets.Button","_onTouchStart",0x539929f0,"com.arm.demo.widgets.Button._onTouchStart","com/arm/demo/widgets/Button.hx",114,0x40a93681)
 		HX_STACK_THIS(this)
 		HX_STACK_ARG(data,"data")
-		HX_STACK_LINE(115)
+		HX_STACK_LINE(114)
 		if ((this->_enabled)){
-			HX_STACK_LINE(115)
+			HX_STACK_LINE(114)
 			this->_redraw((int)13158);
 		}
 	}
@@ -366,9 +364,9 @@ HX_DEFINE_DYNAMIC_FUNC1(Button_obj,_onTouchStart,(void))
 
 Void Button_obj::enable( ){
 {
-		HX_STACK_FRAME("com.arm.demo.widgets.Button","enable",0x0dbe49b4,"com.arm.demo.widgets.Button.enable","com/arm/demo/widgets/Button.hx",119,0x40a93681)
+		HX_STACK_FRAME("com.arm.demo.widgets.Button","enable",0x0dbe49b4,"com.arm.demo.widgets.Button.enable","com/arm/demo/widgets/Button.hx",118,0x40a93681)
 		HX_STACK_THIS(this)
-		HX_STACK_LINE(119)
+		HX_STACK_LINE(118)
 		this->_enabled = true;
 	}
 return null();
@@ -379,11 +377,11 @@ HX_DEFINE_DYNAMIC_FUNC0(Button_obj,enable,(void))
 
 Void Button_obj::disable( ){
 {
-		HX_STACK_FRAME("com.arm.demo.widgets.Button","disable",0x2be99997,"com.arm.demo.widgets.Button.disable","com/arm/demo/widgets/Button.hx",122,0x40a93681)
+		HX_STACK_FRAME("com.arm.demo.widgets.Button","disable",0x2be99997,"com.arm.demo.widgets.Button.disable","com/arm/demo/widgets/Button.hx",121,0x40a93681)
 		HX_STACK_THIS(this)
-		HX_STACK_LINE(123)
+		HX_STACK_LINE(122)
 		this->_redraw((int)2187531);
-		HX_STACK_LINE(124)
+		HX_STACK_LINE(123)
 		this->_enabled = false;
 	}
 return null();

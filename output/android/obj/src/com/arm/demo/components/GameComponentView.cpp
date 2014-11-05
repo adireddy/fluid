@@ -3,6 +3,9 @@
 #ifndef INCLUDED_com_arm_demo_components_GameComponentView
 #include <com/arm/demo/components/GameComponentView.h>
 #endif
+#ifndef INCLUDED_com_arm_demo_components_bunnymark_Bunny
+#include <com/arm/demo/components/bunnymark/Bunny.h>
+#endif
 #ifndef INCLUDED_com_arm_demo_view_DemoView
 #include <com/arm/demo/view/DemoView.h>
 #endif
@@ -61,7 +64,7 @@ Dynamic GameComponentView_obj::__Create(hx::DynamicArray inArgs)
 	result->__construct(inArgs[0]);
 	return result;}
 
-Void GameComponentView_obj::_applyScale( Dynamic item){
+Void GameComponentView_obj::_applyScale( ::com::arm::demo::components::bunnymark::Bunny item){
 {
 		HX_STACK_FRAME("com.arm.demo.components.GameComponentView","_applyScale",0x8e0f6691,"com.arm.demo.components.GameComponentView._applyScale","com/arm/demo/components/GameComponentView.hx",26,0x76330dbc)
 		HX_STACK_THIS(this)

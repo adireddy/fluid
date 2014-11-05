@@ -175,6 +175,7 @@ obj/android-v7/14bcac30_FieldNumericIntegerLookup.obj
 obj/android-v7/cbf90c06_PopoutMenu.obj
 obj/android-v7/cbf90c06_MenuItem.obj
 obj/android-v7/cbf90c06_Menu.obj
+obj/android-v7/12ce885b_Label.obj
 obj/android-v7/12ce885b_Button.obj
 obj/android-v7/f692c9ab_ViewStateNotification.obj
 obj/android-v7/f692c9ab_MenuNotification.obj
@@ -185,13 +186,15 @@ obj/android-v7/8267380f_Signal.obj
 obj/android-v7/b8e50426_DemoModel.obj
 obj/android-v7/29263192_MenuView.obj
 obj/android-v7/29263192_MenuController.obj
+obj/android-v7/81e26a4c_BunnymarkView.obj
+obj/android-v7/81e26a4c_BunnymarkController.obj
+obj/android-v7/81e26a4c_Bunny.obj
+obj/android-v7/e556a140_FluidSprite.obj
 obj/android-v7/c2736e24_GameComponentView.obj
 obj/android-v7/cced880c_DemoView.obj
 obj/android-v7/c2736e24_GameComponentController.obj
 obj/android-v7/d5220344_DemoController.obj
 obj/android-v7/d2266d7b_DemoCommsController.obj
-obj/android-v7/8e238e61_Bunny.obj
-obj/android-v7/e556a140_FluidSprite.obj
 obj/android-v7/82b53a69_Type.obj
 obj/android-v7/82b53a69_StringTools.obj
 obj/android-v7/82b53a69_StringBuf.obj

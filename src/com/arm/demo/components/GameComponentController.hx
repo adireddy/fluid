@@ -26,8 +26,5 @@ class GameComponentController extends DemoController {
 	private function _create():Void {}
 	private function _update(elapsedTime:Float):Void {}
 
-	private function _resize():Void {
-		mainModel = null;
-		ViewStateNotification.reset();
-	}
+	private function _resize():Void {}
 }

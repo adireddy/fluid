@@ -19,7 +19,10 @@ module.exports = function (grunt) {
             },
             android: {
                command: "lime build android"
-            }
+            }/*,
+            ios: {
+                command: "lime build ios -simulator"
+            }*/
         },
 
         uglify: {

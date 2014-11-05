@@ -7,11 +7,8 @@
 
 #include <com/arm/demo/Application.h>
 HX_DECLARE_CLASS3(com,arm,demo,Application)
-HX_DECLARE_CLASS3(com,arm,demo,Bunny)
 HX_DECLARE_CLASS3(com,arm,demo,Main)
 HX_DECLARE_CLASS1(fluid,Fluid)
-HX_DECLARE_CLASS2(fluid,display,FluidSprite)
-HX_DECLARE_CLASS2(fluid,text,FluidText)
 HX_DECLARE_CLASS3(openfl,_v2,display,DisplayObject)
 HX_DECLARE_CLASS3(openfl,_v2,display,DisplayObjectContainer)
 HX_DECLARE_CLASS3(openfl,_v2,display,IBitmapDrawable)
@@ -19,7 +16,6 @@ HX_DECLARE_CLASS3(openfl,_v2,display,InteractiveObject)
 HX_DECLARE_CLASS3(openfl,_v2,display,Sprite)
 HX_DECLARE_CLASS3(openfl,_v2,events,EventDispatcher)
 HX_DECLARE_CLASS3(openfl,_v2,events,IEventDispatcher)
-HX_DECLARE_CLASS3(openfl,_v2,text,TextField)
 namespace com{
 namespace arm{
 namespace demo{
@@ -43,24 +39,16 @@ class HXCPP_CLASS_ATTRIBUTES  Main_obj : public ::com::arm::demo::Application_ob
 		HX_DO_RTTI;
 		static void __boot();
 		static void __register();
-		void __Mark(HX_MARK_PARAMS);
-		void __Visit(HX_VISIT_PARAMS);
 		::String __ToString() const { return HX_CSTRING("Main"); }
 
-		Dynamic _bunnyTexture;
-		Array< ::Dynamic > _sprites;
-		Float _maxX;
-		Float _maxY;
-		Float _minX;
-		Float _minY;
-		int _count;
-		::fluid::text::FluidText _countText;
-		bool _addBunnies;
 		virtual Void _setupMVCS( );
 		Dynamic _setupMVCS_dyn();
 
-		virtual Void _onRresize( );
-		Dynamic _onRresize_dyn();
+		virtual Void _onUpdate( Float time);
+		Dynamic _onUpdate_dyn();
+
+		virtual Void _onResize( );
+		Dynamic _onResize_dyn();
 
 };
 

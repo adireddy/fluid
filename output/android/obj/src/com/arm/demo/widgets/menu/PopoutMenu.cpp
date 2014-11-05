@@ -136,15 +136,15 @@ Void PopoutMenu_obj::_setupOpenButton( ){
 		this->_openButton->drawRect(buttonRect->x,buttonRect->y,buttonRect->width,buttonRect->height);
 		HX_STACK_LINE(45)
 		this->_openButton->endFill();
-		HX_STACK_LINE(47)
+		HX_STACK_LINE(46)
 		this->_openButton->set_interactive(true);
-		HX_STACK_LINE(48)
+		HX_STACK_LINE(47)
 		this->_openButton->touchBegin = this->_toggleShow_dyn();
-		HX_STACK_LINE(49)
+		HX_STACK_LINE(48)
 		this->_openButton->touchEnd = this->_toggleShow_dyn();
-		HX_STACK_LINE(50)
+		HX_STACK_LINE(49)
 		this->_openButton->mouseUp = this->_toggleShow_dyn();
-		HX_STACK_LINE(51)
+		HX_STACK_LINE(50)
 		this->_container->addChild(this->_openButton);
 	}
 return null();
@@ -155,17 +155,17 @@ HX_DEFINE_DYNAMIC_FUNC0(PopoutMenu_obj,_setupOpenButton,(void))
 
 Void PopoutMenu_obj::_setupMenu( Float itemWidth,Float itemHeight){
 {
-		HX_STACK_FRAME("com.arm.demo.widgets.menu.PopoutMenu","_setupMenu",0x9183be2b,"com.arm.demo.widgets.menu.PopoutMenu._setupMenu","com/arm/demo/widgets/menu/PopoutMenu.hx",54,0x47376b5d)
+		HX_STACK_FRAME("com.arm.demo.widgets.menu.PopoutMenu","_setupMenu",0x9183be2b,"com.arm.demo.widgets.menu.PopoutMenu._setupMenu","com/arm/demo/widgets/menu/PopoutMenu.hx",53,0x47376b5d)
 		HX_STACK_THIS(this)
 		HX_STACK_ARG(itemWidth,"itemWidth")
 		HX_STACK_ARG(itemHeight,"itemHeight")
-		HX_STACK_LINE(55)
+		HX_STACK_LINE(54)
 		::com::arm::demo::widgets::menu::Menu _g = ::com::arm::demo::widgets::menu::Menu_obj::__new(itemWidth,itemHeight);		HX_STACK_VAR(_g,"_g");
-		HX_STACK_LINE(55)
+		HX_STACK_LINE(54)
 		this->_menu = _g;
-		HX_STACK_LINE(56)
+		HX_STACK_LINE(55)
 		this->_menu->set_x(-(itemWidth));
-		HX_STACK_LINE(57)
+		HX_STACK_LINE(56)
 		this->_container->addChild(this->_menu);
 	}
 return null();
@@ -176,16 +176,16 @@ HX_DEFINE_DYNAMIC_FUNC2(PopoutMenu_obj,_setupMenu,(void))
 
 Void PopoutMenu_obj::_toggleShow( ::fluid::events::EventData data){
 {
-		HX_STACK_FRAME("com.arm.demo.widgets.menu.PopoutMenu","_toggleShow",0xbe050062,"com.arm.demo.widgets.menu.PopoutMenu._toggleShow","com/arm/demo/widgets/menu/PopoutMenu.hx",61,0x47376b5d)
+		HX_STACK_FRAME("com.arm.demo.widgets.menu.PopoutMenu","_toggleShow",0xbe050062,"com.arm.demo.widgets.menu.PopoutMenu._toggleShow","com/arm/demo/widgets/menu/PopoutMenu.hx",60,0x47376b5d)
 		HX_STACK_THIS(this)
 		HX_STACK_ARG(data,"data")
-		HX_STACK_LINE(61)
+		HX_STACK_LINE(60)
 		if (((this->_state == HX_CSTRING("STATE_SHOW")))){
-			HX_STACK_LINE(61)
+			HX_STACK_LINE(60)
 			this->hide();
 		}
 		else{
-			HX_STACK_LINE(62)
+			HX_STACK_LINE(61)
 			this->show();
 		}
 	}
@@ -197,15 +197,15 @@ HX_DEFINE_DYNAMIC_FUNC1(PopoutMenu_obj,_toggleShow,(void))
 
 Void PopoutMenu_obj::show( ){
 {
-		HX_STACK_FRAME("com.arm.demo.widgets.menu.PopoutMenu","show",0xf7245e2b,"com.arm.demo.widgets.menu.PopoutMenu.show","com/arm/demo/widgets/menu/PopoutMenu.hx",65,0x47376b5d)
+		HX_STACK_FRAME("com.arm.demo.widgets.menu.PopoutMenu","show",0xf7245e2b,"com.arm.demo.widgets.menu.PopoutMenu.show","com/arm/demo/widgets/menu/PopoutMenu.hx",64,0x47376b5d)
 		HX_STACK_THIS(this)
-		HX_STACK_LINE(66)
+		HX_STACK_LINE(65)
 		this->_state = HX_CSTRING("STATE_SHOW");
-		HX_STACK_LINE(67)
+		HX_STACK_LINE(66)
 		::motion::easing::IEasing _g = ::motion::easing::Cubic_obj::get_easeInOut();		HX_STACK_VAR(_g,"_g");
 		struct _Function_1_1{
 			inline static Dynamic Block( hx::ObjectPtr< ::com::arm::demo::widgets::menu::PopoutMenu_obj > __this){
-				HX_STACK_FRAME("*","closure",0x5bdab937,"*.closure","com/arm/demo/widgets/menu/PopoutMenu.hx",67,0x47376b5d)
+				HX_STACK_FRAME("*","closure",0x5bdab937,"*.closure","com/arm/demo/widgets/menu/PopoutMenu.hx",66,0x47376b5d)
 				{
 					hx::Anon __result = hx::Anon_obj::Create();
 					__result->Add(HX_CSTRING("x") , __this->_itemWidth,false);
@@ -214,7 +214,7 @@ Void PopoutMenu_obj::show( ){
 				return null();
 			}
 		};
-		HX_STACK_LINE(67)
+		HX_STACK_LINE(66)
 		::motion::Actuate_obj::tween(this->_container,0.3,_Function_1_1::Block(this),null(),null())->ease(_g)->onComplete(this->_enableMenuItems_dyn(),null());
 	}
 return null();
@@ -225,15 +225,15 @@ HX_DEFINE_DYNAMIC_FUNC0(PopoutMenu_obj,show,(void))
 
 Void PopoutMenu_obj::hide( ){
 {
-		HX_STACK_FRAME("com.arm.demo.widgets.menu.PopoutMenu","hide",0xefdfbdf0,"com.arm.demo.widgets.menu.PopoutMenu.hide","com/arm/demo/widgets/menu/PopoutMenu.hx",70,0x47376b5d)
+		HX_STACK_FRAME("com.arm.demo.widgets.menu.PopoutMenu","hide",0xefdfbdf0,"com.arm.demo.widgets.menu.PopoutMenu.hide","com/arm/demo/widgets/menu/PopoutMenu.hx",69,0x47376b5d)
 		HX_STACK_THIS(this)
-		HX_STACK_LINE(71)
+		HX_STACK_LINE(70)
 		this->_state = HX_CSTRING("STATE_HIDE");
-		HX_STACK_LINE(72)
+		HX_STACK_LINE(71)
 		::motion::easing::IEasing _g = ::motion::easing::Cubic_obj::get_easeInOut();		HX_STACK_VAR(_g,"_g");
 		struct _Function_1_1{
 			inline static Dynamic Block( ){
-				HX_STACK_FRAME("*","closure",0x5bdab937,"*.closure","com/arm/demo/widgets/menu/PopoutMenu.hx",72,0x47376b5d)
+				HX_STACK_FRAME("*","closure",0x5bdab937,"*.closure","com/arm/demo/widgets/menu/PopoutMenu.hx",71,0x47376b5d)
 				{
 					hx::Anon __result = hx::Anon_obj::Create();
 					__result->Add(HX_CSTRING("x") , (int)0,false);
@@ -242,7 +242,7 @@ Void PopoutMenu_obj::hide( ){
 				return null();
 			}
 		};
-		HX_STACK_LINE(72)
+		HX_STACK_LINE(71)
 		::motion::Actuate_obj::tween(this->_container,0.3,_Function_1_1::Block(),null(),null())->ease(_g)->onComplete(this->_disableMenuItems_dyn(),null());
 	}
 return null();
@@ -252,15 +252,15 @@ return null();
 HX_DEFINE_DYNAMIC_FUNC0(PopoutMenu_obj,hide,(void))
 
 ::com::arm::demo::widgets::menu::MenuItem PopoutMenu_obj::addItem( ::String label,Dynamic data){
-	HX_STACK_FRAME("com.arm.demo.widgets.menu.PopoutMenu","addItem",0x5c6eef66,"com.arm.demo.widgets.menu.PopoutMenu.addItem","com/arm/demo/widgets/menu/PopoutMenu.hx",75,0x47376b5d)
+	HX_STACK_FRAME("com.arm.demo.widgets.menu.PopoutMenu","addItem",0x5c6eef66,"com.arm.demo.widgets.menu.PopoutMenu.addItem","com/arm/demo/widgets/menu/PopoutMenu.hx",74,0x47376b5d)
 	HX_STACK_THIS(this)
 	HX_STACK_ARG(label,"label")
 	HX_STACK_ARG(data,"data")
-	HX_STACK_LINE(76)
+	HX_STACK_LINE(75)
 	::com::arm::demo::widgets::menu::MenuItem menuItem = this->_menu->addItem(label,data);		HX_STACK_VAR(menuItem,"menuItem");
-	HX_STACK_LINE(77)
+	HX_STACK_LINE(76)
 	this->_updateOpenButtonPosition();
-	HX_STACK_LINE(78)
+	HX_STACK_LINE(77)
 	return menuItem;
 }
 
@@ -269,9 +269,9 @@ HX_DEFINE_DYNAMIC_FUNC2(PopoutMenu_obj,addItem,return )
 
 Void PopoutMenu_obj::_enableMenuItems( ){
 {
-		HX_STACK_FRAME("com.arm.demo.widgets.menu.PopoutMenu","_enableMenuItems",0xd7d6b78d,"com.arm.demo.widgets.menu.PopoutMenu._enableMenuItems","com/arm/demo/widgets/menu/PopoutMenu.hx",82,0x47376b5d)
+		HX_STACK_FRAME("com.arm.demo.widgets.menu.PopoutMenu","_enableMenuItems",0xd7d6b78d,"com.arm.demo.widgets.menu.PopoutMenu._enableMenuItems","com/arm/demo/widgets/menu/PopoutMenu.hx",81,0x47376b5d)
 		HX_STACK_THIS(this)
-		HX_STACK_LINE(82)
+		HX_STACK_LINE(81)
 		this->_menu->enableMenuItems();
 	}
 return null();
@@ -282,9 +282,9 @@ HX_DEFINE_DYNAMIC_FUNC0(PopoutMenu_obj,_enableMenuItems,(void))
 
 Void PopoutMenu_obj::_disableMenuItems( ){
 {
-		HX_STACK_FRAME("com.arm.demo.widgets.menu.PopoutMenu","_disableMenuItems",0xacd3cf4a,"com.arm.demo.widgets.menu.PopoutMenu._disableMenuItems","com/arm/demo/widgets/menu/PopoutMenu.hx",86,0x47376b5d)
+		HX_STACK_FRAME("com.arm.demo.widgets.menu.PopoutMenu","_disableMenuItems",0xacd3cf4a,"com.arm.demo.widgets.menu.PopoutMenu._disableMenuItems","com/arm/demo/widgets/menu/PopoutMenu.hx",85,0x47376b5d)
 		HX_STACK_THIS(this)
-		HX_STACK_LINE(86)
+		HX_STACK_LINE(85)
 		this->_menu->disableMenuItems();
 	}
 return null();
@@ -295,18 +295,18 @@ HX_DEFINE_DYNAMIC_FUNC0(PopoutMenu_obj,_disableMenuItems,(void))
 
 Void PopoutMenu_obj::_updateOpenButtonPosition( ){
 {
-		HX_STACK_FRAME("com.arm.demo.widgets.menu.PopoutMenu","_updateOpenButtonPosition",0x80f2dfff,"com.arm.demo.widgets.menu.PopoutMenu._updateOpenButtonPosition","com/arm/demo/widgets/menu/PopoutMenu.hx",89,0x47376b5d)
+		HX_STACK_FRAME("com.arm.demo.widgets.menu.PopoutMenu","_updateOpenButtonPosition",0x80f2dfff,"com.arm.demo.widgets.menu.PopoutMenu._updateOpenButtonPosition","com/arm/demo/widgets/menu/PopoutMenu.hx",88,0x47376b5d)
 		HX_STACK_THIS(this)
-		HX_STACK_LINE(90)
+		HX_STACK_LINE(89)
 		int _g = ::Math_obj::floor((Float(((this->_menu->getItems()->length - (int)1))) / Float((int)2)));		HX_STACK_VAR(_g,"_g");
-		HX_STACK_LINE(90)
+		HX_STACK_LINE(89)
 		Float openButtonPosition = (_g * this->_itemHeight);		HX_STACK_VAR(openButtonPosition,"openButtonPosition");
-		HX_STACK_LINE(92)
+		HX_STACK_LINE(91)
 		if (((openButtonPosition > (Float(::fluid::display::FluidStage_obj::screenHeight) / Float((int)2))))){
-			HX_STACK_LINE(93)
+			HX_STACK_LINE(92)
 			openButtonPosition = (Float(::fluid::display::FluidStage_obj::screenHeight) / Float((int)2));
 		}
-		HX_STACK_LINE(95)
+		HX_STACK_LINE(94)
 		this->_openButton->set_y(openButtonPosition);
 	}
 return null();

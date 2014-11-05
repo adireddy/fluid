@@ -44,6 +44,8 @@ class HXCPP_CLASS_ATTRIBUTES  FluidText_obj : public ::openfl::_v2::text::TextFi
 		virtual bool set_interactive( bool val);
 		Dynamic set_interactive_dyn();
 
+		Float __height;
+		Float __width;
 		virtual Void setText( ::String value);
 		Dynamic setText_dyn();
 

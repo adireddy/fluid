@@ -52,6 +52,9 @@ class HXCPP_CLASS_ATTRIBUTES  DemoController_obj : public hx::Object{
 		virtual Void setupComponents( );
 		Dynamic setupComponents_dyn();
 
+		virtual Void _setupBunnymarkComponent( );
+		Dynamic _setupBunnymarkComponent_dyn();
+
 		virtual Void _setupMenuComponent( );
 		Dynamic _setupMenuComponent_dyn();
 

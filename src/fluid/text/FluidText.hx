@@ -14,6 +14,9 @@ class FluidText extends #if js pixi.text.Text #else openfl.text.TextField #end {
 	}
 	#end
 
+	@:noCompletion var __height:Float;
+	@:noCompletion var __width:Float;
+
 	public function new(txt:String, ?format:FluidTextFormat) {
 		super(#if js txt #end);
 		if (format != null) setFormat(format);
@@ -21,6 +24,8 @@ class FluidText extends #if js pixi.text.Text #else openfl.text.TextField #end {
 	}
 
 	#if js override #end public function setText(value:String) {
+		__width = width;
+		__height = height;
 		#if js super.setText(value);
 		#else text = value; setAnchor(_anchorX, _anchorY); #end
 	}
@@ -48,12 +53,12 @@ class FluidText extends #if js pixi.text.Text #else openfl.text.TextField #end {
 		#end
 	}
 
-	public function setAnchor(?ax:Float = 0.5, ?ay:Float = 0.5) {
+	public function setAnchor(?ax:Float = 0, ?ay:Float = 0) {
 		#if js anchor.set(ax, ay); #else
 			_anchorX = ax;
 			_anchorY = ay;
-			x -= width * ax;
-			y -= height * ay;
+			x -= (width - __width) * ax;
+			y -= (height - __height) * ay;
 		#end
 	}
 }

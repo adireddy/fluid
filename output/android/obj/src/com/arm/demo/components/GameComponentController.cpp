@@ -127,10 +127,6 @@ Void GameComponentController_obj::_resize( ){
 {
 		HX_STACK_FRAME("com.arm.demo.components.GameComponentController","_resize",0xc6c7d640,"com.arm.demo.components.GameComponentController._resize","com/arm/demo/components/GameComponentController.hx",29,0xaa643825)
 		HX_STACK_THIS(this)
-		HX_STACK_LINE(30)
-		this->mainModel = null();
-		HX_STACK_LINE(31)
-		::com::arm::demo::notifications::internal::ViewStateNotification_obj::reset();
 	}
 return null();
 }

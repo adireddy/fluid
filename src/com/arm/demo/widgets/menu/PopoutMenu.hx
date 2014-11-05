@@ -43,7 +43,6 @@ class PopoutMenu extends FluidSprite {
 		_openButton.beginFill(0x21610B);
 		_openButton.drawRect(buttonRect.x, buttonRect.y, buttonRect.width, buttonRect.height);
 		_openButton.endFill();
-		//_openButton.hitArea = hitRect;
 		_openButton.interactive = true;
 		_openButton.touchBegin = _toggleShow;//function(data:EventData) {};
 		_openButton.touchEnd = _toggleShow;

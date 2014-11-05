@@ -9,6 +9,12 @@
 #ifndef INCLUDED_com_arm_demo_components_GameComponentView
 #include <com/arm/demo/components/GameComponentView.h>
 #endif
+#ifndef INCLUDED_com_arm_demo_components_bunnymark_BunnymarkController
+#include <com/arm/demo/components/bunnymark/BunnymarkController.h>
+#endif
+#ifndef INCLUDED_com_arm_demo_components_bunnymark_BunnymarkView
+#include <com/arm/demo/components/bunnymark/BunnymarkView.h>
+#endif
 #ifndef INCLUDED_com_arm_demo_components_menu_MenuController
 #include <com/arm/demo/components/menu/MenuController.h>
 #endif
@@ -55,21 +61,21 @@ namespace controller{
 
 Void DemoController_obj::__construct(::com::arm::demo::model::DemoModel m,::com::arm::demo::view::DemoView v,::com::arm::demo::comms::DemoCommsController c)
 {
-HX_STACK_FRAME("com.arm.demo.controller.DemoController","new",0x8c3e9997,"com.arm.demo.controller.DemoController.new","com/arm/demo/controller/DemoController.hx",16,0x66db3957)
+HX_STACK_FRAME("com.arm.demo.controller.DemoController","new",0x8c3e9997,"com.arm.demo.controller.DemoController.new","com/arm/demo/controller/DemoController.hx",19,0x66db3957)
 HX_STACK_THIS(this)
 HX_STACK_ARG(m,"m")
 HX_STACK_ARG(v,"v")
 HX_STACK_ARG(c,"c")
 {
-	HX_STACK_LINE(17)
+	HX_STACK_LINE(20)
 	this->model = m;
-	HX_STACK_LINE(18)
-	this->view = v;
-	HX_STACK_LINE(19)
-	this->comms = c;
 	HX_STACK_LINE(21)
-	this->_addNotificationListeners();
+	this->view = v;
 	HX_STACK_LINE(22)
+	this->comms = c;
+	HX_STACK_LINE(24)
+	this->_addNotificationListeners();
+	HX_STACK_LINE(25)
 	this->_addViewListeners();
 }
 ;
@@ -91,7 +97,7 @@ Dynamic DemoController_obj::__Create(hx::DynamicArray inArgs)
 
 Void DemoController_obj::_addNotificationListeners( ){
 {
-		HX_STACK_FRAME("com.arm.demo.controller.DemoController","_addNotificationListeners",0x5b54bd09,"com.arm.demo.controller.DemoController._addNotificationListeners","com/arm/demo/controller/DemoController.hx",25,0x66db3957)
+		HX_STACK_FRAME("com.arm.demo.controller.DemoController","_addNotificationListeners",0x5b54bd09,"com.arm.demo.controller.DemoController._addNotificationListeners","com/arm/demo/controller/DemoController.hx",28,0x66db3957)
 		HX_STACK_THIS(this)
 	}
 return null();
@@ -102,7 +108,7 @@ HX_DEFINE_DYNAMIC_FUNC0(DemoController_obj,_addNotificationListeners,(void))
 
 Void DemoController_obj::_addViewListeners( ){
 {
-		HX_STACK_FRAME("com.arm.demo.controller.DemoController","_addViewListeners",0xe98ec54f,"com.arm.demo.controller.DemoController._addViewListeners","com/arm/demo/controller/DemoController.hx",26,0x66db3957)
+		HX_STACK_FRAME("com.arm.demo.controller.DemoController","_addViewListeners",0xe98ec54f,"com.arm.demo.controller.DemoController._addViewListeners","com/arm/demo/controller/DemoController.hx",29,0x66db3957)
 		HX_STACK_THIS(this)
 	}
 return null();
@@ -113,28 +119,28 @@ HX_DEFINE_DYNAMIC_FUNC0(DemoController_obj,_addViewListeners,(void))
 
 Void DemoController_obj::reset( ){
 {
-		HX_STACK_FRAME("com.arm.demo.controller.DemoController","reset",0x59e10ec6,"com.arm.demo.controller.DemoController.reset","com/arm/demo/controller/DemoController.hx",28,0x66db3957)
+		HX_STACK_FRAME("com.arm.demo.controller.DemoController","reset",0x59e10ec6,"com.arm.demo.controller.DemoController.reset","com/arm/demo/controller/DemoController.hx",31,0x66db3957)
 		HX_STACK_THIS(this)
-		HX_STACK_LINE(29)
+		HX_STACK_LINE(32)
 		if (((this->view != null()))){
-			HX_STACK_LINE(29)
+			HX_STACK_LINE(32)
 			this->view->reset();
 		}
-		HX_STACK_LINE(30)
+		HX_STACK_LINE(33)
 		if (((this->model != null()))){
-			HX_STACK_LINE(30)
+			HX_STACK_LINE(33)
 			this->model->reset();
 		}
-		HX_STACK_LINE(31)
+		HX_STACK_LINE(34)
 		if (((this->comms != null()))){
-			HX_STACK_LINE(31)
+			HX_STACK_LINE(34)
 			this->comms->reset();
 		}
-		HX_STACK_LINE(32)
+		HX_STACK_LINE(35)
 		this->model = null();
-		HX_STACK_LINE(33)
+		HX_STACK_LINE(36)
 		this->view = null();
-		HX_STACK_LINE(34)
+		HX_STACK_LINE(37)
 		this->comms = null();
 	}
 return null();
@@ -145,10 +151,12 @@ HX_DEFINE_DYNAMIC_FUNC0(DemoController_obj,reset,(void))
 
 Void DemoController_obj::setupComponents( ){
 {
-		HX_STACK_FRAME("com.arm.demo.controller.DemoController","setupComponents",0xf70e85aa,"com.arm.demo.controller.DemoController.setupComponents","com/arm/demo/controller/DemoController.hx",38,0x66db3957)
+		HX_STACK_FRAME("com.arm.demo.controller.DemoController","setupComponents",0xf70e85aa,"com.arm.demo.controller.DemoController.setupComponents","com/arm/demo/controller/DemoController.hx",40,0x66db3957)
 		HX_STACK_THIS(this)
-		HX_STACK_LINE(38)
+		HX_STACK_LINE(41)
 		this->_setupMenuComponent();
+		HX_STACK_LINE(43)
+		this->_setupBunnymarkComponent();
 	}
 return null();
 }
@@ -156,15 +164,32 @@ return null();
 
 HX_DEFINE_DYNAMIC_FUNC0(DemoController_obj,setupComponents,(void))
 
+Void DemoController_obj::_setupBunnymarkComponent( ){
+{
+		HX_STACK_FRAME("com.arm.demo.controller.DemoController","_setupBunnymarkComponent",0xf279bdb1,"com.arm.demo.controller.DemoController._setupBunnymarkComponent","com/arm/demo/controller/DemoController.hx",46,0x66db3957)
+		HX_STACK_THIS(this)
+		HX_STACK_LINE(47)
+		::fluid::display::FluidSprite _g = this->view->get_container();		HX_STACK_VAR(_g,"_g");
+		HX_STACK_LINE(47)
+		::com::arm::demo::components::bunnymark::BunnymarkView bunnymarkView = ::com::arm::demo::components::bunnymark::BunnymarkView_obj::__new(_g);		HX_STACK_VAR(bunnymarkView,"bunnymarkView");
+		HX_STACK_LINE(48)
+		::com::arm::demo::components::bunnymark::BunnymarkController bunnymarkController = ::com::arm::demo::components::bunnymark::BunnymarkController_obj::__new(null(),bunnymarkView,this->comms,this->model);		HX_STACK_VAR(bunnymarkController,"bunnymarkController");
+	}
+return null();
+}
+
+
+HX_DEFINE_DYNAMIC_FUNC0(DemoController_obj,_setupBunnymarkComponent,(void))
+
 Void DemoController_obj::_setupMenuComponent( ){
 {
-		HX_STACK_FRAME("com.arm.demo.controller.DemoController","_setupMenuComponent",0x41f461b7,"com.arm.demo.controller.DemoController._setupMenuComponent","com/arm/demo/controller/DemoController.hx",43,0x66db3957)
+		HX_STACK_FRAME("com.arm.demo.controller.DemoController","_setupMenuComponent",0x41f461b7,"com.arm.demo.controller.DemoController._setupMenuComponent","com/arm/demo/controller/DemoController.hx",51,0x66db3957)
 		HX_STACK_THIS(this)
-		HX_STACK_LINE(44)
+		HX_STACK_LINE(52)
 		::fluid::display::FluidSprite _g = this->view->get_container();		HX_STACK_VAR(_g,"_g");
-		HX_STACK_LINE(44)
+		HX_STACK_LINE(52)
 		::com::arm::demo::components::menu::MenuView menuView = ::com::arm::demo::components::menu::MenuView_obj::__new(_g);		HX_STACK_VAR(menuView,"menuView");
-		HX_STACK_LINE(45)
+		HX_STACK_LINE(53)
 		::com::arm::demo::components::menu::MenuController menuController = ::com::arm::demo::components::menu::MenuController_obj::__new(null(),menuView,this->comms,this->model);		HX_STACK_VAR(menuController,"menuController");
 	}
 return null();
@@ -214,6 +239,9 @@ Dynamic DemoController_obj::__Field(const ::String &inName,bool inCallProp)
 	case 19:
 		if (HX_FIELD_EQ(inName,"_setupMenuComponent") ) { return _setupMenuComponent_dyn(); }
 		break;
+	case 24:
+		if (HX_FIELD_EQ(inName,"_setupBunnymarkComponent") ) { return _setupBunnymarkComponent_dyn(); }
+		break;
 	case 25:
 		if (HX_FIELD_EQ(inName,"_addNotificationListeners") ) { return _addNotificationListeners_dyn(); }
 	}
@@ -261,6 +289,7 @@ static ::String sMemberFields[] = {
 	HX_CSTRING("_addViewListeners"),
 	HX_CSTRING("reset"),
 	HX_CSTRING("setupComponents"),
+	HX_CSTRING("_setupBunnymarkComponent"),
 	HX_CSTRING("_setupMenuComponent"),
 	String(null()) };
 
