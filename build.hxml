@@ -1,16 +1,20 @@
--main com.arm.demo.Main
+-cmd haxelib newrepo
 
--js output/js/fluid.dev.js
+--next
 
 -cp src
-#-cp ../haxe-pixi/src
-
--lib actuate
--lib msignal
--lib pixijs
-
--D source-map-content
-
+Fluid
 -debug
+-D source-map-content
+-js dist/fluid.js
 
--dce full
+--next
+
+-cp src
+-main demo.Main
+
+-lib msignal
+
+-js demo/test.js
+-D source-map-content
+-debug
