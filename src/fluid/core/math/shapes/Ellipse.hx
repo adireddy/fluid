@@ -2,13 +2,13 @@ package fluid.core.math.shapes;
 
 class Ellipse {
 
-	public var x:Float;
-	public var y:Float;
-	public var width:Float;
-	public var height:Float;
+	public var x:Int;
+	public var y:Int;
+	public var width:Int;
+	public var height:Int;
 	public var type:Int;
 
-	public function new(?x:Float = 0, ?y:Float = 0, ?width:Float = 0, ?height:Float = 0):Void {
+	public function new(?x:Int = 0, ?y:Int = 0, ?width:Int = 0, ?height:Int = 0):Void {
 		this.x = x;
 		this.y = y;
 		this.width = width;

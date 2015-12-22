@@ -3,6 +3,7 @@
 --next
 
 -cp src
+-lib msignal
 Fluid
 -debug
 -D source-map-content
@@ -12,9 +13,7 @@ Fluid
 
 -cp src
 -main demo.Main
-
 -lib msignal
-
 -js demo/test.js
 -D source-map-content
 -debug

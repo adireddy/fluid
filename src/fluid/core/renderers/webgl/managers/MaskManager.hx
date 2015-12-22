@@ -1,56 +1,50 @@
 package fluid.core.renderers.webgl.managers;
 
-extern class MaskManager extends WebGLManager {
+import fluid.core.renderers.webgl.filters.AbstractFilter;
+import fluid.core.renderers.webgl.utils.StencilMaskStack;
 
-	/**
-	 * @class
-	 * @memberof PIXI
-	 * @param renderer {WebGLRenderer} The renderer this manager works for.
-	 */
-	function new(renderer:WebGLRenderer);
+class MaskManager extends WebGLManager {
 
-	/**
-	 * Applies the Mask and adds it to the current filter stack.
-	 *
-	 * @param graphics {Graphics}
-	 * @param webGLData {any[]}
-	 */
-	function pushMask(target:Dynamic, maskData:Dynamic):Void;
+	public var stencilStack:Array<StencilMaskStack>;
+	public var reverse:Bool;
+	public var count:Int;
+	public var alphaMaskPool:Array<Dynamic>;
 
-	/**
-	 * Removes the last mask from the mask stack and doesn't return it.
-	 *
-	 * @param target {RenderTarget}
-	 * @param maskData {any[]}
-	 */
-	function popMask(target:Dynamic, maskData:Dynamic):Void;
+	public function new(renderer:WebGLRenderer) {
+		super(renderer);
+		this.stencilStack = [];
+		this.reverse = true;
+		this.count = 0;
+		this.alphaMaskPool = [];
+	}
 
-	/**
-	 * Applies the Mask and adds it to the current filter stack.
-	 *
-	 * @param target {RenderTarget}
-	 * @param maskData {any[]}
-	 */
-	function pushSpriteMask(target:Dynamic, maskData:Dynamic):Void;
+	public function pushMask(target:Dynamic, maskData:Dynamic):Void {
+		if (maskData.texture != null) this.pushSpriteMask(target, maskData);
+		else this.pushStencilMask(target, maskData);
+	}
 
-	/**
-	 * Removes the last filter from the filter stack and doesn't return it.
-	 *
-	 */
-	function popSpriteMask():Void;
+	public function popMask(target:Dynamic, maskData:Dynamic):Void {
+		if (maskData.texture != null) this.popSpriteMask();
+		else this.popStencilMask(target, maskData);
+	}
 
-	/**
-	 * Applies the Mask and adds it to the current filter stack.
-	 *
-	 * @param target {RenderTarget}
-	 * @param maskData {any[]}
-	 */
-	function pushStencilMask(target:Dynamic, maskData:Dynamic):Void;
+	public function pushSpriteMask(target:Dynamic, maskData:Dynamic):Void {
+		var alphaMaskFilter = this.alphaMaskPool.pop();
+		if (alphaMaskFilter != null) alphaMaskFilter = [new AbstractFilter(maskData)];
+		alphaMaskFilter[0].maskSprite = maskData;
+		this.renderer.filterManager.pushFilter(target, alphaMaskFilter);
+	}
 
-	/**
-	 * Removes the last filter from the filter stack and doesn't return it.
-	 * @param target {RenderTarget}
-	 * @param maskData {any[]}
-	 */
-	function popStencilMask(target:Dynamic, maskData:Dynamic):Void;
+	public function popSpriteMask():Void {
+		var filters = this.renderer.filterManager.popFilter();
+		this.alphaMaskPool.push(filters);
+	}
+
+	public function pushStencilMask(target:Dynamic, maskData:Dynamic):Void {
+		this.renderer.stencilManager.pushMask(maskData);
+	}
+
+	public function popStencilMask(target:Dynamic, maskData:Dynamic):Void {
+		this.renderer.stencilManager.popMask(maskData);
+	}
 }

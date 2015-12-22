@@ -40,13 +40,13 @@ class Application {
 	 * Width of the application.
 	 * default - Browser.window.innerWidth
 	 */
-	public var width:Float;
+	public var width:Int;
 
 	/**
 	 * Height of the application.
 	 * default - Browser.window.innerHeight
 	 */
-	public var height:Float;
+	public var height:Int;
 
 	/**
 	 * Renderer transparency property.

@@ -9,8 +9,8 @@ import js.html.CanvasElement;
 class SystemRenderer {
 
 	public var type:Int;
-	public var width:Float;
-	public var height:Float;
+	public var width:Int;
+	public var height:Int;
 	public var view:CanvasElement;
 	public var resolution:Float;
 	public var transparent:Bool;
@@ -28,7 +28,8 @@ class SystemRenderer {
 	var _tempDisplayObjectParent:Dynamic;
 	var _lastObjectRendered:Dynamic;
 
-	public function new(system:String, ?width:Float = 1024, ?height:Float = 728, ?options:RenderOptions) {
+	public function new(system:String, ?width:Int = 1024, ?height:Int = 728, ?options:RenderOptions) {
+		Utils.init();
 		Utils.sayHello(system);
 		if (options != null) {
 			if (options.antialias == null) options.antialias = Fluid.DEFAULT_RENDER_OPTIONS.antialias;
@@ -70,9 +71,9 @@ class SystemRenderer {
 		return backgroundColor = val;
 	}
 
-	public function resize(width:Float, height:Float):Void {
-		this.width = width * this.resolution;
-		this.height = height * this.resolution;
+	public function resize(width:Int, height:Int):Void {
+		this.width = Std.int(width * this.resolution);
+		this.height = Std.int(height * this.resolution);
 
 		this.view.width = Std.int(this.width);
 		this.view.height = Std.int(this.height);

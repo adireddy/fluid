@@ -1,179 +1,186 @@
 package fluid.core.textures;
 
-import fluid.interaction.EventEmitter;
-import js.html.ImageElement;
-import js.html.CanvasElement;
+import js.html.Image;
+import msignal.Signal.Signal1;
+import fluid.core.utils.Utils;
 
-@:native("PIXI.BaseTexture")
-extern class BaseTexture extends EventEmitter {
+class BaseTexture {
 
-	/**
-	 * A texture stores the information that represents an image. All textures have a base texture.
-	 *
-	 * @class
-	 * @memberof PIXI
-	 * @param source {Image|Canvas} the source object of the texture.
-	 * @param [scaleMode=scaleModes.DEFAULT] {number} See {@link SCALE_MODES} for possible values
-	 * @param resolution {number} the resolution of the texture for devices with different pixel ratios
-	 */
-	@:overload(function(source:Dynamic,?scaleMode:Int, ?resolution:Float):Void {})
-	@:overload(function(source:CanvasElement,?scaleMode:Int, ?resolution:Float):Void {})
-	function new(source:ImageElement, ?scaleMode:Int, ?resolution:Float);
+	public var uid:Int;
+	public var resolution:Float;
+	public var width:Int;
+	public var height:Int;
+	public var realWidth:Int;
+	public var realHeight:Int;
+	public var scaleMode:Int;
+	public var hasLoaded:Bool;
+	public var isLoading:Bool;
+	public var isPowerOfTwo:Bool;
+	public var source:Dynamic;
+	public var premultipliedAlpha:Bool;
+	public var imageUrl:String;
+	public var mipmap:Bool;
 
-	/**
-	 * The Resolution of the texture.
-	 *
-	 * @member {Float}
-	 */
-	var resolution:Float;
+	public var _glTextures:Map<Int, js.html.webgl.Texture>;
 
-	/**
-	 * The width of the base texture set when the image has loaded
-	 *
-	 * @member {Float}
-	 * @readOnly
-	 */
-	var width:Float;
+	public var loaded:Signal1<BaseTexture>;
+	public var error:Signal1<BaseTexture>;
+	public var updated:Signal1<BaseTexture>;
+	public var disposed:Signal1<Dynamic>;
 
-	/**
-	 * The height of the base texture set when the image has loaded
-	 *
-	 * @member {Float}
-	 * @readOnly
-	 */
-	var height:Float;
+	public function new(source:Dynamic, ?scaleMode:Int = 0, ?resolution:Float = 1) {
+		this.uid = Utils.uid();
+		this.resolution = resolution;
+		this.width = 100;
+		this.height = 100;
+		this.realWidth = 100;
+		this.realHeight = 100;
+		this.scaleMode = scaleMode;
+		this.hasLoaded = false;
+		this.isLoading = false;
+		this.source = null;
+		this.premultipliedAlpha = true;
+		this.imageUrl = null;
+		this.isPowerOfTwo = false;
+		this.mipmap = false;
+		this._glTextures = new Map();
 
-	/**
-	 * The scale mode to apply when scaling this texture
-	 *
-	 * @member {Int}
-	 * @default scaleModes.LINEAR
-	 */
-	var scaleMode:Int;
+		loaded = new Signal1(BaseTexture);
+		error = new Signal1(BaseTexture);
+		updated = new Signal1(BaseTexture);
+		disposed = new Signal1(BaseTexture);
 
-	/**
-	 * Set to true once the base texture has successfully loaded.
-	 *
-	 * This is never true if the underlying source fails to load or has no texture data.
-	 *
-	 * @member {Bool}
-	 * @readOnly
-	 */
-	var hasLoaded:Bool;
+		if (source != null) this.loadSource(source);
+	}
 
-	/**
-	 * Set to true if the source is currently loading.
-	 *
-	 * If an Image source is loading the 'loaded' or 'error' event will be
-	 * dispatched when the operation ends. An underyling source that is
-	 * immediately-available bypasses loading entirely.
-	 *
-	 * @member {Bool}
-	 * @readonly
-	 */
-	var isLoading:Bool;
+	public function update():Void {
+		this.realWidth = (this.source.naturalWidth != null) ? this.source.naturalWidth : this.source.width;
+		this.realHeight = (this.source.naturalHeight != null) ? this.source.naturalHeight : this.source.height;
 
-	/**
-	 * The image source that is used to create the texture.
-	 *
-	 * @member {Image|Canvas}
-	 * @readonly
-	 */
-	var source:Dynamic;
+		this.width = Std.int(this.realWidth / this.resolution);
+		this.height = Std.int(this.realHeight / this.resolution);
 
-	/**
-	 * Controls if RGB channels should be pre-multiplied by Alpha  (WebGL only)
-	 *
-	 * @member {Bool}
-	 * @default true
-	 */
-	var premultipliedAlpha:Bool;
+		this.isPowerOfTwo = Utils.isPowerOfTwo(this.realWidth, this.realHeight);
 
-	/**
-	 * @member {String}
-	 */
-	var imageUrl:String;
+		updated.dispatch(this);
+	}
 
-	/**
-	 *
-	 * Set this to true if a mipmap of this texture needs to be generated. This value needs to be set before the texture is used
-	 * Also the texture must be a power of two size to work
-	 *
-	 * @member {Bool}
-	 */
-	var mipmap:Bool;
+	public function destroy():Void {
+		if (this.imageUrl != null) {
+			Utils.BaseTextureCache.set(this.imageUrl, null);
+			Utils.TextureCache.set(this.imageUrl, null);
+			this.imageUrl = null;
+		}
+		else if (this.source && this.source._pixiId) {
+			Utils.BaseTextureCache.set(this.source._pixiId, null);
+		}
 
-	/**
-	 * Updates the texture on all the webgl renderers.
-	 *
-	 * @fires update
-	 */
-	function update():Void;
+		this.source = null;
+		this.dispose();
+	}
 
-	/**
-	 * Destroys this base texture
-	 *
-	 */
-	function destroy():Void;
+	public function dispose():Void {
+		disposed.dispatch(this);
+		this._glTextures = null;
+	}
 
-	/**
-	 * Frees the texture from WebGL memory without destroying this texture object.
-	 * This means you can still use the texture later which will upload it to GPU
-	 * memory again.
-	 *
-	 */
-	function dispose():Void;
+	public function loadSource(source:Dynamic):Void {
+		var wasLoading = this.isLoading;
+		this.hasLoaded = false;
+		this.isLoading = false;
 
-	/**
-	 * Load a source.
-	 *
-	 * If the source is not-immediately-available, such as an image that needs to be
-	 * downloaded, then the 'loaded' or 'error' event will be dispatched in the future
-	 * and `hasLoaded` will remain false after this call.
-	 *
-	 * The logic state after calling `loadSource` directly or indirectly (eg. `fromImage`, `new BaseTexture`) is:
-	 *
-	 *     if (texture.hasLoaded) {
-	 *        // texture ready for use
-	 *     } else if (texture.isLoading) {
-	 *        // listen to 'loaded' and/or 'error' events on texture
-	 *     } else {
-	 *        // not loading, not going to load UNLESS the source is reloaded
-	 *        // (it may still make sense to listen to the events)
-	 *     }
-	 *
-	 * @protected
-	 * @param source {Image|Canvas} the source object of the texture.
-	 */
-	function loadSource(source:String):Void;
+		if (wasLoading && this.source != null) {
+			this.source.onload = null;
+			this.source.onerror = null;
+		}
 
-	/**
-	 * Changes the source image of the texture.
-	 * The original source must be an Image element.
-	 *
-	 * @param newSrc {String} the path of the image
-	 */
-	function updateSourceImage(newSrc:String):Void;
+		this.source = source;
 
-	/**
-	 * Helper function that creates a base texture from the given image url.
-	 * If the image is not in the base texture cache it will be created and loaded.
-	 *
-	 * @static
-	 * @param imageUrl {String} The image url of the texture
-	 * @param [crossorigin=(auto)] {Bool} Should use anonymouse CORS? Defaults to true if the URL is not a data-URI.
-	 * @param [scaleMode=scaleModes.DEFAULT] {Int} See {@link scaleModes} for possible values
-	 * @return BaseTexture
-	 */
-	static function fromImage(imageUrl:String, ?crossorigin:Bool, ?scaleMode:Int):BaseTexture;
+		// Apply source if loaded. Otherwise setup appropriate loading monitors.
+		if ((this.source.complete != null || this.source.getContext != null) && this.source.width != null && this.source.height != null) {
+			this._sourceLoaded();
+		}
+		else if (source.getContext != null) {
+			this.isLoading = true;
+			var scope = this;
 
-	/**
-	 * Helper function that creates a base texture from the given canvas element.
-	 *
-	 * @static
-	 * @param canvas {Canvas} The canvas element source of the texture
-	 * @param scaleMode {Int} See {{#crossLink "PIXI/scaleModes:property"}}scaleModes{{/crossLink}} for possible values
-	 * @return BaseTexture
-	 */
-	static function fromCanvas(canvas:CanvasElement, ?scaleMode:Int):BaseTexture;
+			source.onload = function() {
+				source.onload = null;
+				source.onerror = null;
+
+				if (!scope.isLoading) return;
+
+				scope.isLoading = false;
+				scope._sourceLoaded();
+				loaded.dispatch(scope);
+			};
+
+			source.onerror = function() {
+				source.onload = null;
+				source.onerror = null;
+
+				if (!scope.isLoading) return;
+
+				scope.isLoading = false;
+				error.dispatch(scope);
+			};
+
+			if (source.complete != null && source.src != null) {
+				this.isLoading = false;
+				source.onload = null;
+				source.onerror = null;
+
+				if (source.width && source.height) {
+					this._sourceLoaded();
+					if (wasLoading) loaded.dispatch(this);
+				}
+				else {
+					if (wasLoading) error.dispatch(this);
+				}
+			}
+		}
+	}
+
+	function _sourceLoaded() {
+		this.hasLoaded = true;
+		this.update();
+	}
+
+	public function updateSourceImage(newSrc:String):Void {
+		this.source.src = newSrc;
+		this.loadSource(this.source);
+	}
+
+	public static function fromImage(imageUrl:String, ?crossorigin:Bool, ?scaleMode:Int = 0):BaseTexture {
+		var baseTexture:BaseTexture = Utils.BaseTextureCache[imageUrl];
+		crossorigin = (crossorigin == null && imageUrl.indexOf('data:') != 0);
+
+		if (baseTexture != null) {
+			var image = new Image();
+			if (crossorigin) image.crossOrigin = '';
+
+			baseTexture = new BaseTexture(image, scaleMode);
+			baseTexture.imageUrl = imageUrl;
+
+			image.src = imageUrl;
+
+			Utils.BaseTextureCache[imageUrl] = baseTexture;
+
+			baseTexture.resolution = Utils.getResolutionOfUrl(imageUrl);
+		}
+
+		return baseTexture;
+	}
+
+	public static function fromCanvas(canvas:Dynamic, ?scaleMode:Int):BaseTexture {
+		if (canvas._pixiId != null) canvas._pixiId = 'canvas_' + Utils.uid();
+
+		var baseTexture = Utils.BaseTextureCache[canvas._pixiId];
+		if (baseTexture != null) {
+			baseTexture = new BaseTexture(canvas, scaleMode);
+			Utils.BaseTextureCache[canvas._pixiId] = baseTexture;
+		}
+
+		return baseTexture;
+	}
 }

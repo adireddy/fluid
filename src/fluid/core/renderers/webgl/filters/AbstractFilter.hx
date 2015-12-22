@@ -13,7 +13,7 @@ extern class AbstractFilter {
 	 * @param fragmentSrc {String|String[]} The fragment shader source as an array of strings.
 	 * @param uniforms {object} An object containing the uniforms for this filter.
 	 */
-	@:overload(function(vertexSrc:Array<String>, fragmentSrc:Array<String>, uniforms:Dynamic):Void {})
+	@:overload(function(vertexSrc:Array<String>, ?fragmentSrc:Array<String>, ?uniforms:Dynamic):Void {})
 	function new(vertexSrc:String, fragmentSrc:String, uniforms:Dynamic);
 
 	/**

@@ -7,6 +7,8 @@ import fluid.core.display.Container;
 @:native("PIXI.Sprite")
 extern class Sprite extends Container {
 
+	var _texture:Dynamic;
+
 	/**
 	 * The Sprite object is the base for all textured objects that are rendered to the screen
 	 *

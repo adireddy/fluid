@@ -1,19 +1,22 @@
 package fluid.core.renderers.webgl.managers;
 
-extern class BlendModeManager extends WebGLManager {
+class BlendModeManager extends WebGLManager {
 
-	/**
-	 * @class
-	 * @memberof PIXI
-	 * @extends WebGlManager
-	 * @param renderer {WebGLRenderer} The renderer this manager works for.
-	 */
-	function new(renderer:WebGLRenderer);
+	var currentBlendMode:Int;
 
-	/**
-	 * Sets-up the given blendMode from WebGL's point of view.
-	 *
-	 * @param blendMode {number} the blendMode, should be a Pixi const, such as BlendModes.ADD
-	 */
-	function setBlendMode(blendMode:Int):Void;
+	public function new(renderer:WebGLRenderer) {
+		super(renderer);
+		this.currentBlendMode = 99999;
+	}
+
+	public function setBlendMode(blendMode:Int):Bool {
+		if (this.currentBlendMode == blendMode) return false;
+
+		this.currentBlendMode = blendMode;
+
+		var mode = this.renderer.blendModes[this.currentBlendMode];
+		this.renderer.gl.blendFunc(mode[0], mode[1]);
+
+		return true;
+	}
 }

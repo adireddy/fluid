@@ -1,6 +1,8 @@
 package fluid.core.utils;
 
-import js.html.Window;
+import fluid.core.renderers.webgl.utils.StencilMaskStack;
+import fluid.core.textures.Texture;
+import fluid.core.textures.BaseTexture;
 import js.html.webgl.RenderingContext;
 import js.html.CanvasElement;
 import js.html.Image;
@@ -11,9 +13,8 @@ class Utils {
 	static var _uid:Int = 0;
 	static var _saidHello:Bool = false;
 
-	public static var TextureCache:Dynamic;
-	public static var BaseTextureCache:Dynamic;
-
+	public static var TextureCache:Map<String, Texture>;
+	public static var BaseTextureCache:Map<String, BaseTexture>;
 
 	public static function uid():Int {
 		return ++_uid;
@@ -88,6 +89,11 @@ class Utils {
 		if (_saidHello) return;
 		trace("Fluid " + Fluid.VERSION + ' - ' + type);
 		_saidHello = true;
+	}
+
+	public static function init() {
+		BaseTextureCache = new Map();
+		TextureCache = new Map();
 	}
 
 	public static function isWebGLSupported():Bool {

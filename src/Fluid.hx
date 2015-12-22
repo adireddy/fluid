@@ -1,43 +1,38 @@
-import js.Browser;
+import fluid.core.utils.Utils;
 import haxe.extern.EitherType;
 import fluid.core.renderers.canvas.CanvasRenderer;
 import fluid.core.renderers.webgl.WebGLRenderer;
-import fluid.core.utils.Utils;
 
 @:expose class Fluid {
 
-	public static var utils = Utils;
+	public static var utils = fluid.core.utils.Utils;
+	public static var WebGLRenderer = fluid.core.renderers.webgl.WebGLRenderer;
 
 	public static var VERSION:String = "0.0.1";
-
 	public static var PI_2:Float = Math.PI * 2;
-
 	public static var RAD_TO_DEG:Float = 180 / Math.PI;
-
 	public static var DEG_TO_RAD:Float = Math.PI / 180;
-
 	public static var TARGET_FPMS:Float = 0.06;
-
 	public static var RENDERER_TYPE:RendererType = { UNKNOWN: 0, WEBGL: 1, CANVAS: 2 };
 
 	public static var BLEND_MODES:BlendModes = {
-		NORMAL:         0,
-		ADD:            1,
-		MULTIPLY:       2,
-		SCREEN:         3,
-		OVERLAY:        4,
-		DARKEN:         5,
-		LIGHTEN:        6,
-		COLOR_DODGE:    7,
-		COLOR_BURN:     8,
-		HARD_LIGHT:     9,
-		SOFT_LIGHT:     10,
-		DIFFERENCE:     11,
-		EXCLUSION:      12,
-		HUE:            13,
-		SATURATION:     14,
-		COLOR:          15,
-		LUMINOSITY:     16
+		NORMAL: 0,
+		ADD: 1,
+		MULTIPLY: 2,
+		SCREEN: 3,
+		OVERLAY: 4,
+		DARKEN: 5,
+		LIGHTEN: 6,
+		COLOR_DODGE: 7,
+		COLOR_BURN: 8,
+		HARD_LIGHT: 9,
+		SOFT_LIGHT: 10,
+		DIFFERENCE: 11,
+		EXCLUSION: 12,
+		HUE: 13,
+		SATURATION: 14,
+		COLOR: 15,
+		LUMINOSITY: 16
 	};
 
 	public static var DRAW_MODES:DrawModes = {POINTS: 0, LINES: 1, LINE_LOOP: 2, LINE_STRIP: 3, TRIANGLES: 4, TRIANGLE_STRIP: 5, TRIANGLE_FAN: 6 };
@@ -67,7 +62,7 @@ import fluid.core.utils.Utils;
 
 	public static var SPRITE_BATCH_SIZE:Int = 2000;
 
-	public static function autoDetectRenderer(?width:Float = 1024, ?height:Float = 728, ?options:RenderOptions, ?noWebGL:Bool = false):EitherType<WebGLRenderer, CanvasRenderer> {
+	public static function autoDetectRenderer(?width:Int = 1024, ?height:Int = 728, ?options:RenderOptions, ?noWebGL:Bool = false):EitherType<WebGLRenderer, CanvasRenderer> {
 		if (!noWebGL && Utils.isWebGLSupported()) return new WebGLRenderer(width, height, options);
 		return new CanvasRenderer(width, height, options);
 	}

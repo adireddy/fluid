@@ -277,4 +277,6 @@ extern class DisplayObject extends InteractionManager {
 	 * @memberof DisplayObject#
 	 */
 	var hitArea:Dynamic;
+
+	function renderWebGL(rendered:WebGLRenderer):Void;
 }

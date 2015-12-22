@@ -1,195 +1,169 @@
 package fluid.core.textures;
 
+import fluid.core.utils.Utils;
 import fluid.interaction.EventEmitter;
 import fluid.core.math.Point;
-import js.html.VideoElement;
 import fluid.core.math.shapes.Rectangle;
+import msignal.Signal.Signal1;
+import js.html.VideoElement;
+import js.Error;
 
-@:native("PIXI.Texture")
-extern class Texture extends EventEmitter {
+class Texture {
 
-	/**
-	 * A texture stores the information that represents an image or part of an image. It cannot be added
-	 * to the display list directly. Instead use it as the texture for a Sprite. If no frame is provided then the whole image is used.
-	 *
-	 * You can directly create a texture from an image and then reuse it multiple times like this :
-	 *
-	 * ```js
-	 * 	var texture = PIXI.Texture.fromImage('assets/image.png');
-	 * 	var sprite1 = new PIXI.Sprite(texture);
-	 * 	var sprite2 = new PIXI.Sprite(texture);
-	 * ```
-	 *
-	 * @class
-	 * @mixes eventTarget
-	 * @memberof PIXI
-	 * @param baseTexture {BaseTexture} The base texture source to create the texture from
-	 * @param [frame] {Rectangle} The rectangle frame of the texture to show
-	 * @param [crop] {Rectangle} The area of original texture
-	 * @param [trim] {Rectangle} Trimmed texture rectangle
-	 * @param [rotate] {boolean} indicates whether the texture should be rotated by 90 degrees ( used by texture packer )
-	 */
-	@:overload(function(baseTexture:VideoBaseTexture, ?frame:Rectangle, ?crop:Rectangle, ?trim:Rectangle, ?rotate:Bool):Void {})
-	function new(baseTexture:BaseTexture, ?frame:Rectangle, ?crop:Rectangle, ?trim:Rectangle, ?rotate:Bool);
+	public var noFrame:Bool;
+	public var baseTexture:BaseTexture;
+	public var trim:Rectangle;
+	public var valid:Bool;
+	public var requiresUpdate:Bool;
+	public var width:Float;
+	public var height:Float;
+	public var crop:Rectangle;
+	public var spritePivot:Point;
+	public var rotate:Bool;
+	public var frame(default, set):Rectangle;
 
-	/**
-	 * Does this Texture have any frame data assigned to it?
-	 *
-	 * @member {Bool}
-	 */
-	var noFrame:Bool;
+	public var updated:Signal1<Texture>;
+	public var disposed:Signal1<Texture>;
 
-	/**
-	 * The base texture that this texture uses.
-	 *
-	 * @member {BaseTexture}
-	 */
-	var baseTexture:BaseTexture;
+	var _frame:Rectangle;
+	var _uvs:TextureUvs;
 
-	/**
-	 * The texture trim data.
-	 *
-	 * @member {Rectangle}
-	 */
-	var trim:Rectangle;
+	public function new(txt:Dynamic, ?frame:Rectangle, ?crop:Rectangle, ?trim:Rectangle, ?rotate:Bool = false) {
+		this.noFrame = false;
+		if (frame == null) {
+			this.noFrame = true;
+			frame = new Rectangle(0, 0, 1, 1);
+		}
 
-	/**
-	 * This will let the renderer know if the texture is valid. If it's not then it cannot be rendered.
-	 *
-	 * @member {Bool}
-	 */
-	var valid:Bool;
+		var baseTexture = (txt.baseTexture != null) ? txt.baseTexture : txt;
 
-	/**
-	 * This will let a renderer know that a texture has been updated (used mainly for webGL uv updates)
-	 *
-	 * @member {Bool}
-	 */
-	var requiresUpdate:Bool;
+		this.baseTexture = cast baseTexture;
+		this._frame = frame;
+		this.trim = trim;
+		this.valid = false;
+		this.requiresUpdate = false;
+		this._uvs = null;
+		this.width = 0;
+		this.height = 0;
+		this.crop = (crop != null) ? crop : frame;
+		this.rotate = rotate;
 
-	/**
-	 * The width of the Texture in pixels.
-	 *
-	 * @member {Float}
-	 */
-	var width:Float;
+		if (this.baseTexture.hasLoaded) {
+			if (this.noFrame) {
+				frame = new Rectangle(0, 0, baseTexture.width, baseTexture.height);
+				this.baseTexture.updated.add(_onBaseTextureUpdated);
+			}
+			this.frame = frame;
+		}
+		else {
+			this.baseTexture.loaded.add(_onBaseTextureLoaded);
+		}
 
-	/**
-	 * The height of the Texture in pixels.
-	 *
-	 * @member {Float}
-	 */
-	var height:Float;
+		updated = new Signal1(Texture);
+		disposed = new Signal1(Texture);
+	}
 
-	/**
-	 * This is the area of the BaseTexture image to actually copy to the Canvas / WebGL when rendering,
-	 * irrespective of the actual frame size or placement (which can be influenced by trimmed texture atlases)
-	 *
-	 * @member {Rectangle}
-	 */
-	var crop:Rectangle;
+	function set_frame(frame:Rectangle):Rectangle {
+		this.noFrame = false;
 
-	/**
-	 * The pivot point to used for a sprite this texture belongs to.
-	 *
-	 * @member {Point}
-	 */
-	var spritePivot:Point;
+		this.width = frame.width;
+		this.height = frame.height;
 
-	/**
-	 * The rotation value of the texture, copied to a sprite when assigned to it.
-	 *
-	 * @member {Float}
-	 */
-	var rotation:Float;
+		if (this.trim != null && this.rotate != null && (frame.x + frame.width > this.baseTexture.width || frame.y + frame.height > this.baseTexture.height)) {
+			throw new Error('Texture Error: frame does not fit inside the base Texture dimensions ' + this);
+		}
 
-	/**
-	 * The frame specifies the region of the base texture that this texture uses
-	 *
-	 * @member {Rectangle}
-	 */
-	var frame:Rectangle;
+		this.valid = (frame != null && frame.width != null && frame.height != null && this.baseTexture.hasLoaded);
 
-	/**
-	 * Destroys this texture
-	 *
-	 * @param destroyBase {Bool} Whether to destroy the base texture as well
-	 */
-	function destroy(?destroyBase:Bool):Void;
+		if (this.trim != null) {
+			this.width = this.trim.width;
+			this.height = this.trim.height;
+			this._frame.width = this.trim.width;
+			this._frame.height = this.trim.height;
+		}
+		else this.crop = frame;
 
-	/**
-	 * Updates this texture on the gpu.
-	 *
-	 */
-	function update():Void;
+		if (this.valid) this._updateUvs();
 
-	/**
-	 * Helper function that creates a Texture object from the given image url.
-	 * If the image is not in the texture cache it will be  created and loaded.
-	 *
-	 * @static
-	 * @param imageUrl {String} The image url of the texture
-	 * @param crossorigin {Bool} Whether requests should be treated as crossorigin
-	 * @param scaleMode {Int} See {{#crossLink "PIXI/scaleModes:property"}}scaleModes{{/crossLink}} for possible values
-	 * @return Texture
-	 */
-	static function fromImage(imageId:String, ?crossorigin:Bool, ?scaleMode:Int):Texture;
+		return this.frame = frame;
+	}
 
-	/**
-	 * Helper function that creates a sprite that will contain a texture from the TextureCache based on the frameId
-	 * The frame ids are created when a Texture packer file has been loaded
-	 *
-	 * @static
-	 * @param frameId {String} The frame Id of the texture in the cache
-	 * @return {Texture} The newly created texture
-	 */
-	static function fromFrame(frameId:String):Texture;
+	function _onBaseTextureLoaded(baseTexture:BaseTexture) {
+		if (this.noFrame) this.frame = new Rectangle(0, 0, baseTexture.width, baseTexture.height);
+		else this.frame = this._frame;
+		updated.dispatch(this);
+	}
 
-	/**
-	 * Helper function that creates a new Texture based on the given canvas element.
-	 *
-	 * @static
-	 * @param canvas {Canvas} The canvas element source of the texture
-	 * @param scaleMode {Int} See {{#crossLink "PIXI/scaleModes:property"}}scaleModes{{/crossLink}} for possible values
-	 * @return {Texture}
-	 */
-	static function fromCanvas(canvas:Dynamic, ?scaleMode:Int):Texture;
+	function _onBaseTextureUpdated(baseTexture:BaseTexture) {
+		this._frame.width = baseTexture.width;
+		this._frame.height = baseTexture.height;
+		updated.dispatch(this);
+	}
 
-	/**
-	 * Helper function that creates a new Texture based on the given video element.
-	 *
-	 * @static
-	 * @param video {VideoElement}
-	 * @param scaleMode {Int} See {{#crossLink "PIXI/scaleModes:property"}}scaleModes{{/crossLink}} for possible values
-	 * @return {Texture} A Texture
-	 */
-	static function fromVideo(video:VideoElement, ?scaleMode:Int):Texture;
+	function destroy(?destroyBase:Bool):Void {
+		if (this.baseTexture != null) {
+			if (destroyBase) this.baseTexture.destroy();
 
-	/**
-	 * Helper function that creates a new Texture based on the video url.
-	 *
-	 * @static
-	 * @param videoUrl {String}
-	 * @param scaleMode {Int} See {{#crossLink "PIXI/scaleModes:property"}}scaleModes{{/crossLink}} for possible values
-	 * @return {Texture} A Texture
-	 */
-	static function fromVideoUrl(videoUrl:String, ?scaleMode:Int):Texture;
+			this.baseTexture.updated.remove(_onBaseTextureUpdated);
+			this.baseTexture.loaded.remove(_onBaseTextureLoaded);
+			this.baseTexture = null;
+		}
 
-	/**
-	 * Adds a texture to the global utils.TextureCache. This cache is shared across the whole PIXI object.
-	 *
-	 * @static
-	 * @param texture {Texture} The Texture to add to the cache.
-	 * @param id {String} The id that the texture will be stored against.
-	 */
-	static function addTextureToCache(texture:Texture, id:String):Void;
+		this._frame = null;
+		this._uvs = null;
+		this.trim = null;
+		this.crop = null;
 
-	/**
-	 * Remove a texture from the global utils.TextureCache.
-	 *
-	 * @static
-	 * @param id {String} The id of the texture to be removed
-	 * @return {Texture} The texture that was removed
-	 */
-	static function removeTextureFromCache(id:String):Texture;
+		this.valid = false;
+
+		disposed.removeAll();
+		updated.removeAll();
+	}
+
+	function update():Void {
+		this.baseTexture.update();
+	}
+
+	function _updateUvs() {
+		if (this._uvs != null) this._uvs = new TextureUvs();
+		this._uvs.set(this.crop, this.baseTexture, this.rotate);
+	}
+
+	public static function fromImage(imageUrl:String, ?crossorigin:Bool, ?scaleMode:Int):Texture {
+		var texture = Utils.TextureCache.get(imageUrl);
+		if (texture != null) {
+			texture = new Texture(BaseTexture.fromImage(imageUrl, crossorigin, scaleMode));
+			Utils.TextureCache[imageUrl] = texture;
+		}
+		return texture;
+	}
+
+	public static function fromFrame(frameId:String):Texture {
+		var texture = Utils.TextureCache[frameId];
+		if (texture == null) throw new Error('The frameId "' + frameId + '" does not exist in the texture cache');
+		return texture;
+	}
+
+	public static function fromCanvas(canvas:Dynamic, ?scaleMode:Int = 0):Texture {
+		return new Texture(BaseTexture.fromCanvas(canvas, scaleMode));
+	}
+
+	public static function fromVideo(video:VideoElement, ?scaleMode:Int):Texture {
+		return new Texture(VideoBaseTexture.fromVideo(video, scaleMode));
+	}
+
+	public static function fromVideoUrl(videoUrl:String, ?scaleMode:Int):Texture {
+		return new Texture(VideoBaseTexture.fromUrl(videoUrl, scaleMode));
+	}
+
+	public static function addTextureToCache(texture:Texture, id:String):Void {
+		Utils.TextureCache[id] = texture;
+	}
+
+	public static function removeTextureFromCache(id:String):Texture {
+		var texture = Utils.TextureCache[id];
+		Utils.TextureCache[id] = null;
+		Utils.BaseTextureCache[id] = null;
+		return texture;
+	}
 }

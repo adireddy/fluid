@@ -2,12 +2,12 @@ package fluid.core.math.shapes;
 
 class Circle {
 
-	public var x:Float;
-	public var y:Float;
-	public var radius:Float;
+	public var x:Int;
+	public var y:Int;
+	public var radius:Int;
 	public var type:Int;
 
-	public function new(?x:Float = 0, ?y:Float = 0, ?radius:Float = 0):Void {
+	public function new(?x:Int = 0, ?y:Int = 0, ?radius:Int = 0):Void {
 		this.x = x;
 		this.y = y;
 		this.radius = radius;
@@ -18,7 +18,7 @@ class Circle {
 		return new Circle(this.x, this.y, this.radius);
 	}
 
-	public function contains(x:Float, y:Float):Bool {
+	public function contains(x:Int, y:Int):Bool {
 		if (this.radius <= 0) return false;
 
 		var dx = (this.x - x);

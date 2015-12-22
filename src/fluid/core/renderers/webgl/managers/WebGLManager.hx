@@ -1,25 +1,21 @@
 package fluid.core.renderers.webgl.managers;
 
+import js.html.webgl.RenderingContext;
 import fluid.core.renderers.webgl.WebGLRenderer;
 
-extern class WebGLManager {
+class WebGLManager {
 
-	/**
-	 * @class
-	 * @memberof PIXI
-	 * @param renderer {WebGLRenderer} The renderer this manager works for.
-	 */
-	function new(renderer:WebGLRenderer);
+	public var renderer:WebGLRenderer;
 
-	/**
-	 * Generic method called when there is a WebGL context change.
-	 *
-	 */
-	function onContextChange():Void;
+	public function new(renderer:WebGLRenderer) {
+		this.renderer = renderer;
+		this.renderer.context.add(_onContextChange);
+	}
 
-	/**
-	 * Generic destroy methods to be overridden by the subclass
-	 *
-	 */
-	function destroy():Void;
+	function _onContextChange(gl:RenderingContext):Void {}
+
+	public function destroy():Void {
+		this.renderer.context.remove(_onContextChange);
+		this.renderer = null;
+	}
 }
