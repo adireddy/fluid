@@ -101,7 +101,7 @@ class StencilManager extends WebGLManager {
 	public function bindGraphics(graphics:Graphics, webGLData:Dynamic) {
 		var gl = this.renderer.gl;
 
-		var shader;
+		var shader:Dynamic;
 
 		if (webGLData.mode == 1) {
 			shader = this.renderer.shaderManager.complexPrimitiveShader;
@@ -219,9 +219,9 @@ class StencilManager extends WebGLManager {
 	}
 
 	public function pushMask(maskData:Dynamic) {
-		this.renderer.setObjectRenderer(this.renderer.plugins.graphics);
+		this.renderer.setObjectRenderer(this.renderer.plugins.get("graphics"));
 		if (maskData.dirty) {
-			this.renderer.plugins.graphics.updateGraphics(maskData, this.renderer.gl);
+			this.renderer.plugins.get("graphics").updateGraphics(maskData, this.renderer.gl);
 		}
 
 		if (!maskData._webGL[Reflect.field(this.renderer.gl, "id")].data.length) {
@@ -232,7 +232,7 @@ class StencilManager extends WebGLManager {
 	}
 
 	public function popMask(maskData:Dynamic) {
-		this.renderer.setObjectRenderer(this.renderer.plugins.graphics);
+		this.renderer.setObjectRenderer(this.renderer.plugins.get("graphics"));
 		this.popStencil(maskData, maskData._webGL[Reflect.field(this.renderer.gl, "id")].data[0]);
 	}
 }

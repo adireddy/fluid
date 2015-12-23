@@ -1,5 +1,7 @@
 package fluid.core.textures;
 
+import fluid.core.math.Matrix;
+import fluid.core.display.DisplayObject;
 import fluid.core.renderers.canvas.CanvasRenderer;
 import fluid.core.renderers.webgl.WebGLRenderer;
 import js.html.Image;
@@ -101,4 +103,6 @@ extern class RenderTexture extends Texture {
 	 * @return {HTMLCanvasElement} A Canvas element with the texture rendered on.
 	 */
 	function getCanvas():CanvasElement;
+
+	function render(displayObject:DisplayObject, matrix:Matrix):Void;
 }

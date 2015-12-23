@@ -1,5 +1,8 @@
 package fluid.core.renderers.webgl.utils;
 
+import js.html.Uint16Array;
+import js.html.Float32Array;
+import fluid.core.math.Matrix;
 import js.html.ArrayBuffer;
 import fluid.core.math.shapes.Rectangle;
 import js.html.webgl.Buffer;
@@ -8,10 +11,10 @@ import js.html.webgl.RenderingContext;
 class Quad {
 
 	public var gl:RenderingContext;
-	public var vertices:Dynamic;
-	public var uvs:Dynamic;
-	public var colors:Dynamic;
-	public var indices:Dynamic;
+	public var vertices:Float32Array;
+	public var uvs:Float32Array;
+	public var colors:Float32Array;
+	public var indices:Uint16Array;
 
 	public var vertexBuffer:Buffer;
 	public var indexBuffer:Buffer;
@@ -20,30 +23,30 @@ class Quad {
 
 		this.gl = gl;
 
-		this.vertices = [
+		this.vertices = new Float32Array([
 			0,0,
 			200,0,
 			200,200,
 			0,200
-		];
+		]);
 
-		this.uvs = [
+		this.uvs = new Float32Array([
 			0,0,
 			1,0,
 			1,1,
 			0,1
-		];
+		]);
 
-		this.colors = [
+		this.colors = new Float32Array([
 			1,1,1,1,
 			1,1,1,1,
 			1,1,1,1,
 			1,1,1,1
-		];
+		]);
 
-		this.indices = [
+		this.indices = new Uint16Array([
 			0, 1, 2, 0, 3, 2
-		];
+		]);
 
 		this.vertexBuffer = gl.createBuffer();
 		this.indexBuffer = gl.createBuffer();
@@ -94,9 +97,9 @@ class Quad {
 	public function upload() {
 		var gl = this.gl;
 		gl.bindBuffer(RenderingContext.ARRAY_BUFFER, this.vertexBuffer);
-		//gl.bufferSubData(RenderingContext.ARRAY_BUFFER, 0, this.vertices);
-		//gl.bufferSubData(RenderingContext.ARRAY_BUFFER, 8 * 4, this.uvs);
-		//gl.bufferSubData(RenderingContext.ARRAY_BUFFER, (8 + 8) * 4, this.colors);
+		gl.bufferSubData(RenderingContext.ARRAY_BUFFER, 0, this.vertices);
+		gl.bufferSubData(RenderingContext.ARRAY_BUFFER, 8 * 4, this.uvs);
+		gl.bufferSubData(RenderingContext.ARRAY_BUFFER, (8 + 8) * 4, this.colors);
 	}
 
 	public function destroy() {

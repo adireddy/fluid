@@ -1,7 +1,6 @@
 package fluid.core.textures;
 
 import fluid.core.utils.Utils;
-import fluid.interaction.EventEmitter;
 import fluid.core.math.Point;
 import fluid.core.math.shapes.Rectangle;
 import msignal.Signal.Signal1;
@@ -9,6 +8,8 @@ import js.html.VideoElement;
 import js.Error;
 
 class Texture {
+
+	public static var EMPTY = new Texture(new BaseTexture());
 
 	public var noFrame:Bool;
 	public var baseTexture:BaseTexture;
@@ -24,9 +25,7 @@ class Texture {
 
 	public var updated:Signal1<Texture>;
 	public var disposed:Signal1<Texture>;
-
-	var _frame:Rectangle;
-	var _uvs:TextureUvs;
+	public var _uvs:TextureUvs;
 
 	public function new(txt:Dynamic, ?frame:Rectangle, ?crop:Rectangle, ?trim:Rectangle, ?rotate:Bool = false) {
 		this.noFrame = false;
@@ -38,7 +37,7 @@ class Texture {
 		var baseTexture = (txt.baseTexture != null) ? txt.baseTexture : txt;
 
 		this.baseTexture = cast baseTexture;
-		this._frame = frame;
+		this.frame = frame;
 		this.trim = trim;
 		this.valid = false;
 		this.requiresUpdate = false;
@@ -78,8 +77,8 @@ class Texture {
 		if (this.trim != null) {
 			this.width = this.trim.width;
 			this.height = this.trim.height;
-			this._frame.width = this.trim.width;
-			this._frame.height = this.trim.height;
+			this.frame.width = this.trim.width;
+			this.frame.height = this.trim.height;
 		}
 		else this.crop = frame;
 
@@ -90,26 +89,24 @@ class Texture {
 
 	function _onBaseTextureLoaded(baseTexture:BaseTexture) {
 		if (this.noFrame) this.frame = new Rectangle(0, 0, baseTexture.width, baseTexture.height);
-		else this.frame = this._frame;
-		updated.dispatch(this);
+		//updated.dispatch(this);
 	}
 
 	function _onBaseTextureUpdated(baseTexture:BaseTexture) {
-		this._frame.width = baseTexture.width;
-		this._frame.height = baseTexture.height;
-		updated.dispatch(this);
+		this.frame.width = baseTexture.width;
+		this.frame.height = baseTexture.height;
+		//updated.dispatch(this);
 	}
 
-	function destroy(?destroyBase:Bool):Void {
+	public function destroy(?destroyBase:Bool):Void {
 		if (this.baseTexture != null) {
 			if (destroyBase) this.baseTexture.destroy();
-
 			this.baseTexture.updated.remove(_onBaseTextureUpdated);
 			this.baseTexture.loaded.remove(_onBaseTextureLoaded);
 			this.baseTexture = null;
 		}
 
-		this._frame = null;
+		this.frame = null;
 		this._uvs = null;
 		this.trim = null;
 		this.crop = null;
@@ -125,21 +122,21 @@ class Texture {
 	}
 
 	function _updateUvs() {
-		if (this._uvs != null) this._uvs = new TextureUvs();
+		if (this._uvs == null) this._uvs = new TextureUvs();
 		this._uvs.set(this.crop, this.baseTexture, this.rotate);
 	}
 
 	public static function fromImage(imageUrl:String, ?crossorigin:Bool, ?scaleMode:Int):Texture {
 		var texture = Utils.TextureCache.get(imageUrl);
-		if (texture != null) {
+		if (texture == null) {
 			texture = new Texture(BaseTexture.fromImage(imageUrl, crossorigin, scaleMode));
-			Utils.TextureCache[imageUrl] = texture;
+			Utils.TextureCache.set(imageUrl, texture);
 		}
 		return texture;
 	}
 
 	public static function fromFrame(frameId:String):Texture {
-		var texture = Utils.TextureCache[frameId];
+		var texture = Utils.TextureCache.get(frameId);
 		if (texture == null) throw new Error('The frameId "' + frameId + '" does not exist in the texture cache');
 		return texture;
 	}
@@ -157,13 +154,13 @@ class Texture {
 	}
 
 	public static function addTextureToCache(texture:Texture, id:String):Void {
-		Utils.TextureCache[id] = texture;
+		Utils.TextureCache.set(id, texture);
 	}
 
 	public static function removeTextureFromCache(id:String):Texture {
-		var texture = Utils.TextureCache[id];
-		Utils.TextureCache[id] = null;
-		Utils.BaseTextureCache[id] = null;
+		var texture = Utils.TextureCache.get(id);
+		Utils.TextureCache.set(id, null);
+		Utils.BaseTextureCache.set(id, null);
 		return texture;
 	}
 }

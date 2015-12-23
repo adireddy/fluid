@@ -21,14 +21,14 @@ class BaseTexture {
 	public var imageUrl:String;
 	public var mipmap:Bool;
 
-	public var _glTextures:Map<Int, js.html.webgl.Texture>;
+	public var _glTextures:Dynamic;
 
 	public var loaded:Signal1<BaseTexture>;
 	public var error:Signal1<BaseTexture>;
 	public var updated:Signal1<BaseTexture>;
 	public var disposed:Signal1<Dynamic>;
 
-	public function new(source:Dynamic, ?scaleMode:Int = 0, ?resolution:Float = 1) {
+	public function new(?source:Dynamic, ?scaleMode:Int = 0, ?resolution:Float = 1) {
 		this.uid = Utils.uid();
 		this.resolution = resolution;
 		this.width = 100;
@@ -43,7 +43,7 @@ class BaseTexture {
 		this.imageUrl = null;
 		this.isPowerOfTwo = false;
 		this.mipmap = false;
-		this._glTextures = new Map();
+		this._glTextures = {};
 
 		loaded = new Signal1(BaseTexture);
 		error = new Signal1(BaseTexture);
@@ -62,7 +62,7 @@ class BaseTexture {
 
 		this.isPowerOfTwo = Utils.isPowerOfTwo(this.realWidth, this.realHeight);
 
-		updated.dispatch(this);
+		//updated.dispatch(this);
 	}
 
 	public function destroy():Void {
@@ -146,16 +146,16 @@ class BaseTexture {
 		this.update();
 	}
 
-	public function updateSourceImage(newSrc:String):Void {
+	public function updateSourceImage(newSrc:String) {
 		this.source.src = newSrc;
 		this.loadSource(this.source);
 	}
 
 	public static function fromImage(imageUrl:String, ?crossorigin:Bool, ?scaleMode:Int = 0):BaseTexture {
-		var baseTexture:BaseTexture = Utils.BaseTextureCache[imageUrl];
+		var baseTexture:BaseTexture = Utils.BaseTextureCache.get(imageUrl);
 		crossorigin = (crossorigin == null && imageUrl.indexOf('data:') != 0);
 
-		if (baseTexture != null) {
+		if (baseTexture == null) {
 			var image = new Image();
 			if (crossorigin) image.crossOrigin = '';
 
@@ -164,7 +164,7 @@ class BaseTexture {
 
 			image.src = imageUrl;
 
-			Utils.BaseTextureCache[imageUrl] = baseTexture;
+			Utils.BaseTextureCache.set(imageUrl, baseTexture);
 
 			baseTexture.resolution = Utils.getResolutionOfUrl(imageUrl);
 		}

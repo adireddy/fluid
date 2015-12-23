@@ -2,6 +2,8 @@ package fluid.core.math.shapes;
 
 class Rectangle {
 
+	public static var EMPTY = new Rectangle(0, 0, 0, 0);
+
 	public var x:Float;
 	public var y:Float;
 	public var width:Float;

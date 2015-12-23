@@ -20,7 +20,7 @@ class SystemRenderer {
 	public var preserveDrawingBuffer:Bool;
 	public var clearBeforeRender:Bool;
 	public var backgroundColor(default, set):Int;
-	public var plugins:Dynamic;
+	public var plugins:Map<String, Dynamic>;
 
 	var _backgroundColor:Int;
 	var _backgroundColorRgb:Array<Float>;
@@ -62,6 +62,8 @@ class SystemRenderer {
 		this.backgroundColor = options.backgroundColor;
 		this._tempDisplayObjectParent = { worldTransform:new Matrix(), worldAlpha:1, children:[] };
 		this._lastObjectRendered = this._tempDisplayObjectParent;
+
+		plugins = new Map();
 	}
 
 	public function set_backgroundColor(val:Int):Int {
@@ -85,30 +87,18 @@ class SystemRenderer {
 	}
 
 	public function destroy(?removeView:Bool = false):Void {
-		if (removeView && this.view.parentNode != null) {
-			this.view.parentNode.removeChild(this.view);
-		}
-
+		if (removeView && this.view.parentNode != null) this.view.parentNode.removeChild(this.view);
 		this.type = Fluid.RENDERER_TYPE.UNKNOWN;
-
 		this.width = 0;
 		this.height = 0;
-
 		this.view = null;
-
 		this.resolution = 0;
-
 		this.transparent = false;
-
 		this.autoResize = false;
-
 		this.blendModes = null;
-
 		this.preserveDrawingBuffer = false;
 		this.clearBeforeRender = false;
-
 		this.roundPixels = false;
-
 		this._backgroundColor = 0;
 		this._backgroundColorRgb = null;
 		this._backgroundColorString = null;

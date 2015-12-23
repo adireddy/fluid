@@ -1,6 +1,12 @@
 package fluid.core.renderers.webgl.managers;
 
+import fluid.core.renderers.webgl.shaders.ComplexPrimitiveShader;
+import fluid.core.renderers.webgl.shaders.PrimitiveShader;
+import fluid.core.utils.PluginTarget;
+import fluid.core.renderers.webgl.shaders.TextureShader;
 import js.html.webgl.RenderingContext;
+
+using fluid.core.utils.PluginTarget;
 
 class ShaderManager extends WebGLManager {
 
@@ -12,9 +18,9 @@ class ShaderManager extends WebGLManager {
 	var _currentId:Int;
 	var currentShader:Dynamic;
 
-	public var defaultShader:Dynamic;
-	public var primitiveShader:Dynamic;
-	public var complexPrimitiveShader:Dynamic;
+	public var defaultShader:TextureShader;
+	public var primitiveShader:PrimitiveShader;
+	public var complexPrimitiveShader:ComplexPrimitiveShader;
 
 	public function new(renderer:WebGLRenderer) {
 		super(renderer);
@@ -30,20 +36,17 @@ class ShaderManager extends WebGLManager {
 	}
 
 	override function _onContextChange(gl:RenderingContext) {
-		//this.initPlugins();
-
-		var gl = this.renderer.gl;
 		this.maxAttibs = gl.getParameter(RenderingContext.MAX_VERTEX_ATTRIBS);
 		this.attribState = [];
 
 		for (i in 0 ... this.maxAttibs) this.attribState[i] = false;
 
-		//this.defaultShader = new TextureShader(this);
-		//this.primitiveShader = new PrimitiveShader(this);
-		//this.complexPrimitiveShader = new ComplexPrimitiveShader(this);
+		this.defaultShader = new TextureShader(this);
+		this.primitiveShader = new PrimitiveShader(this);
+		this.complexPrimitiveShader = new ComplexPrimitiveShader(this);
 	}
 
-	public function setAttribs(attribs:Array<Dynamic>):Void {
+	public function setAttribs(attribs:Array<Dynamic>) {
 		var i;
 		for (i in 0 ... this.tempAttribState.length) this.tempAttribState[i] = false;
 		for (a in attribs) this.tempAttribState[attribs[a]] = true;
@@ -61,26 +64,18 @@ class ShaderManager extends WebGLManager {
 
 	public function setShader(shader:Dynamic):Bool {
 		if (this._currentId == shader.uid) return false;
-
 		this._currentId = shader.uid;
-
 		this.currentShader = shader;
-
 		this.renderer.gl.useProgram(shader.program);
 		this.setAttribs(shader.attributes);
-
 		return true;
 	}
 
 	override public function destroy() {
-		//this.primitiveShader.destroy();
-		//this.complexPrimitiveShader.destroy();
+		this.primitiveShader.destroy();
+		this.complexPrimitiveShader.destroy();
 		super.destroy();
-
-		//this.destroyPlugins();
-
 		this.attribState = null;
-
 		this.tempAttribState = null;
 	}
 }

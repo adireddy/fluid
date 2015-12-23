@@ -1,5 +1,6 @@
 package fluid.core.renderers.webgl;
 
+import fluid.core.sprites.webgl.SpriteRenderer;
 import fluid.core.utils.PluginTarget;
 import fluid.core.display.DisplayObject;
 import fluid.core.renderers.webgl.utils.RenderTarget;
@@ -39,6 +40,8 @@ class WebGLRenderer extends SystemRenderer {
 	public var gl:RenderingContext;
 	public var renderTarget:RenderTarget;
 
+	public var __plugins:Map<String, Dynamic>;
+
 	var _contextOptions:Dynamic;
 	var _useFXAA:Bool;
 	var _FXAAFilter:Dynamic;
@@ -52,6 +55,9 @@ class WebGLRenderer extends SystemRenderer {
 
 		if (options == null) options = {};
 		super("WebGL", width, height, options);
+
+		__plugins = new Map();
+		registerPlugin("sprite", fluid.core.sprites.webgl.SpriteRenderer);
 
 		this.type = Fluid.RENDERER_TYPE.WEBGL;
 		this.view.addEventListener('webglcontextlost', _handleContextLost, false);
@@ -69,6 +75,8 @@ class WebGLRenderer extends SystemRenderer {
 			preserveDrawingBuffer: options.preserveDrawingBuffer
 		};
 
+		initPlugins();
+
 		this.drawCount = 0;
 		this.shaderManager = new ShaderManager(this);
 		this.maskManager = new MaskManager(this);
@@ -77,8 +85,6 @@ class WebGLRenderer extends SystemRenderer {
 		this.blendModeManager = new BlendModeManager(this);
 		this.currentRenderTarget = null;
 		this.currentRenderer = new ObjectRenderer(this);
-
-		this.initPlugins();
 
 		this._createContext();
 		this._initContext();
@@ -116,8 +122,11 @@ class WebGLRenderer extends SystemRenderer {
 			gl.clear(RenderingContext.COLOR_BUFFER_BIT);
 		}
 
-		this.renderDisplayObject(object, this.renderTarget);
-		postrender.dispatch();
+		haxe.Timer.delay(function() {
+			this.renderDisplayObject(object, this.renderTarget);
+			postrender.dispatch();
+		}, 2000);
+
 	}
 
 	public function renderDisplayObject(displayObject:DisplayObject, renderTarget:RenderTarget, ?clear:Bool = false) {
@@ -159,14 +168,14 @@ class WebGLRenderer extends SystemRenderer {
 
 		var gl = this.gl;
 
-		if (texture._glTextures.get(Reflect.field(gl, "id")) != null) {
-			texture._glTextures.set(Reflect.field(gl, "id"), gl.createTexture());
+		if (texture._glTextures[Reflect.field(gl, "id")] == null) {
+			texture._glTextures[Reflect.field(gl, "id")] = gl.createTexture();
 			texture.updated.add(this.updateTexture);
 			texture.disposed.add(this.destroyTexture);
 			this._managedTextures.push(texture);
 		}
 
-		gl.bindTexture(RenderingContext.TEXTURE_2D, texture._glTextures.get(Reflect.field(gl, "id")));
+		gl.bindTexture(RenderingContext.TEXTURE_2D, texture._glTextures[Reflect.field(gl, "id")]);
 		gl.pixelStorei(RenderingContext.UNPACK_PREMULTIPLY_ALPHA_WEBGL, texture.premultipliedAlpha ? 1 : 0);
 		gl.texImage2D(RenderingContext.TEXTURE_2D, 0, RenderingContext.RGBA, RenderingContext.RGBA, RenderingContext.UNSIGNED_BYTE, texture.source);
 		gl.texParameteri(RenderingContext.TEXTURE_2D, RenderingContext.TEXTURE_MAG_FILTER, texture.scaleMode == Fluid.SCALE_MODES.LINEAR ? RenderingContext.LINEAR : RenderingContext.NEAREST);
@@ -186,16 +195,16 @@ class WebGLRenderer extends SystemRenderer {
 			gl.texParameteri(RenderingContext.TEXTURE_2D, RenderingContext.TEXTURE_WRAP_T, RenderingContext.REPEAT);
 		}
 
-		return texture._glTextures.get(Reflect.field(gl, "id"));
+		return texture._glTextures[(Reflect.field(gl, "id"))];
 	}
 
 	public function destroyTexture(txt:Dynamic) {
 		var texture:BaseTexture = (txt.baseTexture != null) ? txt.baseTexture : txt;
 		if (!texture.hasLoaded) return;
 
-		if (texture._glTextures.get(Reflect.field(gl, "id")) != null) {
-			this.gl.deleteTexture(texture._glTextures.get(Reflect.field(gl, "id")));
-			texture._glTextures.set(Reflect.field(gl, "id"), null);
+		if (texture._glTextures[Reflect.field(gl, "id")] != null) {
+			this.gl.deleteTexture(texture._glTextures[Reflect.field(gl, "id")]);
+			texture._glTextures[Reflect.field(gl, "id")] = null;
 		}
 	}
 
@@ -207,7 +216,7 @@ class WebGLRenderer extends SystemRenderer {
 		_initContext();
 		for (i in 0 ... this._managedTextures.length) {
 			var texture = this._managedTextures[i];
-			if (texture._glTextures.get(Reflect.field(this.gl, "id")) != null) texture._glTextures.set(Reflect.field(this.gl, "id"), null);
+			if (texture._glTextures[Reflect.field(this.gl, "id")] != null) texture._glTextures[Reflect.field(this.gl, "id")] = null;
 		}
 	}
 
@@ -242,7 +251,7 @@ class WebGLRenderer extends SystemRenderer {
 	}
 
 	override public function destroy(?removeView:Bool = false) {
-		//this.destroyPlugins();
+		destroyPlugins();
 
 		this.view.removeEventListener('webglcontextlost', _handleContextLost);
 		this.view.removeEventListener('webglcontextrestored', _handleContextRestored);

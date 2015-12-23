@@ -1,18 +1,25 @@
 package fluid.core.utils;
 
+import fluid.core.renderers.webgl.WebGLRenderer;
+
 class PluginTarget {
 
-	public static var __plugins:Dynamic = {};
-
-	public static function registerPlugin(obj:Dynamic, pluginName:String, ctor:Dynamic) {
-		trace("AFASFSAFASFSAF");
-		Reflect.setField(__plugins, pluginName, ctor);
+	public static function registerPlugin(obj:WebGLRenderer, pluginName:String, ctor:Class<Dynamic>) {
+		obj.__plugins.set(pluginName, ctor);
 	}
 
-	public static function initPlugins(obj:Dynamic) {
-		trace(obj);
-		if (obj.plugins == null) obj.plugins = {};
+	public static function initPlugins(obj:WebGLRenderer) {
+		for (o in obj.__plugins.keys()) {
+			obj.plugins.set(o, Type.createInstance(obj.__plugins.get(o), [obj]));
+		}
+	}
 
-		trace(__plugins);
+	public static function destroyPlugins(obj:WebGLRenderer) {
+		for (o in obj.plugins.keys()) {
+			obj.plugins.get(o).destroy();
+			obj.plugins.set(o, null);
+		}
+
+		obj.plugins = null;
 	}
 }

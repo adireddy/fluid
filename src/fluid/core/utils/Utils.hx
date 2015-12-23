@@ -1,6 +1,8 @@
 package fluid.core.utils;
 
-import fluid.core.renderers.webgl.utils.StencilMaskStack;
+import fluid.core.renderers.webgl.WebGLRenderer;
+import fluid.core.sprites.webgl.SpriteRenderer;
+import fluid.core.renderers.webgl.WebGLRenderer;
 import fluid.core.textures.Texture;
 import fluid.core.textures.BaseTexture;
 import js.html.webgl.RenderingContext;
@@ -111,5 +113,9 @@ class Utils {
 
 	public static function sign(n:Float):Int {
 		return n != null ? (n < 0 ? -1 : 1) : 0;
+	}
+
+	public static function removeItems(arr:Dynamic, ?index:Int = 0, ?count:Int = 1):Dynamic {
+		return arr.splice(index, count);
 	}
 }

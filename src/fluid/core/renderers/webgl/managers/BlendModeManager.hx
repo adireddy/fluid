@@ -2,7 +2,7 @@ package fluid.core.renderers.webgl.managers;
 
 class BlendModeManager extends WebGLManager {
 
-	var currentBlendMode:Int;
+	public var currentBlendMode:Int;
 
 	public function new(renderer:WebGLRenderer) {
 		super(renderer);

@@ -1,282 +1,246 @@
 package fluid.core.display;
 
-import fluid.interaction.InteractionManager;
-import fluid.core.renderers.canvas.CanvasRenderer;
+import msignal.Signal.Signal1;
+import fluid.core.textures.RenderTexture;
+import js.Error;
 import fluid.core.renderers.webgl.WebGLRenderer;
 import fluid.core.textures.Texture;
 import fluid.core.math.Matrix;
 import fluid.core.math.shapes.Rectangle;
 import fluid.core.math.Point;
 
-@:native("PIXI.DisplayObject")
-extern class DisplayObject extends InteractionManager {
+class DisplayObject {
 
-	/**
-	 * The base class for all objects that are rendered on the screen.
-	 * This is an abstract class and should not be used on its own rather it should be extended.
-	 *
-	 * @class
-	 * @namespace PIXI
-	 */
-	function new();
+	public var added:Signal1<DisplayObject>;
+	public var removed:Signal1<DisplayObject>;
 
-	/**
-	 * Returns the global position of the displayObject
-	 *
-	 * @param point {Point} the point to write the global value to. If null a new point will be returned
-	 * @return {Point}
-	 */
-	function getGlobalPosition(point:Point):Point;
+	public var name:String;
+	public var cacheAsBitmap:Bool;
+	public var position:Point;
+	public var scale:Point;
+	public var pivot:Point;
+	public var skew:Point;
+	public var rotation:Float;
+	public var alpha:Float;
+	public var visible:Bool;
+	public var renderable:Bool;
+	public var parent:Container;
+	public var worldAlpha:Float;
+	public var worldTransform:Matrix;
+	public var filterArea:Rectangle;
+	public var x:Float;
+	public var y:Float;
+	public var worldVisible:Bool;
+	public var mask:Dynamic;
+	public var filters(get, set):Array<Dynamic>;
+	public var interactive:Bool;
+	public var buttonMode:Bool;
+	public var interactiveChildren:Bool;
+	public var defaultCursor:String;
+	public var hitArea:Dynamic;
 
-	/**
-	 * Retrieves the bounds of the displayObject as a rectangle object
-	 *
-	 * @param matrix {Matrix}
-	 * @return {Rectangle} the rectangular bounding area
-	 */
-	function getBounds(?matrix:Matrix):Rectangle;
+	public var displayObjectUpdateTransform:Void -> Void;
+	public var containerGetBounds:?Matrix -> Rectangle;
 
-	/**
-	 * Retrieves the local bounds of the displayObject as a rectangle object
-	 *
-	 * @return {Rectangle} the rectangular bounding area
-	 */
-	function getLocalBounds():Rectangle;
+	var _filters:Array<Dynamic>;
 
-	/**
-	 * Calculates the global position of the display object
-	 *
-	 * @param position {Point} The world origin to calculate from
-	 * @return {Point} A point object representing the position of this object
-	 */
-	function toGlobal(position:Point):Point;
+	var _sr:Float;
+	var _cr:Float;
+	var _bounds:Rectangle;
+	var _currentBounds:Rectangle;
+	var _mask:Dynamic;
+	var _tempMatrix:Matrix;
+	var _tempDisplayObjectParent:Dynamic = { worldTransform:new Matrix(), worldAlpha:1, children:[] };
+	var rotationCache:Float;
 
-	/**
-	 * Calculates the local position of the display object relative to another point
-	 *
-	 * @param position {Point} The world origin to calculate from
-	 * @param [from] {DisplayObject} The DisplayObject to calculate the global position from
-	 * @return {Point} A point object representing the position of this object
-	 */
-	function toLocal(position:Point, ?frm:DisplayObject):Point;
+	public function new() {
+		added = new Signal1(Container);
+		removed = new Signal1(Container);
 
-	/**
-	 * Useful function that returns a texture of the display object that can then be used to create sprites
-	 * This can be quite useful if your displayObject is static / complicated and needs to be reused multiple times.
-	 *
-	 * @param renderer {CanvasRenderer|WebGLRenderer} The renderer used to generate the texture.
-	 * @param resolution {Number} The resolution of the texture being generated
-	 * @param scaleMode {Number} See {@link SCALE_MODES} for possible values
-	 * @return {Texture} a texture of the display object
-	 */
-	@:overload(function(renderer:CanvasRenderer, ?resolution:Float, ?scaleMode:Int):Texture {})
-	function generateTexture(renderer:WebGLRenderer, ?resolution:Float, ?scaleMode:Int):Texture;
+		this.position = new Point();
+		this.scale = new Point(1, 1);
+		this.pivot = new Point(0, 0);
+		this.skew = new Point(0, 0);
+		this.rotation = 0;
+		this.alpha = 1;
+		this.visible = true;
+		this.renderable = true;
+		this.parent = null;
+		this.worldAlpha = 1;
+		this.worldTransform = new Matrix();
+		this.filterArea = null;
+		this._sr = 0;
+		this._cr = 1;
+		this._bounds = new Rectangle(0, 0, 1, 1);
+		this._currentBounds = null;
+		this._mask = null;
+		_tempMatrix = new Matrix();
 
-	/*
-	 * Updates the object transform for rendering
-	 *
-	 * TODO - Optimization pass!
-	 */
-	function updateTransform():Void;
-	function displayObjectUpdateTransform():Void;
+		displayObjectUpdateTransform = updateTransform;
+		containerGetBounds = getBounds;
+	}
 
-	/**
-	 * Base destroy method for generic display objects
-	 * @param [destroyChildren] {Bool} if set to true, all the children will have their destroy method called as well (Container)
-	 * @param [destroyTexture] {Bool} Should it destroy the current texture of the sprite as well (Sprite)
-	 * @param [destroyBaseTexture] {Bool} whether to destroy the base texture as well (Text, Sprite)
-	 */
-	@:overload(function(?destroyTexture:Bool, ?destroyBaseTexture:Bool):Void {})
-	@:overload(function(?destroyChildren:Bool):Void {})
-	function destroy():Void;
+	function set_filters(value:Array<Dynamic>):Array<Dynamic> {
+		return this._filters = (value != null) ? value.slice(0) : null;
+	}
 
-	/**
-	 * The instance name of the object.
-	 *
-	 * @member {String}
-	 */
-	var name:String;
+	function get_filters():Array<Dynamic> {
+		return (this._filters != null) ? this._filters.slice(0) : null;
+	}
 
-	/**
-	 * Set this to true if you want this display object to be cached as a bitmap.
-	 * This basically takes a snap shot of the display object as it is at that moment. It can provide a performance benefit for complex static displayObjects.
-	 * To remove simply set this property to 'null'
-	 *
-	 * @member {Bool}
-	 * @memberof DisplayObject#
-	 */
-	var cacheAsBitmap:Bool;
+	public function getBounds(?matrix:Matrix):Rectangle {
+		return Rectangle.EMPTY;
+	}
 
-	/**
-	 * The coordinate of the object relative to the local coordinates of the parent.
-	 *
-	 * @member {Point}
-	 */
-	var position:Point;
+	public function getLocalBounds():Rectangle {
+		return this.getBounds(Matrix.IDENTITY);
+	}
 
-	/**
-	 * The scale factor of the object.
-	 *
-	 * @member {Point}
-	 */
-	var scale:Point;
+	public function toGlobal(position:Point):Point {
+		if (this.parent == null) {
+			this.parent = _tempDisplayObjectParent;
+			this.displayObjectUpdateTransform();
+			this.parent = null;
+		}
+		else this.displayObjectUpdateTransform();
+		return this.worldTransform.apply(position);
+	}
 
-	/**
-	 * The pivot point of the displayObject that it rotates around
-	 *
-	 * @member {Point}
-	 */
-	var pivot:Point;
+	public function toLocal(position:Point, ?from:DisplayObject, ?point:Point):Point {
+		if (from != null) position = from.toGlobal(position);
+		if (this.parent == null) {
+			this.parent = _tempDisplayObjectParent;
+			this.displayObjectUpdateTransform();
+			this.parent = null;
+		}
+		else this.displayObjectUpdateTransform();
+		return this.worldTransform.applyInverse(position, point);
+	}
 
-	/**
-	 * The rotation of the object in radians.
-	 *
-	 * @member {Float}
-	 */
-	var rotation:Float;
+	public function updateTransform():Void {
+		var pt = this.parent.worldTransform;
+		var wt = this.worldTransform;
+		var a, b, c, d, tx, ty;
 
-	/**
-	 * The opacity of the object.
-	 *
-	 * @member {Float}
-	 */
-	var alpha:Float;
+		if (this.skew.x != null || this.skew.y != null) {
+			_tempMatrix.setTransform(
+				this.position.x,
+				this.position.y,
+				this.pivot.x,
+				this.pivot.y,
+				this.scale.x,
+				this.scale.y,
+				this.rotation,
+				this.skew.x,
+				this.skew.y
+			);
 
-	/**
-	 * The visibility of the object. If false the object will not be drawn, and
-	 * the updateTransform function will not be called.
-	 *
-	 * @member {Bool}
-	 */
-	var visible:Bool;
+			// now concat the matrix (inlined so that we can avoid using copy)
+			wt.a = _tempMatrix.a * pt.a + _tempMatrix.b * pt.c;
+			wt.b = _tempMatrix.a * pt.b + _tempMatrix.b * pt.d;
+			wt.c = _tempMatrix.c * pt.a + _tempMatrix.d * pt.c;
+			wt.d = _tempMatrix.c * pt.b + _tempMatrix.d * pt.d;
+			wt.tx = _tempMatrix.tx * pt.a + _tempMatrix.ty * pt.c + pt.tx;
+			wt.ty = _tempMatrix.tx * pt.b + _tempMatrix.ty * pt.d + pt.ty;
+		}
+		else {
+			if (this.rotation % Fluid.PI_2 != null) {
+				if (this.rotation != this.rotationCache) {
+					this.rotationCache = this.rotation;
+					this._sr = Math.sin(this.rotation);
+					this._cr = Math.cos(this.rotation);
+				}
 
-	/**
-	 * Can this object be rendered, if false the object will not be drawn but the updateTransform
-	 * methods will still be called.
-	 *
-	 * @member {Bool}
-	 */
-	var renderable:Bool;
+				a = this._cr * this.scale.x;
+				b = this._sr * this.scale.x;
+				c = -this._sr * this.scale.y;
+				d = this._cr * this.scale.y;
+				tx = this.position.x;
+				ty = this.position.y;
 
-	/**
-	 * The display object container that contains this display object.
-	 *
-	 * @member {Container}
-	 * @readOnly
-	 */
-	var parent:Container;
+				if (this.pivot.x != null || this.pivot.y != null) {
+					tx -= this.pivot.x * a + this.pivot.y * c;
+					ty -= this.pivot.x * b + this.pivot.y * d;
+				}
 
-	/**
-	 * The multiplied alpha of the displayObject
-	 *
-	 * @member {Float}
-	 * @readOnly
-	 */
-	var worldAlpha:Float;
+				wt.a = a * pt.a + b * pt.c;
+				wt.b = a * pt.b + b * pt.d;
+				wt.c = c * pt.a + d * pt.c;
+				wt.d = c * pt.b + d * pt.d;
+				wt.tx = tx * pt.a + ty * pt.c + pt.tx;
+				wt.ty = tx * pt.b + ty * pt.d + pt.ty;
+			}
+			else {
+				a = this.scale.x;
+				d = this.scale.y;
 
-	/**
-	 * Current transform of the object based on world (parent) factors
-	 *
-	 * @member {Matrix}
-	 * @readOnly
-	 */
-	var worldTransform:Matrix;
+				tx = this.position.x - this.pivot.x * a;
+				ty = this.position.y - this.pivot.y * d;
 
-	/**
-	 * The area the filter is applied to. This is used as more of an optimisation
-	 * rather than figuring out the dimensions of the displayObject each frame you can set this rectangle
-	 *
-	 * @member {Rectangle}
-	 */
-	var filterArea:Rectangle;
+				wt.a = a * pt.a;
+				wt.b = a * pt.b;
+				wt.c = d * pt.c;
+				wt.d = d * pt.d;
+				wt.tx = tx * pt.a + ty * pt.c + pt.tx;
+				wt.ty = tx * pt.b + ty * pt.d + pt.ty;
+			}
+		}
 
-	/**
-	 * The position of the displayObject on the x axis relative to the local coordinates of the parent.
-	 *
-	 * @member {Float}
-	 * @memberof DisplayObject#
-	 */
-	var x:Float;
+		this.worldAlpha = this.alpha * this.parent.worldAlpha;
+		this._currentBounds = null;
+	}
 
-	/**
-	 * The position of the displayObject on the y axis relative to the local coordinates of the parent.
-	 *
-	 * @member {Float}
-	 * @memberof DisplayObject#
-	 */
-	var y:Float;
+	public function renderWebGL(renderer:WebGLRenderer):Void {}
 
-	/**
-	 * Indicates if the displayObject is globally visible.
-	 *
-	 * @member {Bool}
-	 * @memberof DisplayObject#
-	 * @readonly
-	 */
-	var worldVisible:Bool;
+	public function generateTexture(renderer:Dynamic, ?resolution:Float = 1, ?scaleMode:Int = 0):Texture {
+		var bounds = this.getLocalBounds();
+		if (bounds.width == null) bounds.width = 0;
+		if (bounds.height == null) bounds.height = 0;
 
-	/**
-	 * Sets a mask for the displayObject. A mask is an object that limits the visibility of an object to the shape of the mask applied to it.
-	 * In PIXI a regular mask must be a PIXI.Graphics object. This allows for much faster masking in canvas as it utilises shape clipping.
-	 * To remove a mask, set this property to null.
-	 *
-	 * @member {Graphics}
-	 * @memberof DisplayObject#
-	 */
-	var mask:Dynamic;
+		var renderTexture = new RenderTexture(renderer, bounds.width, bounds.height, scaleMode, resolution);
 
-	/**
-	 * Sets the filters for the displayObject.
-	 * * IMPORTANT: This is a webGL only feature and will be ignored by the canvas renderer.
-	 * To remove filters simply set this property to 'null'
-	 *
-	 * @member {Filter[]}
-	 * @memberof DisplayObject#
-	 */
-	var filters:Array<Dynamic>;
+		_tempMatrix.tx = -bounds.x;
+		_tempMatrix.ty = -bounds.y;
 
-	/**
-	 * Indicates if the displayObject is interactive or not.
-	 *
-	 * @member {Bool}
-	 * @default false
-	 * @memberof DisplayObject#
-	 */
-	var interactive:Bool;
+		renderTexture.render(this, _tempMatrix);
 
-	/**
-	 * Indicates if the displayObject uses button mode or normal mode.
-	 *
-	 * @member {Bool}
-	 * @default false
-	 * @memberof DisplayObject#
-	 */
-	var buttonMode:Bool;
+		return renderTexture;
+	}
 
-	/**
-	 * Indicates if the children of displayObject are interactive or not.
-	 *
-	 * @member {Bool}
-	 * @default true
-	 * @memberof DisplayObject#
-	 */
-	var interactiveChildren:Bool;
+	public function setParent(container):Dynamic {
+		if (container == null || container.addChild == null) {
+			throw new Error("setParent: Argument must be a Container");
+		}
+		container.addChild(this);
+		return container;
+	}
 
-	/**
-	 * Default cursor.
-	 *
-	 * @member {String}
-	 * @default pointer
-	 * @memberof DisplayObject#
-	 */
-	var defaultCursor:String;
+	public function setTransform(?x:Int = 0, ?y:Int = 0, ?scaleX:Float = 1, ?scaleY:Float = 1, ?rotation:Float = 0, ?skewX:Float = 0, ?skewY:Float = 0, ?pivotX:Float = 0, ?pivotY:Float = 0):DisplayObject {
+		this.position.x = x;
+		this.position.y = y;
+		this.scale.x = scaleX;
+		this.scale.y = scaleY;
+		this.rotation = rotation;
+		this.skew.x = skewX;
+		this.skew.y = skewY;
+		this.pivot.x = pivotX;
+		this.pivot.y = pivotY;
+		return this;
+	}
 
-	/**
-	 * Hit area
-	 *
-	 * @memberof DisplayObject#
-	 */
-	var hitArea:Dynamic;
+	public function destroy(?destroyTexture:Bool = false, ?destroyBaseTexture:Bool = false):Void {
+		this.position = null;
+		this.scale = null;
+		this.pivot = null;
+		this.skew = null;
 
-	function renderWebGL(rendered:WebGLRenderer):Void;
+		this.parent = null;
+
+		this._bounds = null;
+		this._currentBounds = null;
+		this._mask = null;
+
+		this.worldTransform = null;
+		this.filterArea = null;
+	}
 }

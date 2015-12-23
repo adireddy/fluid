@@ -17,6 +17,8 @@ class FilterManager extends WebGLManager {
 	var quad:Quad;
 
 	public function new(renderer:WebGLRenderer) {
+		super(renderer);
+
 		this.filterStack = [];
 		this.filterStack.push({
 			renderTarget:renderer.currentRenderTarget,
@@ -27,12 +29,11 @@ class FilterManager extends WebGLManager {
 		this.texturePool = [];
 		this.textureSize = new Rectangle(0, 0, renderer.width, renderer.height);
 		this.currentFrame = null;
-
-		super(renderer);
 	}
 
 	override function _onContextChange(gl:RenderingContext) {
 		this.texturePool = [];
+		var gl = this.renderer.gl;
 		this.quad = new Quad(this.renderer.gl);
 	}
 
@@ -41,121 +42,161 @@ class FilterManager extends WebGLManager {
 	}
 
 	public function pushFilter(target:Dynamic, filters:Dynamic):Void {
-		var bounds:Rectangle = target.filterArea ? target.filterArea.clone() : target.getBounds();
-		if (bounds == null) bounds = new Rectangle(0, 0, 0, 0);
+		untyped __js__("
+			var bounds = target.filterArea ? target.filterArea.clone() : target.getBounds();
 
-		var padding = filters[0].padding;
-		if (padding == null) padding = 0;
-		bounds.x -= padding;
-		bounds.y -= padding;
-		bounds.width += padding * 2;
-		bounds.height += padding * 2;
+			//bounds = bounds.clone();
 
-		if (this.renderer.currentRenderTarget.transform != null) {
-			var transform = this.renderer.currentRenderTarget.transform;
+			// round off the rectangle to get a nice smoooooooth filter :)
+			bounds.x = bounds.x | 0;
+			bounds.y = bounds.y | 0;
+			bounds.width = bounds.width | 0;
+			bounds.height = bounds.height | 0;
 
-			bounds.x += transform.tx;
-			bounds.y += transform.ty;
 
-			this.capFilterArea(bounds);
+			// padding!
+			var padding = filters[0].padding | 0;
+			bounds.x -= padding;
+			bounds.y -= padding;
+			bounds.width += padding * 2;
+			bounds.height += padding * 2;
 
-			bounds.x -= transform.tx;
-			bounds.y -= transform.ty;
-		}
-		else this.capFilterArea(bounds);
 
-		if (bounds.width > 0 && bounds.height > 0) {
-			this.currentFrame = bounds;
+			if(this.renderer.currentRenderTarget.transform)
+			{
+				//TODO this will break if the renderTexture transform is anything other than a translation.
+				//Will need to take the full matrix transform into acount..
+				var transform = this.renderer.currentRenderTarget.transform;
 
-			var texture = this.getRenderTarget();
+				bounds.x += transform.tx;
+				bounds.y += transform.ty;
 
-			this.renderer.setRenderTarget(texture);
+				this.capFilterArea( bounds );
 
-			texture.clear();
-			this.filterStack.push({
-				renderTarget: texture,
-				filter: filters
-			});
+				bounds.x -= transform.tx;
+				bounds.y -= transform.ty;
+			}
+			else
+			{
+				 this.capFilterArea( bounds );
+			}
 
-		}
-		else {
-			this.filterStack.push({
-				renderTarget: null,
-				filter: filters
-			});
-		}
+			if(bounds.width > 0 && bounds.height > 0)
+			{
+				this.currentFrame = bounds;
+
+				var texture = this.getRenderTarget();
+
+				this.renderer.setRenderTarget(texture);
+
+				// clear the texture..
+				texture.clear();
+
+				// TODO get rid of object creation!
+				this.filterStack.push({
+					renderTarget: texture,
+					filter: filters
+				});
+
+			}
+			else
+			{
+				// push somthing on to the stack that is empty
+				this.filterStack.push({
+					renderTarget: null,
+					filter: filters
+				});
+			}
+		");
 	}
 
 	public function popFilter():Dynamic {
-		var filterData = this.filterStack.pop();
-		var previousFilterData = this.filterStack[this.filterStack.length - 1];
+		untyped __js__("
+			var filterData = this.filterStack.pop();
+			var previousFilterData = this.filterStack[this.filterStack.length-1];
 
-		var input = filterData.renderTarget;
+			var input = filterData.renderTarget;
 
-		if (filterData.renderTarget == null) return null;
-
-		var output = previousFilterData.renderTarget;
-
-		// use program
-		var gl = this.renderer.gl;
-
-		this.currentFrame = input.frame;
-
-		this.quad.map(this.textureSize, input.frame);
-
-		gl.bindBuffer(RenderingContext.ARRAY_BUFFER, this.quad.vertexBuffer);
-		gl.bindBuffer(RenderingContext.ELEMENT_ARRAY_BUFFER, this.quad.indexBuffer);
-
-		var filters:Array<Dynamic> = filterData.filter;
-
-		// assuming all filters follow the correct format??
-		gl.vertexAttribPointer(this.renderer.shaderManager.defaultShader.attributes.aVertexPosition, 2, RenderingContext.FLOAT, false, 0, 0);
-		gl.vertexAttribPointer(this.renderer.shaderManager.defaultShader.attributes.aTextureCoord, 2, RenderingContext.FLOAT, false, 0, 2 * 4 * 4);
-		gl.vertexAttribPointer(this.renderer.shaderManager.defaultShader.attributes.aColor, 4, RenderingContext.FLOAT, false, 0, 4 * 4 * 4);
-
-		// restore the normal blendmode!
-		this.renderer.blendModeManager.setBlendMode(Fluid.BLEND_MODES.NORMAL);
-
-		if (filters.length == 1) {
-			if (filters[0].uniforms.dimensions != null) {
-				filters[0].uniforms.dimensions.value[0] = this.renderer.width;
-				filters[0].uniforms.dimensions.value[1] = this.renderer.height;
-				filters[0].uniforms.dimensions.value[2] = this.quad.vertices[0];
-				filters[0].uniforms.dimensions.value[3] = this.quad.vertices[5];
+			// if the renderTarget is null then we don't apply the filter as its offscreen
+			if(!filterData.renderTarget)
+			{
+				return;
 			}
 
-			filters[0].applyFilter(this.renderer, input, output);
-			this.returnRenderTarget(input);
+			var output = previousFilterData.renderTarget;
 
-		}
-		else {
-			var flipTexture = input;
-			var flopTexture = this.getRenderTarget(true);
+			// use program
+			var gl = this.renderer.gl;
 
-			for (i in 0 ... filters.length - 1) {
-				var filter:Dynamic = filters[i];
 
-				if (filter.uniforms.dimensions != null) {
-					filter.uniforms.dimensions.value[0] = this.renderer.width;
-					filter.uniforms.dimensions.value[1] = this.renderer.height;
-					filter.uniforms.dimensions.value[2] = this.quad.vertices[0];
-					filter.uniforms.dimensions.value[3] = this.quad.vertices[5];
+			this.currentFrame = input.frame;
+
+			this.quad.map(this.textureSize, input.frame);
+
+
+			// TODO.. this probably only needs to be done once!
+			gl.bindBuffer(gl.ARRAY_BUFFER, this.quad.vertexBuffer);
+			gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.quad.indexBuffer);
+
+			var filters = filterData.filter;
+
+			// assuming all filters follow the correct format??
+			gl.vertexAttribPointer(this.renderer.shaderManager.defaultShader.attributes.aVertexPosition, 2, gl.FLOAT, false, 0, 0);
+			gl.vertexAttribPointer(this.renderer.shaderManager.defaultShader.attributes.aTextureCoord, 2, gl.FLOAT, false, 0, 2 * 4 * 4);
+			gl.vertexAttribPointer(this.renderer.shaderManager.defaultShader.attributes.aColor, 4, gl.FLOAT, false, 0, 4 * 4 * 4);
+
+			// restore the normal blendmode!
+			this.renderer.blendModeManager.setBlendMode(CONST.BLEND_MODES.NORMAL);
+
+			if (filters.length === 1)
+			{
+				// TODO (cengler) - There has to be a better way then setting this each time?
+				if (filters[0].uniforms.dimensions)
+				{
+					filters[0].uniforms.dimensions.value[0] = this.renderer.width;
+					filters[0].uniforms.dimensions.value[1] = this.renderer.height;
+					filters[0].uniforms.dimensions.value[2] = this.quad.vertices[0];
+					filters[0].uniforms.dimensions.value[3] = this.quad.vertices[5];
 				}
 
-				filter.applyFilter(this.renderer, flipTexture, flopTexture);
+				filters[0].applyFilter( this.renderer, input, output );
+				this.returnRenderTarget( input );
 
-				var temp = flipTexture;
-				flipTexture = flopTexture;
-				flopTexture = temp;
+			}
+			else
+			{
+				var flipTexture = input;
+				var flopTexture = this.getRenderTarget(true);
+
+				for (var i = 0; i < filters.length-1; i++)
+				{
+					var filter = filters[i];
+
+					// TODO (cengler) - There has to be a better way then setting this each time?
+					if (filter.uniforms.dimensions)
+					{
+						filter.uniforms.dimensions.value[0] = this.renderer.width;
+						filter.uniforms.dimensions.value[1] = this.renderer.height;
+						filter.uniforms.dimensions.value[2] = this.quad.vertices[0];
+						filter.uniforms.dimensions.value[3] = this.quad.vertices[5];
+					}
+
+					filter.applyFilter( this.renderer, flipTexture, flopTexture );
+
+					var temp = flipTexture;
+					flipTexture = flopTexture;
+					flopTexture = temp;
+				}
+
+				filters[filters.length-1].applyFilter( this.renderer, flipTexture, output );
+
+				this.returnRenderTarget( flipTexture );
+				this.returnRenderTarget( flopTexture );
 			}
 
-			filters[filters.length - 1].applyFilter(this.renderer, flipTexture, output);
-
-			this.returnRenderTarget(flipTexture);
-			this.returnRenderTarget(flopTexture);
-		}
-
-		return filterData.filter;
+			return filterData.filter;
+		");
+		return null;
 	}
 
 	public function getRenderTarget(?clear:Bool = false):Dynamic {

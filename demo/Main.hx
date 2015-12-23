@@ -10,12 +10,12 @@ class Main extends Application {
 
 	public function new() {
 		super();
-		backgroundColor = 0x00FF00;
+		backgroundColor = 0x00FFFF;
 		super.start();
 
 		_bunny = new Sprite(Texture.fromImage("bunny.png"));
-		_bunny.anchor.set(0.5);
-		_bunny.position.set(400, 300);
+		//_bunny.anchor.set(0.5);
+		//_bunny.position.set(400, 300);
 
 		stage.addChild(_bunny);
 

@@ -1,120 +1,145 @@
 package fluid.core.display;
 
-@:native("PIXI.Container")
-extern class Container extends DisplayObject {
+import fluid.core.renderers.webgl.WebGLRenderer;
+import fluid.core.utils.Utils;
+import js.Error;
+import msignal.Signal.Signal1;
 
-	/**
-	 * A Container represents a collection of display objects.
-	 * It is the base class of all display objects that act as a container for other objects.
-	 *
-	 * @class
-	 * @extends DisplayObject
-	 * @namespace PIXI
-	 */
-	function new();
+class Container extends DisplayObject {
 
-	/**
-	 * The array of children of this container.
-	 *
-	 * @member {DisplayObject[]}
-	 * @readonly
-	 */
-	var children:Array<DisplayObject>;
+	public var children:Array<DisplayObject>;
+	public var width(get, set):Float;
+	public var height(get, set):Float;
 
-	/**
-	 * The width of the Container, setting this will actually modify the scale to achieve the value set
-	 *
-	 * @member {Float}
-	 * @memberof Container#
-	 */
-	var width:Float;
+	var _width:Float;
+	var _height:Float;
 
-	/**
-	 * The height of the Container, setting this will actually modify the scale to achieve the value set
-	 *
-	 * @member {Float}
-	 * @memberof Container#
-	 */
-	var height:Float;
+	public function new() {
+		super();
+		this.children = [];
+	}
 
-	/**
-	 * Adds a child to the container.
-	 *
-	 * @param child {DisplayObject} The DisplayObject to add to the container
-	 * @return {DisplayObject} The child that was added.
-	 */
-	function addChild(child:DisplayObject):DisplayObject;
+	function set_width(value:Float):Float {
+		var width = this.getLocalBounds().width;
+		if (width != 0) this.scale.x = value / width;
+		else this.scale.x = 1;
+		return this._width = value;
+	}
 
-	/**
-	 * Adds a child to the container at a specified index. If the index is out of bounds an error will be thrown
-	 *
-	 * @param child {DisplayObject} The child to add
-	 * @param index {Int} The index to place the child in
-	 * @return {DisplayObject} The child that was added.
-	 */
-	function addChildAt(child:DisplayObject, index:Int):DisplayObject;
+	function get_width():Float {
+		return this.scale.x * this.getLocalBounds().width;
+	}
 
-	/**
-	 * Swaps the position of 2 Display Objects within this container.
-	 *
-	 * @param child1 {DisplayObject}
-	 * @param child2 {DisplayObject}
-	 */
-	function swapChildren(child1:DisplayObject, child2:DisplayObject):Void;
+	function set_height(value:Float):Float {
+		var height = this.getLocalBounds().height;
+		if (height != 0) this.scale.y = value / height;
+		else this.scale.y = 1;
+		return this._height = value;
+	}
 
-	/**
-	 * Returns the index position of a child DisplayObject instance
-	 *
-	 * @param child {DisplayObject} The DisplayObject instance to identify
-	 * @return {Int} The index position of the child display object to identify
-	 */
-	function getChildIndex(child:DisplayObject):Int;
+	function get_height():Float {
+		return this.scale.y * this.getLocalBounds().height;
+	}
 
-	/**
-	 * Changes the position of an existing child in the display object container
-	 *
-	 * @param child {DisplayObject} The child DisplayObject instance for which you want to change the index number
-	 * @param index {Int} The resulting index number for the child display object
-	 */
-	function setChildIndex(child:DisplayObject, index:Int):Void;
+	override public function renderWebGL(renderer:WebGLRenderer):Void {
+		if (!this.visible || this.worldAlpha <= 0 || !this.renderable) return;
 
-	/**
-	 * Returns the child at the specified index
-	 *
-	 * @param index {Int} The index to get the child from
-	 * @return {DisplayObject} The child at the given index, if any.
-	 */
-	function getChildAt(index:Int):DisplayObject;
+		var i, j;
 
-	/**
-	 * Removes a child from the container.
-	 *
-	 * @param child {DisplayObject} The DisplayObject to remove
-	 * @return {DisplayObject} The child that was removed.
-	 */
-	function removeChild(child:DisplayObject):DisplayObject;
+		if (this._mask != null || this._filters != null) {
+			renderer.currentRenderer.flush();
+			if (this._filters != null && this._filters.length > 0) {
+				renderer.filterManager.pushFilter(this, this._filters);
+			}
 
-	/**
-	 * Removes a child from the specified index position.
-	 *
-	 * @param index {Int} The index to get the child from
-	 * @return {DisplayObject} The child that was removed.
-	 */
-	function removeChildAt(index:Int):DisplayObject;
+			if (this._mask != null) {
+				renderer.maskManager.pushMask(this, this._mask);
+			}
 
-	/**
-	 * Removes all children from this container that are within the begin and end indexes.
-	 *
-	 * @param beginIndex {Int} The beginning position. Default value is 0.
-	 * @param endIndex {Int} The ending position. Default value is size of the container.
-	 */
-	function removeChildren(?beginIndex:Int, ?endIndex:Int):Void;
+			renderer.currentRenderer.start();
+			this._renderWebGL(renderer);
+			i = 0;
+			j = this.children.length;
+			while (i < j) {
+				this.children[i].renderWebGL(renderer);
+				i++;
+			}
 
-	/**
-	* Returns the display object in the container
-	*
-	* @param name {string} instance name
-	* @return {DisplayObject}
-	*/
-	function getChildByName(name:String):DisplayObject;
+			renderer.currentRenderer.flush();
+
+			if (this._mask) {
+				renderer.maskManager.popMask(this, this._mask);
+			}
+
+			if (this._filters != null) {
+				renderer.filterManager.popFilter();
+
+			}
+			renderer.currentRenderer.start();
+		}
+		else {
+			this._renderWebGL(renderer);
+			i = 0;
+			j = this.children.length;
+			while (i < j) {
+				this.children[i].renderWebGL(renderer);
+				i++;
+			}
+		}
+	}
+
+	function _renderWebGL(renderer:WebGLRenderer) {}
+
+	public function addChild(child:DisplayObject):DisplayObject {
+		if (child.parent != null) child.parent.removeChild(child);
+		child.parent = this;
+		this.children.push(child);
+
+		//this.onChildrenChange(this.children.length-1);
+		child.added.dispatch(this);
+		return child;
+	}
+
+	public function addChildAt(child:DisplayObject, index:Int):DisplayObject {
+		if (index >= 0 && index <= this.children.length) {
+			if (child.parent != null) child.parent.removeChild(child);
+			child.parent = this;
+			this.children.insert(index, child);
+			//this.onChildrenChange(index);
+			child.added.dispatch(this);
+
+			return child;
+		}
+		else throw new Error(child + 'addChildAt: The index ' + index + ' supplied is out of bounds ' + this.children.length);
+	}
+
+	public function swapChildren(child1:DisplayObject, child2:DisplayObject):Void {
+
+	}
+
+	//public function getChildIndex(child:DisplayObject):Int;
+
+	public function setChildIndex(child:DisplayObject, index:Int):Void {
+
+	}
+
+	//public function getChildAt(index:Int):DisplayObject {}
+
+	public function removeChild(child:DisplayObject):DisplayObject {
+		var index = this.children.indexOf(child);
+		if (index == -1) return null;
+
+		child.parent = null;
+		Utils.removeItems(this.children, index, 1);
+		//this.onChildrenChange(index);
+		child.removed.dispatch(this);
+
+		return child;
+	}
+
+	//public function removeChildAt(index:Int):DisplayObject;
+
+	//public function removeChildren(?beginIndex:Int, ?endIndex:Int):Void;
+
+	//public function getChildByName(name:String):DisplayObject;
 }
